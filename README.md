@@ -1,13 +1,8 @@
-# JavaTemplate
+# Cellolution
 
-Provides Java(TM) template files as an aid to start a new project. If you like it (better: if it helped you) please give a star - to motivate me.
+Watch a simulated evolution of cells and organisms in a GUI showing an artificial ocean.
 
-To use it, simply copy over the files you want to use and delete the parts or files you don't need.
-Take less files from the [stable 1.0.x branch](https://github.com/openworld42/JavaTemplate/tree/stable-1.0) if you dont 
-need the full **JavaTemplate**.
-
-Since it is a template for repeated needs during project setup, it does almost 
-nothing by itself, but runs a simple GUI (Graphical User Interface) to demonstrate its use.
+# UNDER CONSTRUCTION .... the text below is to be changed - this is the setup
 
 To run it: download the **templateVxxx.jar** file and call it from the command line using
 

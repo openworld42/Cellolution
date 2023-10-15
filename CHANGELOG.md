@@ -23,8 +23,6 @@ available look & feels
 ### Features/Enhancements
 
 * upload of 1st version (17 classes, javadoc, README.md, ~3200 loc)
-* Previous changes made to **XmlExample**
-* Previous enhancements of the documentation
 
 
 

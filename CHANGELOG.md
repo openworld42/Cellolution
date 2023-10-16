@@ -3,6 +3,14 @@
 
 # Changelog
 
+## v0.1.4
+
+### Fixes
+### Features/Enhancements
+
+* upcoming version
+* ...
+
 ## v0.1.3
 
 ### Fixes
@@ -13,14 +21,6 @@
 ### Features/Enhancements
 
 * upload of 1st Github version (34 classes, ~6800 loc)
-
-## v0.1.4
-
-### Fixes
-### Features/Enhancements
-
-* upcoming version
-* ...
 
 
 

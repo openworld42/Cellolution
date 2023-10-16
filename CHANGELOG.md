@@ -1,28 +1,27 @@
 
-# JavaTemplate - template files for starting a new project setup
+# Cellolution - a simulated evolution of artificial cells in a water world: visible within the "ocean"
 
-Details to start with: [README.md](https://github.com/openworld42/JavaTemplate/blob/master/README.md)
+# Changelog
 
-## v1.1.0
+## v0.1.3
 
 ### Fixes
 
-* closing Logger and exit message when running with GUI
-* links to javadocs in README.md not working, Github shows HTML in raw mode
+* none
+* updates to descriptive files
 
 ### Features/Enhancements
 
-* Icon for the application, to demonstrate loading of resources
-* changed default look & feel to "Nimbus" (may be configured in config.xml), display all
-available look & feels
-* several documentation/javadoc enhancements, markup updated
+* upload of 1st Github version (34 classes, ~6800 loc)
 
-## v1.0.1
+## v0.1.4
 
 ### Fixes
 ### Features/Enhancements
 
-* upload of 1st version (17 classes, javadoc, README.md, ~3200 loc)
+* upcoming version
+* ...
+
 
 
 

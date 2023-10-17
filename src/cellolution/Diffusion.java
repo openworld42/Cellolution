@@ -16,8 +16,6 @@
  */
 package cellolution;
 
-import java.util.*;
-
 import cellolution.util.*;
 
 /**

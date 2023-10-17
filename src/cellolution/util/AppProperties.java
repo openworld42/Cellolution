@@ -23,7 +23,6 @@ import cellolution.*;
 
 /**
  * Application properties.
- * It is the application responsibility to call 
  * 
  * Note: Do not forget to handle additional properties if a new release is going to be rolled out.
  */
@@ -41,43 +40,14 @@ public class AppProperties extends Properties {
 	public static final String LOOK_AND_FEEL = "lookandfeel"; 
 	public static final String VERBOSE = "verbose"; 
 	
-	
-	public static final String KEY1 = "key1";				// TODO: delete  
-	public static final String KEY_INT = "keyInt";			// TODO: delete, just an integer example  
-	
-	private String pathname;
-	private boolean useXmlFile;
-
 	/**
-	 * Construction from file or it takes the default values.
-	 * The default values are written to the file (and may be overwritten later).
-	 * 
-	 * @param pathname			the path to the properties file
-	 * @param useXmlFile		if true, use loadFromXML(), key/value pairs using load() otherwise
-	 * @throws Exception
+	 * Construction with default values.
+	 * The default values may be overwritten later by the contents of the JSON file.
 	 */
-	public AppProperties(String pathname, boolean useXmlFile) throws Exception {
+	public AppProperties() {
 
 		super(); 
-		this.pathname = pathname;
-		this.useXmlFile = useXmlFile;
-		File file = new File(pathname);
-		if (file.exists()) {
-			if (useXmlFile) {
-				loadFromXML(new FileInputStream(file));
-				
-			} else {
-				load(new FileInputStream(file));
-			}
-			releaseCheck();
-		} else {
-			createDefault();
-			if (useXmlFile) {
-				storeToXML();
-			} else {
-
-			}
-		}
+		createDefault();
 	}
 
 	/**
@@ -90,17 +60,8 @@ public class AppProperties extends Properties {
 		setProperty(VERSION_MAJOR, Version.getMajor());
 		setProperty(VERSION_MINOR, Version.getMinor());
 		setProperty(VERSION_RELEASE, Version.getRelease());
-		
 		setProperty(LOOK_AND_FEEL, "Nimbus");
 		setProperty(VERBOSE, "false");
-	}
-
-	/**
-	 * @return the pathname
-	 */
-	public String getPathname() {
-	
-		return pathname;
 	}
 
 	/**
@@ -126,15 +87,6 @@ public class AppProperties extends Properties {
 	}
 
 	/**
-	 * Check if all properties for this release are present, the user may use an older release.
-	 */
-	protected void releaseCheck() {
-		
-		getProperty(KEY1, "default1");					// TODO 
-		getProperty(KEY_INT, "42");						// TODO
-	}
-
-	/**
 	 * Sets an integer property.
 	 * 
 	 * @param key
@@ -144,42 +96,4 @@ public class AppProperties extends Properties {
 		
 		setProperty(key, "" + value);
 	}
-
-	/**
-	 * Store the properties to the key/value properties file, to persist them.
-	 * 
-	 * @throws IOException 
-	 * @throws FileNotFoundException 
-	 */
-	public void store() throws FileNotFoundException, IOException {
-		
-		File file = new File(pathname);
-		store(new FileOutputStream(file), "Version " + Version.getAsString());
-	}
-
-	/**
-	 * Store the properties to the XML properties file, to persist them.
-	 * 
-	 * @throws IOException 
-	 * @throws FileNotFoundException 
-	 */
-	public void storeToXML() throws FileNotFoundException, IOException {
-		
-		File file = new File(pathname);
-		storeToXML(new FileOutputStream(file), "Version " + Version.getAsString());
-	}
-
-//	/**
-//	 * Tester, to be deleted.
-//	 * 
-//	 * @param args
-//	 */
-//	public static void main(String[] args) {
-//
-//		try {
-//			new AppProperties("myconfig.xml");
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} 
-//	}
 }

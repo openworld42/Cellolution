@@ -19,7 +19,6 @@ package cellolution;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
-import java.util.*;
 
 import javax.swing.*;
 

@@ -55,9 +55,9 @@ public class Main {
 			Usage.exit(1);
 		}
 		isVerbose = args.isVerbose();
-		// read in the project XML properties from a configuration file (if the application has properties)
-		// if the file does not exist, it will be created with your default properties
-		properties = new AppProperties("config.xml", true);
+		// read in the JSON file properties and states
+		// if the file does not exist, it will be created with default properties
+		properties = new AppProperties();
 		// create the world
 		cellColumns = 800;
 		cellRows = 450;

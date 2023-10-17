@@ -25,8 +25,8 @@ public class Version {
 	/** !!! TODO: CHANGE BEFORE A NEW RELEASE !!! */
 
 	public static final int MAJOR = 0;
-	public static final int MINOR = 0;
-	public static final int RELEASE = 1;
+	public static final int MINOR = 1;
+	public static final int RELEASE = 3;
 
 	/**
 	 * No external construction.

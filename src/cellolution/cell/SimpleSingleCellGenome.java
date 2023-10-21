@@ -45,7 +45,7 @@ public class SimpleSingleCellGenome extends Genome {
 	 * 
 	 * @param organismMgr 
 	 * @param oldOrganism 		the old organism (=parent)
-	 * @param energy			the energy of the new organism
+	 * @param newEnergy			the energy of the new organism
 	 * @return the new organism
 	 */
 	@Override

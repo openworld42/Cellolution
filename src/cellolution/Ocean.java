@@ -286,7 +286,7 @@ public class Ocean {
 	/**
 	 * Create the next thickness of rock.
 	 * 
-	 * @param left
+	 * @param value
 	 * @param maxWidening
 	 * @param maxThickness
 	 * @param minThickness

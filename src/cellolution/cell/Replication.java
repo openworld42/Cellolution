@@ -63,7 +63,6 @@ public class Replication {
 	 * @param organism
 	 * @param organismMgr
 	 * @param cells
-	 * @param outerCells
 	 * @param ocean
 v	 * @param pixels
 	 * @param time 				the time when the replication has started

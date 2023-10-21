@@ -75,8 +75,7 @@ public class OrganismMgr {
 	/**
 	 * Find the nearest organism and display its values/properties.
 	 * 
-	 * @param col
-	 * @param y
+	 * @param pixel
 	 */
 	public void findAndDisplayNearestOrganism(Pixel pixel) {
 

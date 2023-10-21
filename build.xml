@@ -1,10 +1,10 @@
-<project name="MyProject" default="dist" basedir=".">
+<project name="Cellolution" default="dist" basedir=".">
 	<description>
 	  
-	Ant build file for JavaTemplate
+	Ant build file for Cellolution
 	
 	To build: 
-		ant						in directory quemujuicy, where build.xml exists
+		ant						in directory cellollution, where the file build.xml exists
 		ant clean				cleanup the build fileset
 		
 	results are in the dist and build directories
@@ -13,11 +13,11 @@
 	
 	<!-- set the global properties for this build -->
 	
-	<property name="appname" value="JavaTemplate"/>
-	<property name="appdesc" value="JavaTemplate -  template files as an aid to start a new project"/>
-	<property name="repo" value="https://github.com/openworld42/JavaTemplate"/>
-	<property name="mainclass" value="template.Main"/>
-	<property name="jarprefix" value="template"/>
+	<property name="appname" value="Cellolution"/>
+	<property name="appdesc" value="Cellolution - a simulated evolution of cells and organisms in an artificial ocean"/>
+	<property name="repo" value="https://github.com/openworld42/Cellolution"/>
+	<property name="mainclass" value="cellolution.Main"/>
+	<property name="jarprefix" value="cellolution"/>
 	
 	<property name="src" location="src"/>
 	<property name="dir.src" value="src"/>
@@ -26,6 +26,7 @@
 	<property name="base" location="."/>
 	<property name="javadoc" location="javadoc"/>
 	<property name="dir.javadoc" value="javadoc"/>
+	<property name="json.jar" value="json-simple-1.1.1.jar"/>
   
 	<target name="init">
 		<!-- Create the time stamp -->
@@ -35,7 +36,7 @@
 			appdesc: ${appdesc}
 			repo: ${repo}
 			mainclass: ${mainclass}
-			jarprefix: ${jarprefix} + "_vN.N.N.jar"
+			jarprefix: ${jarprefix} + "Vn.n.n.jar"
 		</echo>
 		<input message="Please enter the version (as of Version.java, like v1.2.3): "
 			addproperty="version"/>
@@ -46,7 +47,11 @@
 	<target name="compile" depends="init"
 		description="compile the source">
 		<!-- Compile the Java code from ${src} into ${build} -->
-		<javac srcdir="${src}" destdir="${build}" includeantruntime="false"/>
+		<javac srcdir="${src}" 
+			destdir="${build}" 
+		    classpath="${json.jar}"
+			includeantruntime="false"
+		/>
 	</target>
 
 	<target name="javadoc" depends="compile" description="generate javadoc">
@@ -58,7 +63,12 @@
 			<bottom>
 				<![CDATA[Copyright © 2021. All Rights Reserved. Read the license file(s) enclosed. ]]>
 			</bottom>
-			<link href="https://docs.oracle.com/en/java/javase/11/docs/api/"/>
+			<link href="https://docs.oracle.com/en/java/javase/17/docs/api/"/>
+			<classpath>
+				<fileset dir=".">
+					<include name="${json.jar}"/>
+				</fileset>
+			</classpath>
 		</javadoc>
 	</target>
 
@@ -68,11 +78,12 @@
 		<mkdir dir="${dist}"/>
 
 		<!-- Put everything in ${build} into the Project-${DSTAMP}.jar file -->
- 		<jar jarfile="${dist}/${jarprefix}_${version}.jar" basedir="${build}">
+ 		<jar jarfile="${dist}/${jarprefix}${version}.jar" basedir="${build}">
 			<fileset file="${base}/README*"/>
 			<fileset file="${base}/LICENSE*"/>
 			<fileset file="${base}/CHANGELOG.md"/>
 			<fileset file="${base}/build.xml"/>
+			<fileset file="${base}/${json.jar}"/>
 			<fileset dir="." includes="${dir.src}/**"/>
 			<fileset dir="." includes="${dir.javadoc}/**"/>
 			<manifest>
@@ -80,6 +91,7 @@
 				<attribute name="Implementation-Version"  value="${version}"/>   
       			<attribute name="Built-Date" value="${DSTAMP}"/>        
 				<attribute name="Implementation-URL" value="${repo}"/>
+				<attribute name="Class-Path" value="${json.jar}"/>
 
 				<!--
 				<section name="${appname}">
@@ -93,7 +105,7 @@
 
 		<copy file="${dist}/${jarprefix}_${version}.jar" tofile="${base}/${jarprefix}_${version}.jar"/>
 		<echo>
-			check the file qemujuicy_${version}.jar
+			check the file cellolution${version}.jar
 			then run: ant clean
 		</echo>
 	</target>

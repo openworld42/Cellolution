@@ -57,8 +57,8 @@ public abstract class Pixel {
 	}
 
 	/**
-	 * @param column
-	 * @param row
+	 * @param column	the column of the pixel within the ocean
+	 * @param row		the row of the pixel within the ocean
 	 */
 	protected Pixel(int column, int row) {
 
@@ -93,7 +93,7 @@ public abstract class Pixel {
 	 * Move a pixel one step in a direction.
 	 * Usually the pixel would be a cell.
 	 * 
-	 * @param direction
+	 * @param direction the direction
 	 */
 	public void move(int direction) {
 		

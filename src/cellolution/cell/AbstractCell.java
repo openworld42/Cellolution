@@ -65,8 +65,8 @@ public abstract class AbstractCell extends Pixel {
 	/**
 	 * Construction of a cell.
 	 * 
-	 * @param column
-	 * @param row
+	 * @param column		the column of the cell within the ocean
+	 * @param row			the row of the cell within the ocean
 	 * @param color			the color to display the cell
 	 * @param organism		the organism the cell belongs to
 	 */
@@ -83,7 +83,7 @@ public abstract class AbstractCell extends Pixel {
 	 * Adsorb some substances of the underlying water pixel.
 	 * In general, substances are within the range of [0..100].
 	 * 
-	 * @param substances 
+	 * @param substances 		substances to adsorb
 	 */
 	public void adsorbSustances(byte substances[]) {
 
@@ -126,7 +126,7 @@ public abstract class AbstractCell extends Pixel {
 	/**
 	 * Copy all properties and other attributes from another cell (for replication).
 	 * 
-	 * @param otherCell
+	 * @param otherCell		the other cell
 	 */
 	protected void copyAttributes(AbstractCell otherCell) {
 		
@@ -150,8 +150,8 @@ public abstract class AbstractCell extends Pixel {
 	/**
 	 * Creates a key for a cell, using coordinates.
 	 * 
-	 * @param colum
-	 * @param row
+	 * @param column		the column of the cell within the ocean
+	 * @param row		the row of the cell within the ocean
 	 * @return the key
 	 */
 	public static int createKey(int column, int row) {
@@ -202,7 +202,7 @@ public abstract class AbstractCell extends Pixel {
 	}
 
 	/**
-	 * @return
+	 * @return the cell type name
 	 */
 	public abstract String getCellTypeName();
 
@@ -241,7 +241,7 @@ public abstract class AbstractCell extends Pixel {
 	/**
 	 * Paint the cell.
 	 * 
-	 * @param g2d
+	 * @param g2d	the Graphics2D object
 	 */
 	protected void paint(Graphics2D g2d) {
 		
@@ -276,10 +276,10 @@ public abstract class AbstractCell extends Pixel {
 	/**
 	 * Sets the coordinates.
 	 * 
-	 * @param newCol
-	 * @param newRow
+	 * @param newCol		the new column of the cell within the ocean
+	 * @param newRow		the new row of the cell within the ocean
 	 */
-	public void setColRow(int newCol, int newRow) {
+	public void setColRow(int newCol, int newRow) { 
 
 		column = (short) newCol;
 		row = (short) newRow;
@@ -288,7 +288,7 @@ public abstract class AbstractCell extends Pixel {
 	/**
 	 * Sets the organism of the cell (usually during the replication process).
 	 * 
-	 * @param organism
+	 * @param organism		the organism to which the cell belongs
 	 */
 	public void setOrganism(Organism organism) {
 
@@ -298,7 +298,7 @@ public abstract class AbstractCell extends Pixel {
 	/**
 	 * Slow update for organism changes not needed to be to fast.
 	 * 
-	 * @param time
+	 * @param time		the current time
 	 */
 	protected abstract void slowUpdate(long time);
 	

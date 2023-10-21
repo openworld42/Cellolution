@@ -67,7 +67,7 @@ public abstract class Genome {
 	 * 
 	 * @param organismMgr 
 	 * @param oldOrganism 		the old organism (=parent)
-	 * @param energy			the energy of the new organism
+	 * @param newEnergy			the energy of the new organism
 	 * @return the new organism
 	 */
 	protected Organism createNewOrganism(OrganismMgr organismMgr, Organism oldOrganism, int newEnergy) {
@@ -121,7 +121,6 @@ public abstract class Genome {
 	 * 
 	 * @param newGenome 		the new genome
 	 * @param oldOrganism 		the old organism
-	 * @return the evolotionary clone of this genome
 	 */
 	protected void evolotionaryClone(Genome newGenome, Organism oldOrganism) {
 		

@@ -190,7 +190,7 @@ public class Mover {
 	/**
 	 * Find the neighbor pixel of a pixel by its number (see Pixel or Ocean comment, 1 is top right).
 	 * 
-	 * @param stemCell
+	 * @param pixel
 	 * @param neighborNr
 	 * @param pixels
 	 * @return the neighbor pixel defined by the neighbor number [1..6]

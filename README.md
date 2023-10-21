@@ -38,14 +38,15 @@ Cells may also starve (color: dark red), lacking of energy and/or substances. If
 
 <br/>
 
-**How to run it:** download the newest Github release **cellolutionVxxx.jar** file into a new directory (suggestion: "Cellolution") cause it will save its state in a JSON file and call it from the command line within this directory using
+###How to run it:
+Download the newest Github release **cellolutionVxxx.jar** file into a new directory (suggestion: "Cellolution") cause it will save its state in a JSON file and call it from the command line within this directory using
 
 **java -jar cellolutionVxxx.jar**
 
 where **xxx** is the current version. You need a Java runtime/JDK installed (**Linux**: simply use your package manager, **Windows/macOS/others**: download and install JDK from [here](https://openjdk.java.net/)).<br/> 
 
 
-You may also build it from scratch using Ant and the build.xml.<br/>
+You may also build it from scratch using Ant and the build.xml file.<br/>
 
 **Apache 2.0 licensed**.<br/>
 

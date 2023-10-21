@@ -32,13 +32,13 @@ public class AppProperties extends Properties {
 	
 	// property keys
 	
-	public static final String VERSION = "version";
-	public static final String VERSION_MAJOR = "version.major";
-	public static final String VERSION_MINOR = "version.minor";
-	public static final String VERSION_RELEASE = "version.release";
+	public static final String VERSION = "Version";
+	public static final String VERSION_MAJOR = "Version.major";
+	public static final String VERSION_MINOR = "Version.minor";
+	public static final String VERSION_RELEASE = "Version.release";
 	
-	public static final String LOOK_AND_FEEL = "lookandfeel"; 
-	public static final String VERBOSE = "verbose"; 
+	public static final String LOOK_AND_FEEL = "LookAndFeel"; 
+	public static final String VERBOSE = "Verbose"; 
 	
 	/**
 	 * Construction with default values.
@@ -67,7 +67,7 @@ public class AppProperties extends Properties {
 	/**
 	 * Gets an boolean property (a flag).
 	 * 
-	 * @param key
+	 * @param key	the key of the property
 	 * @return true id the value is "true", false otherwise
 	 */
 	public boolean getPropertyBool(String key) {
@@ -78,7 +78,7 @@ public class AppProperties extends Properties {
 	/**
 	 * Gets an integer property.
 	 * 
-	 * @param key
+	 * @param key	the key of the property
 	 * @return the integer value
 	 */
 	public int getPropertyInt(String key) {
@@ -89,8 +89,8 @@ public class AppProperties extends Properties {
 	/**
 	 * Sets an integer property.
 	 * 
-	 * @param key
-	 * @param value
+	 * @param key			the key of the property
+	 * @param value			the value of the property
 	 */
 	public void setProperty(String key, int value) {
 		

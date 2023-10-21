@@ -253,7 +253,8 @@ public class Gbc extends GridBagConstraints {
      *
      * @param   direction   the direction character to be searched for
      * @param   tokens      may contain one or more direction characters
-     *      for border spacing
+     *      				for border spacing
+     * @return the default border inset
      */
     protected int checkForBorderInset(char direction, String tokens) {
 
@@ -272,7 +273,8 @@ public class Gbc extends GridBagConstraints {
      * The token string may be empty or <code>null</code>.
      *
      * @param   token       the token string containing zero or more
-     *      direction characters
+     *      				direction characters
+     * @return the default border inset
      */
     protected Insets createInsetsFrom(String token) {
 

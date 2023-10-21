@@ -32,7 +32,7 @@ public class CommandLineArgs {
 	/**
 	 * Construct CommandLineArgs using the command line arguments.
 	 * 
-	 * @param args 
+	 * @param args 		the arguments
 	 */
 	public CommandLineArgs(String[] args) {
 

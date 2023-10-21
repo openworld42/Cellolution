@@ -53,6 +53,8 @@ public class FastRandom {
 	
 	/**
 	 * Construction with a seed.
+	 * 
+	 * @param seed
 	 */
 	public FastRandom(long seed) {
 
@@ -71,7 +73,7 @@ public class FastRandom {
 	 * 									(64% of all values between -1/1, 13.6% between -2/-1, 13.6% between 1/2, remaining 4,6% outside)
 	 * @param minimumValue				minimum value limit
 	 * @param maxmumValue				minimum value limit
-	 * @return
+	 * @return a pseudorandomly chosen Gaussian distributed int value
 	 */
 	public static int nextGaussian(double meanValue, double normalDistribution, int minimumValue, int maxmumValue) {
 		
@@ -83,6 +85,8 @@ public class FastRandom {
 
 	/**
 	 * Returns a pseudorandomly chosen int value.
+	 * 
+	 * @return a pseudorandomly chosen int value
 	 */
 	public int nextInt() {
 		
@@ -101,6 +105,8 @@ public class FastRandom {
 	/**
 	 * Returns a pseudorandomly chosen int value, as a static method.
 	 * The statment new FastRandom() has to be called once before.
+	 * 
+	 * @return a pseudorandomly chosen int value
 	 */
 	public static int nextIntStat() {
 		
@@ -109,6 +115,9 @@ public class FastRandom {
 
 	/**
 	 * Returns a pseudorandomly chosen int value between zero (inclusive) and a bound (exclusive).
+	 * 
+	 * @param bound
+	 * @return a pseudorandomly chosen int value between zero (inclusive) and a bound (exclusive)
 	 */
 	public int nextInt(int bound) {
 		
@@ -123,6 +132,9 @@ public class FastRandom {
 	/**
 	 * Returns a pseudorandomly chosen int value between zero (inclusive) and a bound (exclusive).
 	 * The statment new FastRandom() has to be called once before.
+	 * 
+	 * @param bound
+	 * @return a pseudorandomly chosen int value between zero (inclusive) and a bound (exclusive)
 	 */
 	public static int nextIntStat(int bound) {
 		

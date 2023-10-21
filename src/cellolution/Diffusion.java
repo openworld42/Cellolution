@@ -130,13 +130,13 @@ public class Diffusion {
 	 * The differences/deltas are saved for future computations of right side pixel columns.
 	 * 
 	 * @param water					the water pixel to be computed
-	 * @param colAboveBelowLeft
-	 * @param rowAbove
+	 * @param neighborCol			the column of the neighbor
+	 * @param neighborRow			the row of the neighbor
 	 */
-	private void computeSubstances(Water water, int neigborCol, int neigborRow) {
+	private void computeSubstances(Water water, int neighborCol, int neighborRow) {
 
 		int difference, delta, remainder;
-		Pixel pixel = pixels[neigborCol][neigborRow];
+		Pixel pixel = pixels[neighborCol][neighborRow];
 		if (pixel instanceof Water) {
 			Water neighbor = (Water) pixel;
 			byte neighborSubstances[] = neighbor.getSubstances();

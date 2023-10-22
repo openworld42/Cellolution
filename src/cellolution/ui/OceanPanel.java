@@ -67,6 +67,11 @@ public class OceanPanel extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         Ocean ocean = Main.getOcean();
         g2d.drawImage(ocean.getImage(), null, 0, 0);
+        if (smokers == null) {
+			// most likely a new ocean in progress, smokers have to be created again
+//        	System.out.println("smokers == null");
+        	return;
+		}
 		smokers.paint(g2d);
 		organismMgr.paint(g2d);
 		orgDisplayCtlr.paintDisplayOrgArc(g2d);

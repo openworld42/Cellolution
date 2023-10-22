@@ -267,7 +267,8 @@ public class Util {
 		try {
 			Thread.sleep(millis);		// meanwhile be polite to the others ;-)
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			// intentionally falling through (may happen if a new ocean simulation is started
+//			e.printStackTrace();
 		}
 	}
 

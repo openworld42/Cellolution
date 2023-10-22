@@ -72,6 +72,7 @@ public class Ocean {
 	private Diffusion diffusion;
 	private OrganismMgr organismMgr;
 	private OrganismDisplayCtlr orgDisplayCtlr;
+	private SwingWorker<Object, Object> oceanSimSwingWorker;
 
 	/**
 	 * Construct the ocean.
@@ -362,7 +363,7 @@ public class Ocean {
 	}
 
 	/**
-	 * Start a Swin to perform all ocean simulation steps.
+	 * Start a SwingWorker to perform all ocean simulation steps.
 	 * 
 	 * @param oceanPanel
 	 */
@@ -372,7 +373,7 @@ public class Ocean {
 		this.oceanPanel = oceanPanel;
 		orgDisplayCtlr = Main.getOrgDisplayCtlr();		// due to late instantiation
 		oceanPanel.set(this, smokers, organismMgr, orgDisplayCtlr);
-		SwingWorker<Object, Object> worker = new SwingWorker() {
+		oceanSimSwingWorker = new SwingWorker() {
 			@Override
 			protected Object doInBackground() throws Exception {
 				try {
@@ -383,6 +384,14 @@ public class Ocean {
 				return null;
 			}
 		};
-		worker.execute();
+		oceanSimSwingWorker.execute();
+	}
+	
+	/**
+	 * Stops the ocean simulation SwingWorker.
+	 */
+	public void stopSwingWorker() {
+		
+		oceanSimSwingWorker.cancel(true);
 	}
 }

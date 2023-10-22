@@ -32,7 +32,7 @@ public class MainView extends JFrame implements ActionListener {
 	// constants
 
 	public final static String EXIT = "Exit";
-	public final static String XML_EXAMPLE = "XML example";
+	public final static String NEW_OCEAN = "NewOcean";
 
 	// members
 	private JPanel mainPanel;
@@ -84,6 +84,8 @@ public class MainView extends JFrame implements ActionListener {
 		String actionCmd = event.getActionCommand();
 		if (actionCmd.equals(EXIT)) {
             dispose();
+		} else if (actionCmd.equals(NEW_OCEAN)) {
+			Main.instance().newOcean();
         } else {
             System.out.println("ActionListener: unknown component, it's me -> "
             		+ event.getSource().getClass().getSimpleName() 
@@ -141,9 +143,14 @@ public class MainView extends JFrame implements ActionListener {
 	 */
 	public JMenuBar createMenu() {
 
-		JMenu menu = new JMenu("XXX Menu");
-		JMenuItem menuItem = createMenuItem(EXIT, true, EXIT);
+		// menu "File"
+		JMenu menu = new JMenu("File");
+		JMenuItem menuItem = createMenuItem("New Ocean", true, NEW_OCEAN);
 		menu.add(menuItem);
+		menu.addSeparator();
+		menuItem = createMenuItem(EXIT, true, EXIT);
+		menu.add(menuItem);
+		// menu bar
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.add(menu);
 		return menuBar;
@@ -192,17 +199,13 @@ public class MainView extends JFrame implements ActionListener {
 		JToolBar tb = new JToolBar();
 		tb.setFloatable(false);
 		
-//		buttonNew = createToolBarButton("New", null, KeyEvent.VK_N,
-//			"Start a new XXX", ACTION_NEW, this);
-//		tb.add(buttonNew);
-		tb.addSeparator();
-		JButton btn = createToolBarButton("MyToolBarComp",  null, KeyEvent.VK_M, "Hello, I am a tooltip", "myActionCmd");
+		JButton btn = createToolBarButton("New Ocean",  null, KeyEvent.VK_N, "Dump the current ocean, start a new one", NEW_OCEAN);
 //		btn.setEnabled(false);
-
 		tb.add(btn);
 		tb.addSeparator();
-		btn = createToolBarButton(XML_EXAMPLE,  null, KeyEvent.VK_X, "Runs the XML example, watch System.out", XML_EXAMPLE);
-		tb.add(btn);
+//		
+//		btn = createToolBarButton(XML_EXAMPLE,  null, KeyEvent.VK_X, "Runs the XML example, watch System.out", XML_EXAMPLE);
+//		tb.add(btn);
 		return tb;
 	}
 	

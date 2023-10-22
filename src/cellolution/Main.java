@@ -17,6 +17,7 @@
 package cellolution;
 
 import java.awt.image.*;
+import java.io.*;
 import java.net.*;
 
 import javax.imageio.*;
@@ -39,9 +40,11 @@ public class Main {
 	private Ocean ocean;
 	private MainView mainView;
 	private OrganismDisplayCtlr orgDisplayCtlr;
+	private BufferedImage oceanImage;
 
 	private CommandLineArgs args;				// command line arguments, if needed
 	private AppProperties properties; 			// application properties (e.g. a config file), if needed
+
 	private boolean isVerbose; 					// verbose messages to System.out
 	private int cellColumns;
 	private int cellRows;
@@ -58,20 +61,21 @@ public class Main {
 		// read in the JSON file properties and states
 		// if the file does not exist, it will be created with default properties
 		properties = new AppProperties();
+		JsonFile file = new JsonFile();
+		file.readFrom(JsonFile.JSON_FILE_NAME);
 		// create the world
 		cellColumns = 800;
 		cellRows = 450;
-		BufferedImage img = null;
 		URL imageURL = Main.class.getResource(GROUND_IMG);
 		try {
-			img = ImageIO.read(imageURL);
+			oceanImage = ImageIO.read(imageURL);
 		} catch (Exception e) { // intentionally falling through 
 		}
-		ocean = new Ocean(cellColumns, cellRows, img);
+		ocean = new Ocean(cellColumns, cellRows, oceanImage);
 		// start the GUI
 		System.setProperty("awt.useSystemAAFontSettings","on");					// render fonts in a better way
-    	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); 	// in case Nimbus is not found
-    	String lookAndFeel = "Nimbus";
+    	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); 	// in case LookAndFeel Nimbus is not found
+    	String lookAndFeel = getProperty(AppProperties.LOOK_AND_FEEL);
     	for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
     		if (lookAndFeel.equals(info.getName())) {
     			UIManager.setLookAndFeel(info.getClassName());
@@ -105,6 +109,14 @@ public class Main {
 	public static MainView getMainView() {
 		
 		return instance.mainView;
+	}
+	
+	/**
+	 * @return the properties
+	 */
+	public static AppProperties getProperties() {
+		
+		return instance.properties;
 	}
 
 	/**
@@ -195,11 +207,43 @@ public class Main {
 	}
 
 	/**
+	 * Stops the current ocean simulation and start a new one.
+	 */
+	public void newOcean() {
+
+		int option = JOptionPane.showConfirmDialog(mainView, 
+				"This will destroy the current simulation and start a new ocean", "New Ocean", 
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+		if (option != JOptionPane.OK_OPTION) {
+			return;
+		}
+		// start a new ocean
+		ocean.stopSwingWorker();						// stop the current simulation
+		ocean = new Ocean(cellColumns, cellRows, oceanImage);
+		Util.verbose("Starting a new ocean ...");		// is displayed on System.out only if the verbose flag is on
+		orgDisplayCtlr = new OrganismDisplayCtlr(ocean);
+		mainView.dispose();
+		try {
+			mainView = new MainView(orgDisplayCtlr.getOrganismPanel());
+		} catch (Exception e) {
+            System.out.println("\n*****  Exception caught creating a new ocean, exit: " + e);
+			e.printStackTrace();
+			System.exit(1);
+		}		
+	}
+
+	/**
 	 * Exit handler.
 	 */
 	public void onExit() {
 
 		Util.verbose(APP_NAME + " - good bye!");
+		try {
+			new JsonFile(JsonFile.JSON_FILE_NAME);
+		} catch (IOException e) {
+			// no way out, just display the exception
+			e.printStackTrace();
+		}
 		System.exit(0);
 	}
 }

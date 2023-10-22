@@ -206,6 +206,10 @@ public class Mover {
 		switch (neighborNr) {
 		case 1: 
 			// neighbor above right
+			if (row == 0) {
+				// at the surface, there is nothing above, choose below right instead
+				return pixels[colAboveBelowRight][row + 1];
+			}
 			return pixels[colAboveBelowRight][row - 1];
 		case 2: 
 			// neighbor to the right
@@ -221,6 +225,10 @@ public class Mover {
 			return pixels[col - 1][row];
 		case 6: 
 			// neighbor above left
+			if (row == 0) {
+				// at the surface, there is nothing above, choose below left instead
+				return pixels[colAboveBelowLeft][row + 1];
+			}
 			return pixels[colAboveBelowLeft][row - 1];				// TODO:  Index -1 out of bounds for length 450
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + neighborNr);

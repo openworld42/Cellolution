@@ -301,7 +301,6 @@ public abstract class AbstractCell extends Pixel {
 	 * @param time		the current time
 	 */
 	protected abstract void slowUpdate(long time);
-	
 
 	@Override
 	public String toString() {

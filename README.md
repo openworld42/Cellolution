@@ -16,7 +16,7 @@ The ocean has dissolved materials as well as energy (beams of sunlight, organic 
 </p>
 
 
-<br/>"Algae Cells" like CO2 and sunlight as energy source, therefore live usually close to the surface. 
+<br/>"Algae Cells" like CO2 and sunlight as energy source, therefore live usually close to the surface. All organisms have (at least) a random Brownian motion, like all small particles in a natural environment.
 <p align="center">
   	<img src="https://github.com/openworld42/Cellolution/blob/main/readme.images/Screenshot_AlgaeCells1.png?raw=true" title="Algae Cells">
 </p>

@@ -49,8 +49,8 @@ public class SingleAlgaeCell extends AbstractCell implements StemCellCarrier {
 		cellRows = Main.getCellRows();
 		// energy is set outside, the genome of this organism may change the following values
 		props[PROP_ENERGY_CONSUMTION] = 80;
-		props[PROP_SUN_BEAM_INCREMENT] = 1000;				// a SimpleH2sEaterCell has no photosynthesis
-		props[PROP_H2S_TO_ENERGY] = 0;						// but can use H2S to gererate energy
+		props[PROP_SUN_BEAM_INCREMENT] = 1000;				// photosynthesis
+		props[PROP_H2S_TO_ENERGY] = 0;						// does not use H2S to gererate energy
 		props[PROP_WEIGHT] = INITIAL_WEIGHT;
 		props[PROP_CO2] = 100;
 		props[PROP_CO2_ADSORBTION_RATE] = 10;
@@ -155,7 +155,7 @@ public class SingleAlgaeCell extends AbstractCell implements StemCellCarrier {
 		int energy = props[PROP_ENERGY] - props[PROP_ENERGY_CONSUMTION] * props[PROP_AGILITY] / AGILITY_FACTOR_ONE;
 		// use the sun and some of the CO2 collected to generate energy, regulated by agility
 		// sunlight generates energy in both depth dependent and a sunbeam hit
-		int sunAmount = 100 * cellRows / (cellRows - row);
+		int sunAmount = 100 * (cellRows - row) / cellRows;
 		int energyDiff = (sunAmount + props[PROP_AGILITY] / AGILITY_FACTOR_ONE) / 1;
 		energy += energyDiff;
 		props[PROP_ENERGY] = energy;

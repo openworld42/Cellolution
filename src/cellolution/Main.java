@@ -62,14 +62,21 @@ public class Main {
 		// if the file does not exist, it will be created with default properties
 		properties = new AppProperties();
 		JsonFile file = new JsonFile();
-		file.readFrom(JsonFile.JSON_FILE_NAME);
+		try {
+			file.readFrom(JsonFile.JSON_FILE_NAME);
+		} catch (Exception e) {
+			// intentionally falling through
+			e.printStackTrace();
+			System.out.println("\n*** Cellolution JSON parser: errors reading file '" 
+			+ JsonFile.JSON_FILE_NAME + "', using defaults\n");
+		}
 		// create the world
 		cellColumns = 800;
 		cellRows = 450;
 		URL imageURL = Main.class.getResource(GROUND_IMG);
 		try {
 			oceanImage = ImageIO.read(imageURL);
-		} catch (Exception e) { // intentionally falling through 
+		} catch (Exception e) { // intentionally falling through, no ocean image displayed
 		}
 		ocean = new Ocean(cellColumns, cellRows, oceanImage);
 		// start the GUI
@@ -82,7 +89,7 @@ public class Main {
     			break;
     		}
     	}
-		Util.verbose("Starting GUI ...");		// is displayed on System.out only if the verbose flag is on
+		Util.verbose("Starting GUI and evolution ...");		// is displayed on System.out only if the verbose flag is on
 		orgDisplayCtlr = new OrganismDisplayCtlr(ocean);
     	mainView = new MainView(orgDisplayCtlr.getOrganismPanel());
 	}

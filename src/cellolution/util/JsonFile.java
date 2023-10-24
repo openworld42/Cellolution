@@ -104,23 +104,23 @@ public class JsonFile {
 	}
 	
 	/**
-	 * Tester.
+	 * JSON file tester.
 	 * 
 	 * @param arguments
 	 */
-	public static void main(String[] arguments) {
-		
-		System.out.println("JSON writer");
-		try {
-			new JsonFile(JSON_FILE_NAME);
-			JsonFile file = new JsonFile();
-			file.readFrom(JSON_FILE_NAME);
-		} catch (Exception e) {
-            System.out.println("\n*****  Exception caught, exit: " + e);
-			e.printStackTrace();
-			System.exit(1);
-		}		
-	}
+//	public static void main(String[] arguments) {
+//		
+//		System.out.println("JSON writer");
+//		try {
+//			new JsonFile(JSON_FILE_NAME);
+//			JsonFile file = new JsonFile();
+//			file.readFrom(JSON_FILE_NAME);
+//		} catch (Exception e) {
+//            System.out.println("\n*****  Exception caught, exit: " + e);
+//			e.printStackTrace();
+//			System.exit(1);
+//		}		
+//	}
 
 	/**
 	 * Perform a pretty print of a JSON string.
@@ -164,15 +164,15 @@ public class JsonFile {
 
 		String text = null;
 		try {
-			System.out.println("\nParser reading JSON file '" + fileName + "'");
 			text = Files.readString(Path.of(fileName));
 		} catch (NoSuchFileException e) {
-			System.out.println("\nJSON parser: file '" + fileName + "' not found, using defaults");
+			System.out.println("JSON parser: file '" + fileName + "' not found, using Cellolution defaults");
 			return;
 		}
 		JSONParser parser = new JSONParser(); 
 		JSONObject json = (JSONObject) parser.parse(text);
-		System.out.println("\nParser reading JSON file Version " + json.get(KEY_VERSION));
+		System.out.println("Parser: reading existing Cellolution JSON file '" + fileName 
+				+ "', version " + json.get(KEY_VERSION));
 		JSONObject system = (JSONObject) json.get(KEY_SYSTEM);
 		putProp(system, AppProperties.LOOK_AND_FEEL);
 		

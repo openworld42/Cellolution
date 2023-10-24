@@ -60,13 +60,11 @@ public class MainView extends JFrame implements ActionListener {
             @Override
             public void windowClosing(WindowEvent event) {
                 // delegate to enable subclass to overwrite
-               	Util.verbose("stop ...");
             	MainView.this.dispose();
             	SwingUtilities.invokeLater(() -> Main.instance().onExit());
             }
             public void windowOpened(WindowEvent event) {
-            	Util.verbose("starting ...");
-            	Main.getOcean().startSwingWorker(oceanPanel);
+             	Main.getOcean().startSwingWorker(oceanPanel);
             }});
  		initFrame();
 		pack();

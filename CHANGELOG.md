@@ -3,13 +3,15 @@
 
 # Changelog
 
-## v0.1.4
-
-### Fixes
-### Features/Enhancements
+## v0.2.0
 
 * upcoming version
 * ...
+
+### Fixes
+
+### Features/Enhancements
+
 
 ## v0.1.3
 

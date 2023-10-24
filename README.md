@@ -38,7 +38,7 @@ Cells may also starve (color: dark red), lacking of energy and/or substances. If
 
 <br/>
 
-Needless to say, there are more things to discover.
+Needless to say, there are more things to discover. And: you need to give Cellolution some time to let the organisms do their evolution.
 
 ### How to run it:
 Download the newest Github release **cellolutionVxxx.jar** file into a new directory (suggestion: "Cellolution") cause it will save its state in a JSON file and call it from the command line within this directory using

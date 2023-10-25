@@ -16,6 +16,7 @@
  */
 package cellolution;
 
+import cellolution.cell.*;
 import cellolution.util.*;
 
 /**
@@ -34,6 +35,8 @@ public class Diffusion {
 	private OceanBorders oceanBorders;
 	private Pixel pixels[][];
 	private Water diffCompPixels[][];		// an array of water pixels used as temporary storage during diffusion computation
+	private OrganismMgr organismMgr;
+	private boolean soluteOrganicMatter;	// true if there is diffusion of organic matter, false else 
 	
 	private boolean testFlag;				// set to true and uncomment test() for testing the diffusion 
 
@@ -181,6 +184,9 @@ public class Diffusion {
 				solutionRock((Water) pixel);
 			}
 		}
+		// if there is enough organic matter (in the reservoir), solute it from the walls and ground
+		organismMgr = ocean.getOrganismMgr();
+		soluteOrganicMatter = organismMgr.getOrganicMatterReservoir() > 5000 && step % 5 == 0;
 		// diffusion from right wall
 		border = oceanBorders.getRigthBorderCols();
 		for (int row = 0; row < border.length; row++) {
@@ -259,7 +265,12 @@ public class Diffusion {
 			// dissolve some minimum H2S
 			value += 20 / (value + 1);
 			waterPixel.setMatterValue(Water.H2S, (byte) value);	
-		}		
+		}	
+		if (soluteOrganicMatter) {
+			// dissolve some collected organic matter from decomposed organisms
+			waterPixel.increaseOrganicMatter();
+			organismMgr.addToOrganicMatterReservoir(-1);
+		}
 	}
 
 	/**

@@ -109,6 +109,14 @@ public class Water extends Pixel {
 	}
 
 	/**
+	 * Increase the organic matter by one.
+	 */
+	public void increaseOrganicMatter() {
+		
+		substances[ORGANIC]++;
+	}
+	
+	/**
 	 * Returns the amount of a specified matter dissolved within this water pixel (e.g. matterValue(Water.CaCO3);).
 	 * 
 	 * @param matterIndexConstant		one of the defined constants

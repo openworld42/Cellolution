@@ -171,11 +171,10 @@ public abstract class AbstractCell extends Pixel {
 		if (!(p instanceof Water)) {
 			props[PROP_CO2] = props[PROP_CO2] * 95 / 100;
 			props[PROP_CaCO3] = props[PROP_CO2] * 95 / 100;
-			props[PROP_CO2] = props[PROP_CO2] * 95 / 100;
+			props[PROP_H2S] = props[PROP_H2S] * 95 / 100;
 			int organic = props[PROP_ORGANIC];
 			props[PROP_ORGANIC] = props[PROP_ORGANIC] * 95 / 100;
-			organic -= organic * 95 / 100;
-			ocean.getOrganismMgr().addToOrganicMatterReservoir(-organic);
+			ocean.getOrganismMgr().addToOrganicMatterReservoir(organic - props[PROP_ORGANIC]);
 			return;
 		}
 		Water water = (Water) p;

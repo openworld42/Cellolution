@@ -35,7 +35,7 @@ import cellolution.util.*;
 public class Organism {
 	
 	public static final int DISPLAY_POSITION_COUNT_DEFAULT = 10; 		// times slowUpdate() intervalls
-	private static final int DECOMPOSE_COUNT_DEFAULT = 100;				// times slowUpdate() intervalls
+	private static final int DECOMPOSE_COUNT_DEFAULT = 200;				// times slowUpdate() intervalls
 	
 	// Organism properties, for performance reasons: an array with constants as indices
 	// (maybe we change this later to enums or a more dynamic approach)
@@ -218,6 +218,13 @@ public class Organism {
 		cells.forEach(cell -> cell.decompose());
 		decomposeCount--;
 		if (decomposeCount <= 0) {
+			// save the remaining organic matter
+			int organic = 0;
+			for (AbstractCell cell : cells) {
+				organic += cell.getProperties()[AbstractCell.PROP_ORGANIC];
+			}
+			Main.getOcean().getOrganismMgr().addToOrganicMatterReservoir(organic);
+			// everything useful has been decomposed, the organism should vanish
 			organismMgr.remove(this);
 		}
 	}

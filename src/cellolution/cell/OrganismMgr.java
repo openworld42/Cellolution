@@ -48,7 +48,7 @@ public class OrganismMgr {
 		organismsToRemove = new ArrayList<>();
 		organismsToAdd = new ArrayList<>();
 		// the amount of organic matter in the ocean should stay constant, initialize the reservoir
-		organicMatterReservoir = cellColumns * cellRows * 10;
+		organicMatterReservoir = (cellColumns + cellRows * 2) * 50;
 		lastTimeMoved = System.currentTimeMillis();
 	}
 
@@ -63,7 +63,7 @@ public class OrganismMgr {
 	}
 
 	/**
-	 * Adds (or subtracts organic matter to the reservoir of the ocean.
+	 * Adds (or subtracts) organic matter to the reservoir of the ocean.
 	 * 
 	 * @param amount
 	 */

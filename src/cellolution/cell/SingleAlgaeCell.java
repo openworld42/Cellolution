@@ -146,7 +146,7 @@ public class SingleAlgaeCell extends AbstractCell implements StemCellCarrier {
 	/**
 	 * Slow update for organism changes not needed to be to fast.
 	 * 
-	 * @param time
+	 * @param time			the current time
 	 */
 	@Override
 	public void slowUpdate(long time) {
@@ -155,8 +155,8 @@ public class SingleAlgaeCell extends AbstractCell implements StemCellCarrier {
 		int energy = props[PROP_ENERGY] - props[PROP_ENERGY_CONSUMTION] * props[PROP_AGILITY] / AGILITY_FACTOR_ONE;
 		// use the sun and some of the CO2 collected to generate energy, regulated by agility
 		// sunlight generates energy in both depth dependent and a sunbeam hit
-		int sunAmount = 100 * (cellRows - row) / cellRows;
-		int energyDiff = (sunAmount + props[PROP_AGILITY] / AGILITY_FACTOR_ONE) / 1;
+		int sunBrightness = computeSunshineBrightness(cellRows);
+		int energyDiff = (sunBrightness + props[PROP_AGILITY] / AGILITY_FACTOR_ONE) / 1;
 		energy += energyDiff;
 		props[PROP_ENERGY] = energy;
 		// change color depending on energy

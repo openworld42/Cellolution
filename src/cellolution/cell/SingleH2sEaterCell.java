@@ -146,7 +146,7 @@ public class SingleH2sEaterCell extends AbstractCell implements StemCellCarrier 
 	/**
 	 * Slow update for organism changes not needed to be to fast.
 	 * 
-	 * @param time
+	 * @param time			the current time
 	 */
 	@Override
 	public void slowUpdate(long time) {

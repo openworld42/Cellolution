@@ -26,13 +26,13 @@ import cellolution.util.*;
 public class Sunshine {
 
 	public static int MAX_INTENSITY = 1500;
-	public static int MAX_SUNSHINE_PIXELS = 100;
+	public static int MAX_SUNBEAM_PIXELS = 100;
 	public static int BEAM_LENGTH = 5;
 
 	private Ocean ocean;
-	private HashSet<Water> sunshinePixels;
+	private HashSet<Water> sunbeamPixels;
 	private long lastTime;
-	private int maxSunshinePixels;
+	private int maxSunbeamPixels;
 
 	/**
 	 * Construction.
@@ -41,23 +41,22 @@ public class Sunshine {
 	 */
 	public Sunshine(Ocean ocean) {
 		
-		sunshinePixels = new HashSet<>();
+		sunbeamPixels = new HashSet<>();
 		this.ocean = ocean;
 		lastTime = System.currentTimeMillis();
-
 	}
 
 	/**
 	 * Display something looking like a beam or remove a beam.
 	 * 
-	 * @param sunIntensity
+	 * @param sunbeamIntensity			the intensity of a sunbeam traveling throug the ocean
 	 * @param col
 	 * @param row
 	 * @param colIncrease
 	 * @param rowIncrease
 	 * @param pixels 
 	 */
-	private void beam(int sunIntensity, int col, int row, int colIncrease, int rowIncrease, Pixel[][] pixels) {
+	private void beam(int sunbeamIntensity, int col, int row, int colIncrease, int rowIncrease, Pixel[][] pixels) {
 		
 		for (int i = 1; i <= BEAM_LENGTH; i++) {
 			int nextCol = col - colIncrease * i;
@@ -66,8 +65,8 @@ public class Sunshine {
 				break;
 			}			
 			Water waterpixel = (Water) pixels[nextCol][nextRow];	
-			sunIntensity = i == BEAM_LENGTH - 1 ? 0 : sunIntensity * 80 / 100;
-			waterpixel.setSunIntensity(sunIntensity);
+			sunbeamIntensity = i == BEAM_LENGTH - 1 ? 0 : sunbeamIntensity * 80 / 100;
+			waterpixel.setSunbeamIntensity(sunbeamIntensity);
 			ocean.setPixelRGB(nextCol, nextRow, waterpixel.getSunshineRGB());
 		}
 	}
@@ -78,9 +77,9 @@ public class Sunshine {
 	private void glideDeeper() {
 
 		Pixel pixels[][] = ocean.getPixels();
-		ArrayList<Water> newSunshinePixels = new ArrayList<Water>();
-		ArrayList<Water> sunshinePixelsToRemove = new ArrayList<Water>();
-		sunshinePixels.forEach(waterpixel -> {
+		ArrayList<Water> newSunbeamPixels = new ArrayList<Water>();
+		ArrayList<Water> sunbeamPixelsToRemove = new ArrayList<Water>();
+		sunbeamPixels.forEach(waterpixel -> {
 			int col = waterpixel.getColumn();
 			int row = waterpixel.getRow();
 			int colIncrease = 1;								// beam angle
@@ -91,14 +90,14 @@ public class Sunshine {
 			// if the next pixel is not a rock, the beam will get weaker and will vanish a short time later
 			if (nextPixel instanceof Water) {
 				Water nextWaterPixel = (Water) nextPixel;
-				int sunIntensity = waterpixel.getSunIntensity();
-				if (sunIntensity > 600) {
+				int sunbeamIntensity = waterpixel.getSunIntensity();
+				if (sunbeamIntensity > 600) {
 					// decrease the sunshine energy
-					nextWaterPixel.setSunIntensity((sunIntensity * 996) / 1000);
-					newSunshinePixels.add(nextWaterPixel);
+					nextWaterPixel.setSunbeamIntensity((sunbeamIntensity * 996) / 1000);
+					newSunbeamPixels.add(nextWaterPixel);
 					ocean.setPixelRGB(nextCol, nextRow, nextWaterPixel.getSunshineRGB());
 					// display some beam simulation
-					beam(sunIntensity, col, row, colIncrease, rowIncrease, pixels);
+					beam(sunbeamIntensity, col, row, colIncrease, rowIncrease, pixels);
 				} else {
 					beam(0, nextCol, nextRow, colIncrease, rowIncrease, pixels);
 				}
@@ -109,11 +108,11 @@ public class Sunshine {
 				// TODO if we hit a cell, let it absorb the energy if "suneater"
 				
 			}
-			sunshinePixelsToRemove.add(waterpixel);
+			sunbeamPixelsToRemove.add(waterpixel);
 			
 		});
-		sunshinePixels.addAll(newSunshinePixels);
-		sunshinePixels.removeAll(sunshinePixelsToRemove);
+		sunbeamPixels.addAll(newSunbeamPixels);
+		sunbeamPixels.removeAll(sunbeamPixelsToRemove);
 	}
 
 	/**
@@ -133,8 +132,8 @@ public class Sunshine {
 		// let the sunshine beams glide deeper
 		glideDeeper();
 		// add some new sunhsine beams at the surface
-		maxSunshinePixels = sunshinePixels.size() > MAX_SUNSHINE_PIXELS ? MAX_SUNSHINE_PIXELS : maxSunshinePixels + 1;
-		int beamCount = sunshinePixels.size() > maxSunshinePixels ? 0 : 2;
+		maxSunbeamPixels = sunbeamPixels.size() > MAX_SUNBEAM_PIXELS ? MAX_SUNBEAM_PIXELS : maxSunbeamPixels + 1;
+		int beamCount = sunbeamPixels.size() > maxSunbeamPixels ? 0 : 2;
 		for (int i = 0; i < beamCount; i++) {
 			// this is called only if ther are less than MAX_SUNSHINE_PIXELS beams, it will create a new beam
 			int intensity = MAX_INTENSITY * 2 / 3 + FastRandom.nextIntStat(MAX_INTENSITY / 3);
@@ -142,8 +141,8 @@ public class Sunshine {
 			Pixel pixel = pixels[column][0];
 			if (pixel instanceof Water) {
 				Water waterPixel = (Water) pixel;
-				waterPixel.setSunIntensity(intensity);
-				sunshinePixels.add(waterPixel);
+				waterPixel.setSunbeamIntensity(intensity);
+				sunbeamPixels.add(waterPixel);
 				ocean.setPixelRGB(waterPixel.getColumn(), waterPixel.getRow(), waterPixel.getSunshineRGB());
 			}
 		}
@@ -156,8 +155,8 @@ public class Sunshine {
 	 */
 	public void remove(Water water) {
 
-		water.setSunIntensity(0);
-		sunshinePixels.remove(water);
+		water.setSunbeamIntensity(0);
+		sunbeamPixels.remove(water);
 	}
 
 //	@Override

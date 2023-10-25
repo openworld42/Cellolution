@@ -524,7 +524,7 @@ public class Organism {
 	/**
 	 * Slow update for this organism: changes not in the need to be to fast (due to performance reasons).
 	 * 
-	 * @param time
+	 * @param time			the current time
 	 */
 	public void slowUpdate(long time) {
 		

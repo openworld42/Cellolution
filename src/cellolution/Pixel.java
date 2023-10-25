@@ -65,11 +65,22 @@ public abstract class Pixel {
 		this.column = (short) column;
 		this.row = (short) row;
 	}
+	
+	/**
+	 * Compute the sunshine brightness of a Water or cell pixel depending on its depth.
+	 * 
+	 * @param cellRows		the total amount of rows
+	 * @return the computed brightness as a percentage, depending on the depth of the pixel
+	 */
+	public int computeSunshineBrightness(int cellRows) {
+		
+		return 100 * (cellRows - row) / cellRows;
+	}
 
 	/**
 	 * Intentionally does nothing except this pixel is water.
 	 * 
-	 * @param water		the water pixel
+	 * @param water		the water pixel to copy from
 	 */
 	public abstract void copyFrom(Water water);
 
@@ -93,7 +104,7 @@ public abstract class Pixel {
 	 * Move a pixel one step in a direction.
 	 * Usually the pixel would be a cell.
 	 * 
-	 * @param direction the direction
+	 * @param direction 		the direction
 	 */
 	public void move(int direction) {
 		
@@ -129,5 +140,4 @@ public abstract class Pixel {
 		}
 //		System.out.print(", new col " + column + ", new row " + row);
 	}
-
 }

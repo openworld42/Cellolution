@@ -17,11 +17,11 @@
 package cellolution;
 
 import java.awt.*;
-import java.util.*;
 
 /**
  * A pixel containing water in the ocean.
  * Water can dissolve matter in the range of 0 to 100 (for each material): salts (e.g. NaCl, lime), gases (O2, H2S).
+ * It also has a certain brightness used by algae cells, dependig on the depth.
  */
 public class Water extends Pixel {
 
@@ -36,7 +36,7 @@ public class Water extends Pixel {
 
 	private byte[] substances = new byte[SUBSTANCES_SIZE];
 
-	private short sunIntensity;
+	private short sunbeamIntensity;
 
 	/**
 	 * @param column
@@ -91,7 +91,7 @@ public class Water extends Pixel {
 	 */
 	public short getSunIntensity() {
 		
-		return sunIntensity;
+		return sunbeamIntensity;
 	}
 
 	/**
@@ -131,10 +131,10 @@ public class Water extends Pixel {
 	 */
 	public int getSunshineRGB() {
 		
-		if (sunIntensity == 0) {
+		if (sunbeamIntensity == 0) {
 			return RGB_DEFAULT;
 		}
-		int value = sunIntensity * 100 / Sunshine.MAX_INTENSITY;	// 250: green/blue value (yellow), 2000: greater than maximum intensity
+		int value = sunbeamIntensity * 100 / Sunshine.MAX_INTENSITY;	// 250: green/blue value (yellow), 2000: greater than maximum intensity
 		return new Color(value + 150, value + 130, 10).getRGB();
 	}
 
@@ -150,11 +150,12 @@ public class Water extends Pixel {
 	}
 
 	/**
-	 * @param sunIntensity 			the amount of sunshine energy within this pixel
+	 * @param sunbeamIntensity 			the amount of energy within this pixel if 
+	 * 									there is a sunbeam flowing through it
 	 */
-	public void setSunIntensity(int sunIntensity) {
+	public void setSunbeamIntensity(int sunbeamIntensity) {
 		
-		this.sunIntensity = (short) sunIntensity;
+		this.sunbeamIntensity = (short) sunbeamIntensity;
 	}
 
 	@Override
@@ -164,7 +165,7 @@ public class Water extends Pixel {
 				+ ", CaCO3=" + substances[CaCO3] 
 				+ ", H2S=" + substances[H2S] 
 				+ ", Organic=" + substances[ORGANIC] 
-				+ ", sunIntensity=" + sunIntensity + "]";
+				+ ", sunshine brightness=" + computeSunshineBrightness(Main.getCellRows()) + "]";
 	}
 
 	/**

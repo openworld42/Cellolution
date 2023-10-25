@@ -88,7 +88,7 @@ public class Sunshine {
 			int nextCol = col + colIncrease;
 			int nextRow = row + rowIncrease;
 			Pixel nextPixel = pixels[nextCol][nextRow];			
-			// if the next pixel is not a rock, the beam will get weaker and will vanish in some time
+			// if the next pixel is not a rock, the beam will get weaker and will vanish a short time later
 			if (nextPixel instanceof Water) {
 				Water nextWaterPixel = (Water) nextPixel;
 				int sunIntensity = waterpixel.getSunIntensity();
@@ -118,7 +118,7 @@ public class Sunshine {
 
 	/**
 	 * Next sunshine step, sunshine beams are gliding through the water, new ones hit the surface.
-	 * Lets the sun create some energy that shines/ through the water, gliding to the deep.
+	 * Lets the sun create some energy that shines through the water, gliding into the deep.
 	 * 
 	 * @param cellColumns 
 	 * @param pixels 
@@ -136,6 +136,7 @@ public class Sunshine {
 		maxSunshinePixels = sunshinePixels.size() > MAX_SUNSHINE_PIXELS ? MAX_SUNSHINE_PIXELS : maxSunshinePixels + 1;
 		int beamCount = sunshinePixels.size() > maxSunshinePixels ? 0 : 2;
 		for (int i = 0; i < beamCount; i++) {
+			// this is called only if ther are less than MAX_SUNSHINE_PIXELS beams, it will create a new beam
 			int intensity = MAX_INTENSITY * 2 / 3 + FastRandom.nextIntStat(MAX_INTENSITY / 3);
 			int column = (FastRandom.nextIntStat(cellColumns) * 7877) % cellColumns;
 			Pixel pixel = pixels[column][0];

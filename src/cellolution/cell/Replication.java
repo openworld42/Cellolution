@@ -155,7 +155,7 @@ v	 * @param pixels
 				Pixel narrowing = Mover.neighbor(stemCell, neighborNr, ocean.getPixels());	
 				narrowingCell = new StemCell(narrowing.getColumn(), narrowing.getRow(), organism, null);
 				narrowingCell.getProperties()[AbstractCell.PROP_ENERGY] = 4000;		// just to display some energy
-				cells.add(narrowingCell);			// not a real part of the organism, not using add()
+				cells.add(narrowingCell);			// not a real part of the organism, not using organism.add()
 				// presets
 				newGenome = genome.evolotionaryClone(organism);
 				newOrganism = newGenome.createNewOrganism(organismMgr, organism, newEnergy);

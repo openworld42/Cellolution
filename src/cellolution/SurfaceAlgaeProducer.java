@@ -72,7 +72,7 @@ public class SurfaceAlgaeProducer {
 	}
 
 	/**
-	 * Drop algae from time to time.
+	 * Drop anm algae cell from time to time at the surface of the ocean.
 	 * 
 	 * @param time
 	 */

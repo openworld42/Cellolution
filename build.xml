@@ -61,7 +61,7 @@
 				sourcepath="${src}" splitindex="true" use="true" version="true">
 			<doctitle><![CDATA[${appdesc}]]></doctitle>
 			<bottom>
-				<![CDATA[Copyright © 2021. All Rights Reserved. Read the license file(s) enclosed. ]]>
+				<![CDATA[Copyright © 2023. All Rights Reserved. Read the license file(s) enclosed. ]]>
 			</bottom>
 			<link href="https://docs.oracle.com/en/java/javase/17/docs/api/"/>
 			<classpath>

@@ -3,14 +3,16 @@
 
 # Changelog
 
-## v0.2.0
 
-* upcoming version
-* ...
+## v0.2.0
 
 ### Fixes
 
+build.xml: JSON jar (simple JSON) classpath fix in certain circumstances (empty JSON file)
+
 ### Features/Enhancements
+
+* Better decomposing of dead organisms, reuse of organic matter from the walls and ground
 
 
 ## v0.1.3

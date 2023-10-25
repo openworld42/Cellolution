@@ -82,6 +82,11 @@
 				<include name="**/*.*"/>
 			</fileset>
 		</copy>
+		<copy todir="${build}/org">
+			<fileset dir="${src}/org">
+				<include name="**/*.*"/>
+			</fileset>
+		</copy>
 
 		<!-- Put everything in ${build} into the Project-${DSTAMP}.jar file -->
  		<jar jarfile="${dist}/${jarprefix}_${version}.jar" basedir="${build}">
@@ -91,17 +96,17 @@
 			<fileset file="${base}/build.xml"/>
 			<fileset file="${base}/${json.jar}"/>
 			<fileset dir="." includes="${dir.src}/**"/>
+			<fileset dir="." includes="${dir.src}/org/**"/>
 			<fileset dir="." includes="${dir.javadoc}/**"/>
 			<manifest>
 				<attribute name="Main-Class" value="${mainclass}"/>
 				<attribute name="Implementation-Version"  value="${version}"/>   
       			<attribute name="Built-Date" value="${DSTAMP}"/>        
 				<attribute name="Implementation-URL" value="${repo}"/>
-				<attribute name="Class-Path" value="${json.jar}"/>
 			</manifest>
 		</jar>
 
-		<copy file="${dist}/${jarprefix}_${version}.jar" tofile="${base}/${jarprefix}${version}.jar"/>
+		<copy file="${dist}/${jarprefix}_${version}.jar" tofile="${base}/${jarprefix}_${version}.jar"/>
 		<echo>
 			check the file cellolution${version}.jar in a new directory
 			then run: ant clean

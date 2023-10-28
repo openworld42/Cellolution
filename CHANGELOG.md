@@ -4,6 +4,20 @@
 # Changelog
 
 
+## v0.3.0
+
+### Fixes
+
+* Separate intermixture of sunbeam energy und sunshine brightness dependent on depth
+
+### Features/Enhancements
+
+* Changed JSON handling from json-simple v1.1.1 to JSON-java Release 20231013 due to
+better handling in Cellolution and an added ordering within JSON objects and output
+See: origin [JSON-java](https://github.com/stleary/JSON-java) and JSON-java with additions
+of ordering within this repo under src/org/json 
+
+
 ## v0.2.0
 
 ### Fixes

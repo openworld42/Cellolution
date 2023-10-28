@@ -52,6 +52,9 @@ You may also build it from scratch using Ant and the build.xml file.<br/>
 
 **Apache 2.0 licensed**.<br/>
 
+**Credits, Kudos and Attribution:** 
+Cellolution uses [JSON-java](https://github.com/stleary/JSON-java) with some modifications (no dependencies).
+
 Author: Heinz Silberbauer (You like it? Spend a Github Star to motivate me :whale:)
 
 

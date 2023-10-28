@@ -26,7 +26,7 @@
 	<property name="base" location="."/>
 	<property name="javadoc" location="javadoc"/>
 	<property name="dir.javadoc" value="javadoc"/>
-	<property name="json.jar" value="json-simple-1.1.1.jar"/>
+	<property name="dir.json" value="JSON-java"/>
   
 	<target name="init">
 		<!-- Create the time stamp -->
@@ -49,7 +49,6 @@
 		<!-- Compile the Java code from ${src} into ${build} -->
 		<javac srcdir="${src}" 
 			destdir="${build}" 
-		    classpath="${json.jar}"
 			includeantruntime="false"
 		/>
 	</target>
@@ -64,11 +63,6 @@
 				<![CDATA[Copyright © 2023. All Rights Reserved. Read the license file(s) enclosed. ]]>
 			</bottom>
 			<link href="https://docs.oracle.com/en/java/javase/17/docs/api/"/>
-			<classpath>
-				<fileset dir=".">
-					<include name="${json.jar}"/>
-				</fileset>
-			</classpath>
 		</javadoc>
 	</target>
 
@@ -94,10 +88,10 @@
 			<fileset file="${base}/LICENSE*"/>
 			<fileset file="${base}/CHANGELOG.md"/>
 			<fileset file="${base}/build.xml"/>
-			<fileset file="${base}/${json.jar}"/>
 			<fileset dir="." includes="${dir.src}/**"/>
 			<fileset dir="." includes="${dir.src}/org/**"/>
 			<fileset dir="." includes="${dir.javadoc}/**"/>
+			<fileset dir="." includes="${dir.json}/**"/>
 			<manifest>
 				<attribute name="Main-Class" value="${mainclass}"/>
 				<attribute name="Implementation-Version"  value="${version}"/>   

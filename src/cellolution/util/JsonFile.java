@@ -20,13 +20,12 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
-import org.json.simple.*;
-import org.json.simple.parser.*;
+import org.json.*;
 
 import cellolution.*;
 
 /**
- * Serialization and deserialization of cellolution data using a JSON file.
+ * Serialization of cellolution data using a JSON file.
  * Used to save the state of a cellolution run.
  */
 public class JsonFile {
@@ -169,19 +168,22 @@ public class JsonFile {
 			System.out.println("JSON parser: file '" + fileName + "' not found, using Cellolution defaults");
 			return;
 		}
-		JSONParser parser = new JSONParser(); 
-		JSONObject json = (JSONObject) parser.parse(text);
-		System.out.println("Parser: reading existing Cellolution JSON file '" + fileName 
-				+ "', version " + json.get(KEY_VERSION));
-		JSONObject system = (JSONObject) json.get(KEY_SYSTEM);
-		putProp(system, AppProperties.LOOK_AND_FEEL);
 		
-		Map m = (Map) json.get(KEY_SYSTEM);
+		// TODO implement reading JSON 
 
-		JSONObject organisms  = (JSONObject) json.get(KEY_ORGANISMS);
-
-		
-		JSONObject ocean  = (JSONObject) json.get(KEY_OCEAN);
+//		JSONParser parser = new JSONParser(); 
+//		JSONObject json = (JSONObject) parser.parse(text);
+//		System.out.println("Parser: reading existing Cellolution JSON file '" + fileName 
+//				+ "', version " + json.get(KEY_VERSION));
+//		JSONObject system = (JSONObject) json.get(KEY_SYSTEM);
+//		putProp(system, AppProperties.LOOK_AND_FEEL);
+//		
+//		Map m = (Map) json.get(KEY_SYSTEM);
+//
+//		JSONObject organisms  = (JSONObject) json.get(KEY_ORGANISMS);
+//
+//		
+//		JSONObject ocean  = (JSONObject) json.get(KEY_OCEAN);
 
 	}
 	

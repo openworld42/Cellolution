@@ -19,6 +19,8 @@ package cellolution.cell;
 import java.awt.*;
 import java.util.*;
 
+import org.json.*;
+
 import cellolution.*;
 
 /**
@@ -242,5 +244,19 @@ public class OrganismMgr {
 			addOrganism(org);
 		});
 		organismsToAdd.clear();
+	}
+
+	/**
+	 * Creates a JSONArray from this object.
+	 * 
+	 * @return the JSONArray containing the data of this object
+	 */
+	public JSONArray toJSONArray() {
+		
+		JSONArray jsonOrganisms = new JSONArray();
+		for (Organism org : organisms) {
+			jsonOrganisms.put(org.toJSONObject());
+		}
+		return jsonOrganisms;
 	}
 }

@@ -17,6 +17,9 @@
 package cellolution.cell;
 
 import java.awt.*;
+import java.util.*;
+
+import org.json.*;
 
 import cellolution.*;
 import cellolution.util.*;
@@ -304,5 +307,43 @@ public abstract class AbstractCell extends Pixel {
 	@Override
 	public String toString() {
 		return "Cell [type=" + this.getClass().getSimpleName() + ", Column=" + column + ", Row=" + row + "]";
+	}
+
+	/**
+	 * Creates a JSONObject from this object.
+	 * 
+	 * @return the JSONObject containing the data of this object
+	 */
+	public abstract JSONObject toJSONObject();
+
+	/**
+	 * Adds the data of the AbstractCell to JSONObject.
+	 * Cells extending AbstractCell do the same by overwriting toJSONObject().
+	 * 
+	 * @param jsonObject	the JSONObject to add the data	
+	 */
+	public void toJSONObject(JSONObject jsonObject) {
+
+		jsonObject.put(Keys.CELL, this.getClass().getSimpleName());
+		JsonUtil.addColRowTo(jsonObject, column, row);
+		JsonUtil.addColorTo(jsonObject, colorRGB);
+		jsonObject.put(Keys.CELL, this.getClass().getSimpleName());
+		jsonObject.put(Keys.ENERGY, props[PROP_ENERGY]);
+		jsonObject.put(Keys.ENERGY_CONSUMTION, props[PROP_ENERGY_CONSUMTION]);
+		jsonObject.put(Keys.SUN_BEAM_INCREMENT, props[PROP_SUN_BEAM_INCREMENT]);
+		jsonObject.put(Keys.WEIGHT, props[PROP_WEIGHT]);
+		jsonObject.put(Keys.AGILITY, props[PROP_AGILITY]);
+		jsonObject.put(Keys.CO2, props[PROP_CO2]);
+		jsonObject.put(Keys.CO2_ADSORBTION_RATE, props[PROP_CO2_ADSORBTION_RATE]);
+		jsonObject.put(Keys.CO2_ADSORB_ENERGY, props[PROP_CO2_ADSORB_ENERGY]);
+		jsonObject.put(Keys.CaCO3, props[PROP_CaCO3]);
+		jsonObject.put(Keys.CaCO3_ADSORBTION_RATE, props[PROP_CaCO3_ADSORBTION_RATE]);
+		jsonObject.put(Keys.CaCO3_ADSORB_ENERGY, props[PROP_CaCO3_ADSORB_ENERGY]);
+		jsonObject.put(Keys.H2S, props[PROP_H2S]);
+		jsonObject.put(Keys.H2S_ADSORBTION_RATE, props[PROP_H2S_ADSORBTION_RATE]);
+		jsonObject.put(Keys.H2S_ADSORB_ENERGY, props[PROP_H2S_ADSORB_ENERGY]);
+		jsonObject.put(Keys.ORGANIC, props[PROP_ORGANIC]);
+		jsonObject.put(Keys.ORGANIC_ADSORBTION_RATE, props[PROP_ORGANIC_ADSORBTION_RATE]);
+		jsonObject.put(Keys.ORGANIC_ADSORB_ENERGY, props[PROP_ORGANIC_ADSORB_ENERGY]);
 	}
 }

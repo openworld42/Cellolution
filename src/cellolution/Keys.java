@@ -35,14 +35,41 @@ public interface Keys {
 	
 	// property and JSON keys for the simulation data (ocean, smokers, organisms, etc) - alphabetical ordering
 	
+
+
+	
+	String AGILITY = 		"Agility";
+	String CaCO3 = 					"CaCO3";
+	String CaCO3_ADSORBTION_RATE = 	"CaCO3AdsorbtionRate";
+	String CaCO3_ADSORB_ENERGY = 	"CaCO3AdsorbEnergy";
+	String CELL = 			"Cell";
+	String CELLS = 			"Cells";
+	String CO2 = 			"CO2";
+	String CO2_ADSORBTION_RATE = 	"CO2AdsorbtionRate";
+	String CO2_ADSORB_ENERGY = 		"CO2AdsorbEnergy";
 	String COLOR = 			"Color";
 	String COLUMN = 		"Column";
+	String ENERGY = 		"Energy";
+	String ENERGY_CONSUMTION = 	"EnergyConsumption";
+	String DECOMPOSE_COUNT = 	"DecomposeCount";
+	String GENOME = 		"Genome";
+	String H2S = 			"H2S";
+	String H2S_ADSORBTION_RATE = 	"H2SAdsorbtionRate";
+	String H2S_ADSORB_ENERGY = 		"H2SAdsorbEnergy";
+	String LAST_STATE = 	"LastState";
+	String MOVEABLE = 		"Movable";
 	String OCEAN = 			"Ocean";
+	String ORGANIC = 		"Organic";
+	String ORGANIC_ADSORBTION_RATE = "OrganicAdsorbtionRate";
+	String ORGANIC_ADSORB_ENERGY = 	"OrganicAdsorbEnergy";
+	String ORGANISMS = 		"Organisms";
+	String ORGANISM_STATE = "OrganismState";
 	String ROW = 			"Row";
 	String SIM_VERSION_MAJOR = 		"Sim." + VERSION_MAJOR;		// property key only
 	String SIM_VERSION_MINOR = 		"Sim." + VERSION_MINOR;		// property key only
 	String SIM_VERSION_RELEASE = 	"Sim." + VERSION_RELEASE;	// property key only
-	String SMOKER = 		"Smoker.";					// the consecutive number of a smoker will be added to this key
 	String SMOKERS = 		"Smokers";
 	String SMOKER_COUNT = 	"SmokerCount";
+	String SUN_BEAM_INCREMENT = 	"SunbeamIncrement";
+	String WEIGHT = 		"Weight";
 }

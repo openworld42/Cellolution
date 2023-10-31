@@ -83,20 +83,6 @@ public class Smokers {
 	}
 
 	/**
-	 * Creates a JSONArray from this object.
-	 * 
-	 * @return the JSONArray containing data of this object
-	 */
-	public JSONArray toJSONArray() {
-		
-		JSONArray jsonSmokers = new JSONArray();
-		for (Rock smoker : smokers) {
-			jsonSmokers.put(smoker.toJSONObject());
-		}
-		return jsonSmokers;
-	}
-
-	/**
 	 * Create one smoker.
 	 * 
 	 * @param number		the number of smokers to create
@@ -282,5 +268,19 @@ public class Smokers {
 			}
 			lastTimeSmokedVisible = time;
 		}
+	}
+
+	/**
+	 * Creates a JSONArray from this object.
+	 * 
+	 * @return the JSONArray containing the data of this object
+	 */
+	public JSONArray toJSONArray() {
+		
+		JSONArray jsonSmokers = new JSONArray();
+		for (Rock smoker : smokers) {
+			jsonSmokers.put(smoker.toJSONObject());
+		}
+		return jsonSmokers;
 	}
 }

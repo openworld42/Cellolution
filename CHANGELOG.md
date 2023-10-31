@@ -4,6 +4,19 @@
 # Changelog
 
 
+
+## v0.4.0
+
+### Fixes
+
+* None
+
+### Features/Enhancements
+
+* file persistence implementation for most  evolution simulation data (whole ocean), 
+writing only
+
+
 ## v0.3.0
 
 ### Fixes

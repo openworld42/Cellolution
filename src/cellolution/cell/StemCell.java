@@ -18,6 +18,10 @@ package cellolution.cell;
 
 import java.awt.*;
 
+import org.json.*;
+
+import cellolution.*;
+
 /**
  * A stem cell of an organism, containing the genom.
  * Note: specialized kind of a stem cell is the (temporary) narrowing cell, acting as a bridge
@@ -101,5 +105,19 @@ public class StemCell extends AbstractCell implements StemCellCarrier {
 	protected void slowUpdate(long time) {
 		
 		// nothing to do
+	}
+	
+	/**
+	 * Creates a JSONObject from this object.
+	 * 
+	 * @return the JSONObject containing the data of this object
+	 */
+	@Override
+	public JSONObject toJSONObject() {
+		
+		JSONObject jsonCell = new JSONObject();
+		super.toJSONObject(jsonCell);
+		jsonCell.put(Keys.GENOME, genome.toJSONObject());
+		return jsonCell;
 	}
 }

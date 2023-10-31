@@ -71,7 +71,7 @@ public class Data implements Keys {
 	 */
 	protected void createSimulationDefaults() {
 		
-		// TODO implement  createDataDefaults()
+		// TODO implement  createDataDefaults() or delete it
 
 		
 //		dataMap.put(VERSION, dataMap);
@@ -281,9 +281,8 @@ public class Data implements Keys {
 		JSONObject jsonOcean = new JSONObject();
 		JSONArray jsonSmokers = Main.getOcean().getSmokers().toJSONArray();
 		jsonOcean.put(Keys.SMOKERS, jsonSmokers);
-
-		
-		
+		JSONArray jsonOrganisms = Main.getOcean().getOrganismMgr().toJSONArray();
+		jsonOcean.put(Keys.ORGANISMS, jsonOrganisms);
 		jsonObjSim.put(OCEAN, jsonOcean);
 		// write it out
 		writeToFile(simDataFileName, jsonObjSim);

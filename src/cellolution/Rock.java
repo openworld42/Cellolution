@@ -87,7 +87,7 @@ public class Rock extends Pixel {
 	/**
 	 * Creates a JSONObject from this object.
 	 * 
-	 * @return the JSONObject containing data of this object
+	 * @return the JSONObject containing the data of this object
 	 */
 	public JSONObject toJSONObject() {
 		

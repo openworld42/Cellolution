@@ -18,6 +18,8 @@ package cellolution.cell;
 
 import java.awt.*;
 
+import org.json.*;
+
 import cellolution.*;
 
 /**
@@ -160,5 +162,19 @@ public class SingleH2sEaterCell extends AbstractCell implements StemCellCarrier 
 		props[PROP_ENERGY] = energy;
 		// change color depending on energy
 		adjustColorByEnergy();
+	}
+
+	/**
+	 * Creates a JSONObject from this object.
+	 * 
+	 * @return the JSONObject containing the data of this object
+	 */
+	@Override
+	public JSONObject toJSONObject() {
+		
+		JSONObject jsonCell = new JSONObject();
+		super.toJSONObject(jsonCell);
+		jsonCell.put(Keys.GENOME, genome.toJSONObject());
+		return jsonCell;
 	}
 }

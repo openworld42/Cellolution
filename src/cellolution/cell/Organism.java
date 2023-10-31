@@ -19,6 +19,8 @@ package cellolution.cell;
 import java.awt.*;
 import java.util.*;
 
+import org.json.*;
+
 import cellolution.*;
 import cellolution.ui.*;
 import cellolution.util.*;
@@ -612,6 +614,40 @@ public class Organism {
 			System.out.println("---> " + this);
 			System.exit(1);
 		}
+	}
+
+	/**
+	 * Creates a JSONObject from this object.
+	 * 
+	 * @return the JSONObject containing the data of this object
+	 */
+	public JSONObject toJSONObject() {
+		
+		JSONObject jsonOrg = new JSONObject();
+		jsonOrg.put(Keys.ORGANISM_STATE, state);
+		jsonOrg.put(Keys.LAST_STATE, state);
+		jsonOrg.put(Keys.ENERGY, props[PROP_ENERGY]);
+		jsonOrg.put(Keys.MOVEABLE, props[PROP_MOVEABLE]);
+		// ignore displayPositionCount
+		jsonOrg.put(Keys.DECOMPOSE_COUNT, decomposeCount);
+		// ignore organicAmount (computed)
+		JSONArray jsonCells = new JSONArray();
+		for (AbstractCell cell : cells) {
+			jsonCells.put(cell.toJSONObject());
+		}
+		jsonOrg.put(Keys.CELLS, jsonCells);
+		
+		
+		// TODO Organism.toJSONObject() check issues below:
+		// simply drop replication?
+		// number is set by the new sim
+		// comuteMaxMin if created (not needed if add(cell)  is used)
+		// compute PROP_WEIGHT
+		// check PROP_SPEED, PROP_DIRECTION
+		// compute organicAmount
+		// outcells not to be computed if add(cell)  is used
+		
+		return jsonOrg;
 	}
 
 	@Override

@@ -18,6 +18,8 @@ package cellolution.cell;
 
 import java.util.*;
 
+import org.json.*;
+
 import cellolution.*;
 import cellolution.util.*;
 
@@ -162,5 +164,20 @@ public abstract class Genome {
 	public void setStemCell(AbstractCell stemCell) {
 		
 		this.stemCell = stemCell;
+	}
+
+	/**
+	 * Creates a JSONObject from this object.
+	 * 
+	 * @return the JSONObject containing the data of this object
+	 */
+	public JSONObject toJSONObject() {
+
+		JSONObject jsonGenome = new JSONObject();
+		
+		// TODO Genome 
+		jsonGenome.put("XY", "TODO");
+
+		return jsonGenome;
 	}
 }

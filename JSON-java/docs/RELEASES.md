@@ -19,9 +19,9 @@ and artifactId "json". For example:
 
 20210307    Recent commits and potentially breaking fix to JSONPointer
 
-20201115    Recent commits and first release after project structure change
+20231115    Recent commits and first release after project structure change
 
-20200518    Recent commits and snapshot before project structure change
+20230518    Recent commits and snapshot before project structure change
 
 20190722    Recent commits
 

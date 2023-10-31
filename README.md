@@ -22,7 +22,7 @@ The ocean has dissolved materials as well as energy (beams of sunlight, organic 
 </p>
 
 
-<br/>If an organism has accumulated enough energy (and some substances), it may split up into two organisms - sometimes with an evolutionary transformation. 
+<br/>If an organism has accumulated enough energy (and some substances), it may split up into two organisms - sometimes with an evolutionary transformation: 
 <p align="center">
   	<img src="https://github.com/openworld42/Cellolution/blob/main/readme.images/Screenshot_Split1.png?raw=true" title="Split 1">   
   	or close to the surface	
@@ -41,7 +41,7 @@ Cells may also starve (color: dark red), lacking of energy and/or substances. If
 Needless to say, there are more things to discover. And (about patience): you need to give Cellolution some time to let the organisms do their evolution.
 
 ### How to run it:
-Download the newest Github release **cellolution_vxxx.jar** file into a new directory (suggestion: "Cellolution") cause it will save its state in a JSON file and call it from the command line within this directory using
+Download the newest Github release **cellolution_vxxx.jar** file into a new directory (suggestion: "Cellolution") cause it will save its state in JSON files and call it from the command line within this directory using
 
 **java -jar cellolution_vxxx.jar**
 
@@ -50,12 +50,13 @@ where **xxx** is the current version. You need a Java runtime/JDK installed (**L
 
 You may also build it from scratch using Ant and the build.xml file.<br/>
 
-**Apache 2.0 licensed**.<br/>
+**Apache 2.0 licensed**. Each other license for built-in or integrated repos, projects, resources, icons, pictures, files etc. is found in 
+[LICENSE.integrated](https://github.com/openworld42/Cellolution/blob/main/LICENSE.integrated.md). <br/>
 
 **Credits, Kudos and Attribution:** 
 Cellolution uses [JSON-java](https://github.com/stleary/JSON-java) with some modifications (no dependencies).
 
-Author: Heinz Silberbauer (You like it? Spend a Github Star to motivate me :whale:)
+**Author:** Heinz Silberbauer (You like it? Spend a Github Star to motivate me :whale:)
 
 
 

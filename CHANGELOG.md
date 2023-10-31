@@ -17,6 +17,12 @@ better handling in Cellolution and an added ordering within JSON objects and out
 See: origin [JSON-java](https://github.com/stleary/JSON-java) and JSON-java with additions
 of ordering within this repo under src/org/json 
 
+* improved error handling on simulation file errors
+
+* user may stop the simulation by starting a new one
+
+* started file persistence implementation for the application and the evolution simulation data (smokers)
+
 
 ## v0.2.0
 

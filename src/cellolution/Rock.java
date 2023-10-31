@@ -1,6 +1,6 @@
 
 /**
- * Copyright 2020 Heinz Silberbauer
+ * Copyright 2023 Heinz Silberbauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,11 @@
 package cellolution;
 
 import java.awt.*;
+import java.util.*;
+
+import org.json.*;
+
+import cellolution.util.*;
 
 /**
  * A solid rock pixel, forming the border of the ocean.
@@ -77,5 +82,18 @@ public class Rock extends Pixel {
 	public String toString() {
 		
 		return "Solid rock (" + column + "/" + row + ")";
+	}
+
+	/**
+	 * Creates a JSONObject from this object.
+	 * 
+	 * @return the JSONObject containing data of this object
+	 */
+	public JSONObject toJSONObject() {
+		
+		JSONObject jsonObj = new JSONObject();
+		JsonUtil.addColRowTo(jsonObj, column, row);
+		JsonUtil.addColorRGBTo(jsonObj, new Color(rgb));
+		return jsonObj;
 	}
 }

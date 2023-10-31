@@ -1,6 +1,6 @@
 
 /**
- * Copyright 2020 Heinz Silberbauer
+ * Copyright 2023 Heinz Silberbauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,10 @@ package cellolution.ui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.*;
+import java.net.*;
 
+import javax.imageio.*;
 import javax.swing.*;
 
 import cellolution.*;
@@ -53,9 +56,12 @@ public class MainView extends JFrame implements ActionListener {
 
 		super(Main.APP_NAME);
 		this.organismPanel = organismPanel;
-		ImageIcon icon = new ImageIcon("src/images/size24x24/applications-utilities.png");
-		setIconImage(icon.getImage());
-//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		// or
+		URL imageURL = Main.class.getResource(Main.APP_ICON_IMG);
+		try {
+			BufferedImage iconImage = ImageIO.read(imageURL);
+			setIconImage(iconImage);
+		} catch (Exception e) { // intentionally falling through, no image displayed
+		}
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent event) {

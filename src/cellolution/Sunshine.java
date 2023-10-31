@@ -1,6 +1,6 @@
 
 /**
- * Copyright 2020 Heinz Silberbauer
+ * Copyright 2023 Heinz Silberbauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -135,7 +135,7 @@ public class Sunshine {
 		maxSunbeamPixels = sunbeamPixels.size() > MAX_SUNBEAM_PIXELS ? MAX_SUNBEAM_PIXELS : maxSunbeamPixels + 1;
 		int beamCount = sunbeamPixels.size() > maxSunbeamPixels ? 0 : 2;
 		for (int i = 0; i < beamCount; i++) {
-			// this is called only if ther are less than MAX_SUNSHINE_PIXELS beams, it will create a new beam
+			// this is called only if there are less than MAX_SUNSHINE_PIXELS beams, it will create a new beam
 			int intensity = MAX_INTENSITY * 2 / 3 + FastRandom.nextIntStat(MAX_INTENSITY / 3);
 			int column = (FastRandom.nextIntStat(cellColumns) * 7877) % cellColumns;
 			Pixel pixel = pixels[column][0];

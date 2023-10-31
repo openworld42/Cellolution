@@ -1,6 +1,6 @@
 
 /**
- * Copyright 2020 Heinz Silberbauer
+ * Copyright 2023 Heinz Silberbauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,8 @@ public class Version {
 	/** !!! TODO: CHANGE BEFORE A NEW RELEASE !!! */
 
 	public static final int MAJOR = 0;
-	public static final int MINOR = 2;
-	public static final int RELEASE = 0;
+	public static final int MINOR = 3;
+	public static final int RELEASE = 0; 
 
 	/**
 	 * No external construction.

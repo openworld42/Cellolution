@@ -1,6 +1,6 @@
 
 /**
- * Copyright 2020 Heinz Silberbauer
+ * Copyright 2023 Heinz Silberbauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,10 @@
 package cellolution;
 
 import java.awt.*;
+import java.awt.RenderingHints.*;
 import java.util.*;
+
+import org.json.*;
 
 import cellolution.cell.*;
 import cellolution.util.*;
@@ -44,7 +47,7 @@ public class Smokers {
 	/**
 	 * Smoker creation.
 	 * 
-	 * @param ocean
+	 * @param ocean		the ocean
 	 */
 	public Smokers(Ocean ocean, int smokerCount) {
 		
@@ -54,19 +57,50 @@ public class Smokers {
 		pixels = ocean.getPixels();
 		smokers = new ArrayList<Rock>();
 		smokerRocks = new ArrayList<Rock>();
-		smokerBubbleSize = new int[smokerCount];
-		int distance = cellColumns / (smokerCount + 1);
-		for (int i = 0; i < smokerCount; i++) {
-			createSmoker(i, distance);
-			smokerBubbleSize[i] = -FastRandom.nextIntStat(10) - 1;		// negative to start at different times
+		// read in old simulation or create anew one
+		JSONObject jsonSimObj = Main.getData().getSimObject();
+		if (jsonSimObj == null) {
+			// create as a new simulation
+			smokerBubbleSize = new int[smokerCount];
+			int distance = cellColumns / (smokerCount + 1);
+			for (int i = 0; i < smokerCount; i++) {
+				createSmoker(i, distance);
+				smokerBubbleSize[i] = -FastRandom.nextIntStat(10) - 1;		// negative to start at different times
+			}
+		} else {
+			// create from an existing simulation (file)
+			JSONArray jsonSmokers = jsonSimObj.getJSONObject(Keys.OCEAN).getJSONArray(Keys.SMOKERS);
+			smokerCount = jsonSmokers.length();
+			smokerBubbleSize = new int[smokerCount];
+			for (int i = 0; i < smokerCount; i++) {
+				JSONObject jsonSmoker = jsonSmokers.getJSONObject(i);
+				int col = jsonSmoker.getInt(Keys.COLUMN);
+				int row = jsonSmoker.getInt(Keys.ROW);
+				int rgb = JsonUtil.toColorRGBFrom(jsonSmoker);
+				createSmokerAt(col, row, rgb);
+			}
 		}
+	}
+
+	/**
+	 * Creates a JSONArray from this object.
+	 * 
+	 * @return the JSONArray containing data of this object
+	 */
+	public JSONArray toJSONArray() {
+		
+		JSONArray jsonSmokers = new JSONArray();
+		for (Rock smoker : smokers) {
+			jsonSmokers.put(smoker.toJSONObject());
+		}
+		return jsonSmokers;
 	}
 
 	/**
 	 * Create one smoker.
 	 * 
-	 * @param number
-	 * @param distance
+	 * @param number		the number of smokers to create
+	 * @param distance		a minimum distance between the smokers
 	 */
 	private void createSmoker(int number, int distance) {
 
@@ -94,31 +128,7 @@ public class Smokers {
 					&& pixels[col - 1][rowFound + 2] instanceof Rock
 					&& pixels[col + 1][rowFound + 2] instanceof Rock) {
 				rowFound -= 7;
-				Rock rock = new Rock(col, rowFound, SMOKER_COLOR_RGB);
-				smokers.add(rock);
-				smokerRocks.add(rock);
-				pixels[col][rowFound] = rock;
-				int colLeftSide = (col & 1) == 0 ? col - 1 : col;
-				row = rowFound + 1;
-				int width = 2;
-				for (int j = 0; j < 4; j++) {
-					createSmokerRocks(colLeftSide - j, row++, width++);
-					createSmokerRocks(col - j, row++, width++);
-				}
-				width -= 2;
-				createSmokerRocks(colLeftSide - 4, row++, width);
-				// avoid water below smokers
-				colLeftSide -= 4;
-				for (int j = 0; j < 8 && row < cellRows - 3; j++) {
-					for (int k = 0; k < width; k++) {
-						if (pixels[colLeftSide + k][row]  instanceof Water) {
-							rock = new Rock(colLeftSide + k, row, SMOKER_COLOR_RGB);
-							pixels[colLeftSide + k][row] = rock;
-							smokerRocks.add(rock);
-						}
-					}
-					row++;
-				}
+				createSmokerAt(col, rowFound, SMOKER_COLOR_RGB);
 				break;
 			}
 			col++;
@@ -126,11 +136,48 @@ public class Smokers {
 	}
 
 	/**
+	 * Create a smoker at a specified place.
+	 * The place has been checked before for reasonable satisfaction.
+	 * 
+	 * @param col			the column to create the smoker
+	 * @param rowFound		the row found to be a good place for a smoker
+	 * @param rgb			the color of the smoker as RGB value
+	 */
+	private void createSmokerAt(int col, int rowFound, int rgb) {
+		
+		Rock rock = new Rock(col, rowFound, rgb);
+		smokers.add(rock);
+		smokerRocks.add(rock);
+		pixels[col][rowFound] = rock;
+		int colLeftSide = (col & 1) == 0 ? col - 1 : col;
+		int row = rowFound + 1;
+		int width = 2;
+		for (int j = 0; j < 4; j++) {
+			createSmokerRocks(colLeftSide - j, row++, width++);
+			createSmokerRocks(col - j, row++, width++);
+		}
+		width -= 2;
+		createSmokerRocks(colLeftSide - 4, row++, width);
+		// avoid water below smokers
+		colLeftSide -= 4;
+		for (int j = 0; j < 8 && row < cellRows - 3; j++) {
+			for (int k = 0; k < width; k++) {
+				if (pixels[colLeftSide + k][row]  instanceof Water) {
+					rock = new Rock(colLeftSide + k, row, rgb);
+					pixels[colLeftSide + k][row] = rock;
+					smokerRocks.add(rock);
+				}
+			}
+			row++;
+		}
+	}
+
+	/**
 	 * Create a smoker rock row line.
 	 * 
-	 * @param col
-	 * @param row
-	 * @param count
+	 * @param col				the column to create a smoker rock row line
+	 * @param row				the row to create a smoker rock row line
+	 * @param count				the number of pixels in that line
 	 */
 	private void createSmokerRocks(int col, int row, int count) {
 		
@@ -194,7 +241,7 @@ public class Smokers {
 	}
 
 	/**
-	 * @param g2d
+	 * @param g2d			the Graphics2D object to paint
 	 */
 	public void paint(Graphics2D g2d) {
 
@@ -215,7 +262,7 @@ public class Smokers {
 	/**
 	 * Visually smoking and pushing H2sEater out.
 	 * 
-	 * @param time
+	 * @param time				the current time
 	 */
 	public void smoke(long time) {
 

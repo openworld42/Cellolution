@@ -1,6 +1,6 @@
 
 /**
- * Copyright 2020 Heinz Silberbauer
+ * Copyright 2023 Heinz Silberbauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,8 @@ import javax.imageio.*;
 import javax.swing.*;
 import javax.swing.UIManager.*;
 
+import org.json.*;
+
 import cellolution.ui.*;
 import cellolution.util.*;
 
@@ -33,17 +35,21 @@ import cellolution.util.*;
 public class Main {
 
 	public static final String APP_NAME = "Cellolution";
-	public static final String GROUND_IMG = "/cellolution/images/OceanBedGreen.png";		
+	public static final String GROUND_IMG = "/cellolution/images/OceanBedGreen.png";
+	public static final String APP_ICON_IMG = "/cellolution/images/VelellaVellella128x128.png";
+	public static final String APP_DATA_FILE_NAME = "Cellolution.json";
+	public static final String SIM_DATA_FILE_NAME = "CellolutionSim.json";
 	
 	private static Main instance;				// the one and only instance of this application
-	
+
 	private Ocean ocean;
 	private MainView mainView;
 	private OrganismDisplayCtlr orgDisplayCtlr;
 	private BufferedImage oceanImage;
 
 	private CommandLineArgs args;				// command line arguments, if needed
-	private AppProperties properties; 			// application properties (e.g. a config file), if needed
+	private Data data; 							// application data (serialization)
+	private String currentJsonFile;				// the JSON file name during parsing, null otherwise
 
 	private boolean isVerbose; 					// verbose messages to System.out
 	private int cellColumns;
@@ -58,18 +64,11 @@ public class Main {
 			Usage.exit(1);
 		}
 		isVerbose = args.isVerbose();
-		// read in the JSON file properties and states
-		// if the file does not exist, it will be created with default properties
-		properties = new AppProperties();
-		JsonFile file = new JsonFile();
-		try {
-			file.readFrom(JsonFile.JSON_FILE_NAME);
-		} catch (Exception e) {
-			// intentionally falling through
-			e.printStackTrace();
-			System.out.println("\n*** Cellolution JSON parser: errors reading file '" 
-			+ JsonFile.JSON_FILE_NAME + "', using defaults\n");
-		}
+		// read in the JSON files properties and states
+		// if a file does not exist, it will be created with default properties
+		data = new Data();
+		data.readAppData();
+		data.readSimulationData(SIM_DATA_FILE_NAME);
 		// create the world
 		cellColumns = 800;
 		cellRows = 450;
@@ -82,7 +81,7 @@ public class Main {
 		// start the GUI
 		System.setProperty("awt.useSystemAAFontSettings","on");					// render fonts in a better way
     	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); 	// in case LookAndFeel Nimbus is not found
-    	String lookAndFeel = getProperty(AppProperties.LOOK_AND_FEEL);
+    	String lookAndFeel = Data.getString(Keys.LOOK_AND_FEEL);
     	for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
     		if (lookAndFeel.equals(info.getName())) {
     			UIManager.setLookAndFeel(info.getClassName());
@@ -92,6 +91,20 @@ public class Main {
 		Util.verbose("Starting GUI and evolution ...");		// is displayed on System.out only if the verbose flag is on
 		orgDisplayCtlr = new OrganismDisplayCtlr(ocean);
     	mainView = new MainView(orgDisplayCtlr.getOrganismPanel());
+	}
+
+	/**
+	 * Do some error handling when an exception has been thrown.
+	 * 
+	 * @param text 			the text to be displayed
+	 * @param e				the exception 
+	 * 
+	 */
+	public static void exceptionCaught(String text, Exception e) {
+		
+		System.out.println(text);
+		JOptionPane.showMessageDialog(null, text, "Error", JOptionPane.ERROR_MESSAGE);
+		e.printStackTrace();
 	}
 
 	/**
@@ -116,14 +129,6 @@ public class Main {
 	public static MainView getMainView() {
 		
 		return instance.mainView;
-	}
-	
-	/**
-	 * @return the properties
-	 */
-	public static AppProperties getProperties() {
-		
-		return instance.properties;
 	}
 
 	/**
@@ -151,36 +156,13 @@ public class Main {
 	}
 
 	/**
-	 * Gets a property.
+	 * Returns the data container.
 	 * 
-	 * @param key
-	 * @return the property value
+	 * @return the data container
 	 */
-	public static String getProperty(String key) {
+	public static Data getData() {
 		
-		return instance.properties.getProperty(key);
-	}
-
-	/**
-	 * Gets an boolean property (a flag).
-	 * 
-	 * @param key
-	 * @return true id the value is "true", false otherwise
-	 */
-	public static boolean getPropertyBool(String key) {
-		
-		return instance.properties.getPropertyBool(key);
-	}
-
-	/**
-	 * Gets an integer property.
-	 * 
-	 * @param key
-	 * @return the integer value
-	 */
-	public static int getPropertyInt(String key) {
-		
-		return Integer.parseInt(instance.properties.getProperty(key));
+		return instance.data;
 	}
 
 	/**
@@ -206,6 +188,17 @@ public class Main {
 		System.out.println("\n" + APP_NAME + " - simulated evolution of artificial cells in a water world.\n");
 		try {
 			new Main(arguments);
+		} catch (JSONException je) {
+			String msg = "Error -> " + je.getMessage();
+			if (instance.currentJsonFile != null) {
+				msg += "\n\nThe error happened most likely in the file '" + instance.currentJsonFile + "'.\n"
+						+ "If you delete it, Cellolution will create a new one using defaults,\n"
+						+ "but the simulation may be lost.";
+			}
+			JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("\n*****  Exception caught, exit: " + je);
+			je.printStackTrace();
+			System.exit(1);
 		} catch (Exception e) {
             System.out.println("\n*****  Exception caught, exit: " + e);
 			e.printStackTrace();
@@ -226,6 +219,7 @@ public class Main {
 		}
 		// start a new ocean
 		ocean.stopSwingWorker();						// stop the current simulation
+		data.removeSimulationData();
 		ocean = new Ocean(cellColumns, cellRows, oceanImage);
 		Util.verbose("Starting a new ocean ...");		// is displayed on System.out only if the verbose flag is on
 		orgDisplayCtlr = new OrganismDisplayCtlr(ocean);
@@ -246,11 +240,21 @@ public class Main {
 
 		Util.verbose(APP_NAME + " - good bye!");
 		try {
-			new JsonFile(JsonFile.JSON_FILE_NAME);
+			data.writeOnExit();
 		} catch (IOException e) {
 			// no way out, just display the exception
 			e.printStackTrace();
 		}
 		System.exit(0);
+	}
+	
+	/**
+	 * Sets the JSON file name during parsing, or null after parsing
+	 * 
+	 * @param currentJsonFile 	the JSON file name to set or null (if no parsing)
+	 */
+	public void setCurrentJsonFile(String currentJsonFile) {
+		
+		this.currentJsonFile = currentJsonFile;
 	}
 }

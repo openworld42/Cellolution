@@ -185,7 +185,11 @@ public class Data implements Keys {
 			if (jsonSys.has(Keys.RECENT_FILES)) {
 				JSONArray jsonFiles = jsonSys.getJSONArray(Keys.RECENT_FILES);
 				for (int i = jsonFiles.length() - 1; i >= 0; i--) {
-					recentFilesStack.push(jsonFiles.getString(i));
+					String path = jsonFiles.getString(i);
+					File file = new File(path);
+					if (file.exists() && file.canRead()) {
+						recentFilesStack.push(jsonFiles.getString(i));
+					}
 				}
 			}
 		} catch (JSONException e) {

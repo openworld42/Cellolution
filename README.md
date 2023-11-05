@@ -37,6 +37,9 @@ Cells may also starve (color: dark red), lacking of energy and/or substances. If
 </p>
 
 <br/>
+<p>
+All simulation data are stored in JSON files, therefore several simulations can be maintained.
+</p>
 
 Needless to say, there are more things to discover. And (about patience): you need to give Cellolution some time to let the organisms do their evolution.
 

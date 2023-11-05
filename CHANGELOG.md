@@ -5,6 +5,26 @@
 
 
 
+## v1.0.0 "Baffled Blobfish"
+
+### Fixes
+
+* fix NullPointerExceptions in rare cases (during cell splitting) by missing genome
+
+* fix concurrent modification exceptions (sometimes) of cells in replication, cause the SwingWorker
+did not stop in a correct way
+
+### Features/Enhancements
+
+* first release with repeatable results and continued simulations/evolution
+
+* all organisms of the ocean are stored in a JSON file and are read back on a new Cellulation start
+
+* editing of the JSON file data makes it possible to change and explore simulation data
+
+* a new simulation/ocean can be set from the toolbar
+
+
 ## v0.4.0
 
 ### Fixes

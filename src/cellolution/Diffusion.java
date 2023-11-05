@@ -41,7 +41,7 @@ public class Diffusion {
 	private boolean testFlag;				// set to true and uncomment test() for testing the diffusion 
 
 	/**
-	 * @param ocean
+	 * @param ocean		the ocean
 	 */
 	public Diffusion(Ocean ocean) {
 		
@@ -84,8 +84,8 @@ public class Diffusion {
 	 * Compute the diffusion for one Water pixel.
 	 * For the neighbors surrounding order see the Pixel or Ocean comments.
 	 * 
-	 * @param water
-	 * @param isEvenCol
+	 * @param water			the Water pixel
+	 * @param isEvenCol		true if the column is even, false otherwise
 	 */
 	private void computeDiffusionFor(Water water, boolean isEvenCol) {
 		
@@ -158,7 +158,7 @@ public class Diffusion {
 	/**
 	 * Perform one diffusion step for the whole ocean, according to the hexagon pixels ordering.
 	 * 
-	 * @param step
+	 * @param step		the diffusion step
 	 */
 	public void nextOceanDiffusionStep(int step) {
 		
@@ -249,7 +249,7 @@ public class Diffusion {
 	/**
 	 * Compute the amount of dissolved matter for a Water pixel touching a rock.
 	 * 
-	 * @param waterPixel
+	 * @param waterPixel	the Water pixel touching a rock
 	 */
 	private void solutionRock(Water waterPixel) {
 
@@ -275,15 +275,16 @@ public class Diffusion {
 	/**
 	 * Test a small diffusion area ((100/100) to (colRowMax/colRowMax)) during a real run.
 	 * 
-	 * @param text
-	 * @param col
-	 * @param row
-	 * @param rowAbove
-	 * @param rowBelow
-	 * @param colAboveBelowLeft
-	 * @param colAboveBelowRight
+	 * @param text					the text to display
+	 * @param col					the col
+	 * @param row					the row
+	 * @param rowAbove				the row above
+	 * @param rowBelow				the row below
+	 * @param colAboveBelowLeft		the col above/below to the left
+	 * @param colAboveBelowRight	the row above/below to the right
 	 */
-	private void test(String text, int col, int row, int rowAbove, int rowBelow, int colAboveBelowLeft, int colAboveBelowRight) {
+	private void test(String text, int col, int row, int rowAbove, 
+			int rowBelow, int colAboveBelowLeft, int colAboveBelowRight) {
 
 		int colRowMax = 104;
 		int colRowMiddle = (100 + colRowMax) / 2;

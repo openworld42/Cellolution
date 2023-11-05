@@ -72,7 +72,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * Create a RGB value from a <code>"Color": [80,70,70]<code> JSON entry.
+	 * Create a RGB value from a <code>"Color": [80,70,70]</code> JSON entry.
 	 * 
 	 * @param jsonObject	the parent JSONObject containing the color
 	 * @return the RGB value similar to a Color object using getRGB()

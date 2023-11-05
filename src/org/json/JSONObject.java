@@ -345,13 +345,13 @@ public class JSONObject {
      * annotation takes precedent and the field is not serialized.
      * For example, the following declaration would prevent the <code>getName</code>
      * method from being serialized:
+     * </p>
      * <pre>
      * &#64;JSONPropertyName("FullName")
      * &#64;JSONPropertyIgnore
      * public String getName() { return this.name; }
      * </pre>
-     * </p>
-     * <p>Note: in case the JSONObject is ordered (using setOrdered(true) before creating 
+      * <p>Note: in case the JSONObject is ordered (using setOrdered(true) before creating 
      * the JSONObject) the ordering of this JSONObject is defined by the ordering of 
      * the reflection access for the bean class.</p>
      *

@@ -243,6 +243,8 @@ public class Data implements Keys {
 
 	/**
 	 * Saves application and simulation data on system exit.
+	 * 
+	 * @throws IOException
 	 */
 	public void writeOnExit() throws IOException {
 		

@@ -22,7 +22,7 @@ import java.util.*;
  * A very fast integer random generator with the drawback of some reused values - not important within this application.
  * It is based on java.utils SplittableRandom.
  * Instances of FastRandom are not thread-safe, the static methods are never thread-safe.
- * Due to the implementation, this should be one of the fastest pseudorandom generators ever.
+ * Due to the implementation, this should be one of the fastest pseudo random generators ever.
  * The average cost is the method call with a return of buffer[i++] ^ changingValue. 
  * The buffer is repeated with another changingValue until it is filled again.
  * 
@@ -54,7 +54,7 @@ public class FastRandom {
 	/**
 	 * Construction with a seed.
 	 * 
-	 * @param seed
+	 * @param seed		the seed for this random generator
 	 */
 	public FastRandom(long seed) {
 
@@ -72,14 +72,14 @@ public class FastRandom {
 	 * @param normalDistribution		1.0 is the standard Gaussian distribution
 	 * 									(64% of all values between -1/1, 13.6% between -2/-1, 13.6% between 1/2, remaining 4,6% outside)
 	 * @param minimumValue				minimum value limit
-	 * @param maxmumValue				minimum value limit
+	 * @param maximumValue				maximum value limit
 	 * @return a pseudorandomly chosen Gaussian distributed int value
 	 */
-	public static int nextGaussian(double meanValue, double normalDistribution, int minimumValue, int maxmumValue) {
+	public static int nextGaussian(double meanValue, double normalDistribution, int minimumValue, int maximumValue) {
 		
 		int result = (int) (meanValue + instance.random.nextGaussian() * normalDistribution);
 	    if (result < minimumValue) result = minimumValue;
-	    if (result > maxmumValue) result = maxmumValue;
+	    if (result > maximumValue) result = maximumValue;
 	    return result;
 	}
 
@@ -116,7 +116,7 @@ public class FastRandom {
 	/**
 	 * Returns a pseudorandomly chosen int value between zero (inclusive) and a bound (exclusive).
 	 * 
-	 * @param bound
+	 * @param bound			the bound (exclusive)
 	 * @return a pseudorandomly chosen int value between zero (inclusive) and a bound (exclusive)
 	 */
 	public int nextInt(int bound) {
@@ -133,7 +133,7 @@ public class FastRandom {
 	 * Returns a pseudorandomly chosen int value between zero (inclusive) and a bound (exclusive).
 	 * The statment new FastRandom() has to be called once before.
 	 * 
-	 * @param bound
+	 * @param bound			the bound (exclusive)
 	 * @return a pseudorandomly chosen int value between zero (inclusive) and a bound (exclusive)
 	 */
 	public static int nextIntStat(int bound) {

@@ -67,8 +67,7 @@ public abstract class Genome {
 	/**
 	 * Creates a cell from a JSONObject representation.
 	 * 
-	 * @param jsonCell			the JSONObject
-	 * @param organism 			the organism the cell belongs to
+	 * @param jsonGenome			the JSONObject
 	 * @return the genome or null, if none
 	 */
 	public static Genome createFrom(JSONObject jsonGenome) {
@@ -91,7 +90,7 @@ public abstract class Genome {
 	/**
 	 * Creates a new organism with the properties of this genome.
 	 * 
-	 * @param organismMgr 
+	 * @param organismMgr 		the organismMgr
 	 * @param oldOrganism 		the old organism (=parent)
 	 * @param newEnergy			the energy of the new organism
 	 * @return the new organism
@@ -109,9 +108,9 @@ public abstract class Genome {
 	/**
 	 * Duplicates the old stem cell with evolutionary modifications for a new organism.
 	 * 
-	 * @param stemCell
+	 * @param stemCell					the old stem cell with evolutionary modifications
 	 * @param newStemCellPixelPos		column and row
-	 * @param newOrganism 
+	 * @param newOrganism 				the new organism
 	 * @return the duplicated stem cell with evolutionary modified properties and genome
 	 */
 	public AbstractCell duplicateStemCell(AbstractCell stemCell, Pixel newStemCellPixelPos, Organism newOrganism) {
@@ -184,7 +183,7 @@ public abstract class Genome {
 	/**
 	 * Sets the stem cell containing this genom.
 	 * 
-	 * @param stemCell
+	 * @param stemCell		the stem cell containing this genom
 	 */
 	public void setStemCell(AbstractCell stemCell) {
 		

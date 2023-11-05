@@ -87,6 +87,8 @@ public abstract class AbstractCell extends Pixel {
 	
 	/**
 	 * Fill in cell type specific JSON values of a former simulation.
+	 * 
+	 * @param jsonCell			the JSONObject to fill in the values
 	 */
 	public abstract void addFrom(JSONObject jsonCell);
 
@@ -357,7 +359,9 @@ public abstract class AbstractCell extends Pixel {
 	}
 
 	/**
-	 * Sets the genome of the cell (usually of a single cell organism or a stem cell)
+	 * Sets the genome of the cell (usually of a single cell organism or a stem cell).
+	 * 
+	 * @param genome
 	 */
 	public abstract void setGenome(Genome genome);
 

@@ -94,7 +94,6 @@ public class Ocean {
 		// scale the image
 		if (bufferedImage != null) {
 	       	image = new BufferedImage(cellColumns * 2, cellRows * 2, bufferedImage.getType());
-//	       	image = new BufferedImage(cellColumns * 2, cellRows * 2, BufferedImage.TYPE_INT_RGB);
 	        Graphics2D g2d = image.createGraphics();
 	        g2d.drawImage(bufferedImage, 0, 0, cellColumns * 2, cellRows * 2, null);
 	        g2d.dispose();

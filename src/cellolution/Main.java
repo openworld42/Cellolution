@@ -261,6 +261,48 @@ public class Main {
 	}
 
 	/**
+	 * Stops the current ocean simulation and start a new one previously stored in a file.
+	 * 
+	 * @param path		the path for a file containing previous sim data
+	 */
+	public void newOceanFromFile(String path) {
+		
+		File file = new File(path);
+		if (!file.exists() || !file.canRead()) {
+			JOptionPane.showConfirmDialog(mainView, 
+					"Cannot read file '" + path + "'", "New Ocean", 
+					JOptionPane.YES_OPTION, JOptionPane.ERROR_MESSAGE);
+			Main.getMainView().updateRecentFiles();
+			return;
+		}
+		int option = JOptionPane.showConfirmDialog(mainView, 
+				"This will destroy the current simulation and start a new ocean sim "
+				+ "from file '" + path + "'\n"
+				+ "Continue?", "New Ocean", 
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+		if (option == JOptionPane.CANCEL_OPTION) {
+			return;
+		}
+		data.addRecentFile(path);						// reorder recent files
+		Main.getMainView().updateRecentFiles();
+		ocean.stopSwingWorker();						// stop the current simulation
+		// start a new ocean, simulation has already been stopped
+		data.removeSimulationData();
+		data.readSimulationData(path);
+		ocean = new Ocean(cellColumns, cellRows, oceanImage, true);
+		Util.verbose("Starting another ocean from '" + path + "' ...");		// is displayed on System.out only if the verbose flag is on
+		orgDisplayCtlr = new OrganismDisplayCtlr(ocean);
+		mainView.dispose();
+		try {
+			mainView = new MainView(orgDisplayCtlr.getOrganismPanel());
+		} catch (Exception e) {
+            System.out.println("\n*****  Exception caught creating a new ocean, exit: " + e);
+			e.printStackTrace();
+			System.exit(1);
+		}		
+	}
+
+	/**
 	 * Exit handler.
 	 */
 	public void onExit() {

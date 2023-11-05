@@ -38,7 +38,6 @@ public class Data implements Keys {
 	
 	private final HashMap<String, Object> dataMap;			// a map containing applicatrion relevant data
 	private final Stack<String> recentFilesStack;			// a stack containing recent files used
-
 	private Writer writer;									// a writer during writing, null otherwise
 	private JSONObject jsonObjSim;							// a JSON representation of a simulation already stored in a file, if any
 
@@ -66,7 +65,7 @@ public class Data implements Keys {
 		if (recentFilesStack.search(path) >= 0) {
 			recentFilesStack.remove(path);
 		}
-		recentFilesStack.add(path);
+		recentFilesStack.push(path);
 	}
 
 	/**
@@ -117,6 +116,14 @@ public class Data implements Keys {
 	public static int getInt(String key) {
 		
 		return ((Integer) Main.getData().dataMap.get(key)).intValue();
+	}
+
+	/**
+	 * @return the recentFilesStack
+	 */
+	public Stack<String> getRecentFilesStack() {
+		
+		return recentFilesStack;
 	}
 
 	/**

@@ -4,24 +4,32 @@
 # Changelog
 
 
-## v1.1.0
+## v1.1.3
 
 ### Fixes
 
-* None
+* corrected: the size of the organism panel
+
+* remove non-existent sim files from recent list
 
 ### Features/Enhancements
 
-* Menu item to start a new simulation with "single creatures" - only one kind of each different organisms is created
+* menu item to start a new simulation with "single creatures" - only one kind of each different organisms is created
+
+* feature to store the the current simulation in a different file, manage a recent file list in the menu
+
+* added: open file, open recent file and run the simulation stored in the file
+
+* possibility to pause the simulation and run it again
 
 
 ## v1.0.0 "Baffled Blobfish"
 
 ### Fixes
 
-* fix NullPointerExceptions in rare cases (during cell splitting) by missing genome
+* fix NullPointerExceptions in rare cases (during cell splitting) caused by missing genome
 
-* fix concurrent modification exceptions (sometimes) of cells in replication, cause the SwingWorker
+* fix concurrent modification exceptions (sometimes) of cells are in replication, cause the SwingWorker
 did not stop in a correct way
 
 ### Features/Enhancements

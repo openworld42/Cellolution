@@ -19,7 +19,9 @@ package cellolution.ui;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import java.io.*;
 import java.net.*;
+import java.util.*;
 
 import javax.imageio.*;
 import javax.swing.*;
@@ -39,6 +41,7 @@ public class MainView extends JFrame implements ActionListener {
 	public final static String NEW_OCEAN_SINGLE = "NewOceanSingleCreatures";
 	public final static String PAUSE_OR_RUN = 	"PauseOrRun";
 	public final static String PAUSE = 			"Pause Sim";
+	public final static String RECENT_FILE = 	"RecentFile.";
 	public final static String RUN = 			"Run Sim";
 
 	// members
@@ -50,6 +53,7 @@ public class MainView extends JFrame implements ActionListener {
 	private JToolBar statusBar;
 	private JLabel statusLbl;
 	private JButton exitBtn;
+	private JMenu menuRecentFiles;
 	private boolean isPaused;
 
 	/**
@@ -108,6 +112,17 @@ public class MainView extends JFrame implements ActionListener {
 				pausedOrRunBtn.setText(RUN);
 				isPaused = true;
 				Main.getOcean().setSwingWorkerPaused(true);
+			}
+		} else if (actionCmd.startsWith(RECENT_FILE)) {
+			Component[] components = menuRecentFiles.getMenuComponents();
+			for (Component component : components) {
+				JMenuItem menuItem = (JMenuItem) component;
+				if (menuItem.getActionCommand().equals(actionCmd)) {
+					// found
+					String fileName = menuItem.getText();
+	            	SwingUtilities.invokeLater(() -> Main.instance().newOceanFromFile(fileName));
+					break;
+				}
 			}
         } else {
             System.out.println("ActionListener: unknown component, it's me -> "
@@ -172,6 +187,9 @@ public class MainView extends JFrame implements ActionListener {
 		menu.add(menuItem);
 		menuItem = createMenuItem("New Ocean (single creatures)", true, NEW_OCEAN_SINGLE);
 		menu.add(menuItem);
+		menuRecentFiles = new JMenu("Recent Files");
+		updateRecentFiles();
+		menu.add(menuRecentFiles);
 		menu.addSeparator();
 		menuItem = createMenuItem(EXIT, true, EXIT);
 		menu.add(menuItem);
@@ -329,4 +347,24 @@ public class MainView extends JFrame implements ActionListener {
             }
         }
     }
+
+	/**
+	 * Update the menu of the list of recent files.
+	 */
+	public void updateRecentFiles() {
+		
+		menuRecentFiles.removeAll();
+		Stack<String> recentFilesStack = Main.getData().getRecentFilesStack();
+		for (int i = 0; i < recentFilesStack.size(); i++) {
+			File file = new File(recentFilesStack.get(i));
+			if (!file.exists() || !file.canRead()) {
+				recentFilesStack.remove(i);
+			}
+		}
+		menuRecentFiles.setEnabled(recentFilesStack.size() != 0);
+		for (int i = recentFilesStack.size() - 1; i >= 0; i--) {
+			JMenuItem menuItem = createMenuItem(recentFilesStack.get(i), true, RECENT_FILE + i);
+			menuRecentFiles.add(menuItem);
+		}
+	}
 }

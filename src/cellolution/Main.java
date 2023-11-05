@@ -19,6 +19,7 @@ package cellolution;
 import java.awt.image.*;
 import java.io.*;
 import java.net.*;
+import java.nio.file.*;
 
 import javax.imageio.*;
 import javax.swing.*;
@@ -214,14 +215,37 @@ public class Main {
 	 */
 	public void newOcean(boolean hasManyOrganisms) {
 
+		ocean.setSwingWorkerPaused(true);
 		int option = JOptionPane.showConfirmDialog(mainView, 
-				"This will destroy the current simulation and start a new ocean", "New Ocean", 
-				JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-		if (option != JOptionPane.OK_OPTION) {
+				"This will destroy the current simulation and start a new ocean sim\n"
+				+ "Store the current simulation to a file?", "New Ocean", 
+				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+		switch (option) {
+		case JOptionPane.CANCEL_OPTION:
+			ocean.setSwingWorkerPaused(false);
 			return;
+		case JOptionPane.NO_OPTION:
+			ocean.stopSwingWorker();						// stop the current simulation
+			break;
+		case JOptionPane.YES_OPTION:
+			FileChooserDlg dlg = new FileChooserDlg("Choose file", 
+					JFileChooser.FILES_ONLY, System.getProperty("user.dir"), null);
+			int retVal = dlg.showSaveDialog(mainView);
+			if (retVal == JFileChooser.APPROVE_OPTION) {
+				String path = dlg.getSelectedFile().toString();
+				if (!path.toLowerCase().endsWith(".json")) {
+					path += ".json";
+				}
+				data.addRecentFile(path);
+				ocean.stopSwingWorker();					// stop the current simulation
+				data.writeSimulationData(path);
+			} else {
+				ocean.setSwingWorkerPaused(false);
+				return;
+			}
+			//intentionally falling through
 		}
-		// start a new ocean
-		ocean.stopSwingWorker();						// stop the current simulation
+		// start a new ocean, simulation has already been stopped
 		data.removeSimulationData();
 		ocean = new Ocean(cellColumns, cellRows, oceanImage, hasManyOrganisms);
 		Util.verbose("Starting a new ocean ...");		// is displayed on System.out only if the verbose flag is on

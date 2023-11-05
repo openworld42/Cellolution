@@ -31,12 +31,13 @@ import org.json.*;
  * 
  * Note: Do not forget to handle additional data values if a new release is going to be rolled out.
  */
+@SuppressWarnings("serial")
 public class Data implements Keys {
 
-	private static final long serialVersionUID = 1L;					// for the compiler
-	private static final String LOOK_AND_FEEL_DEFAULT = "Nimbus";		// for the compiler
+	private static final String LOOK_AND_FEEL_DEFAULT = "Nimbus";
 	
-	private final HashMap<String, Object> dataMap;
+	private final HashMap<String, Object> dataMap;			// a map containing applicatrion relevant data
+	private final Stack<String> recentFilesStack;			// a stack containing recent files used
 
 	private Writer writer;									// a writer during writing, null otherwise
 	private JSONObject jsonObjSim;							// a JSON representation of a simulation already stored in a file, if any
@@ -50,19 +51,22 @@ public class Data implements Keys {
 		super(); 
 		JSONObject.setOrdered(true);						// prefer ordered JSON objects and files
 		dataMap = new HashMap<>();
+		recentFilesStack = new Stack<>();
 		createAppDefaults();
 	}
 
 	/**
-	 * Creates the default data for this application.
+	 * Adds a file path to the recent files list (a Stack).
+	 * if the file path is already stored, it is put to the top of the Stack.
+	 * 
+	 * @param path			the path to put to the recent files list
 	 */
-	protected void createAppDefaults() {
+	public void addRecentFile(String path) {
 		
-		dataMap.put(VERSION_MAJOR, Version.getMajor());
-		dataMap.put(VERSION_MINOR, Version.getMinor());
-		dataMap.put(VERSION_RELEASE, Version.getRelease());
-		dataMap.put(LOOK_AND_FEEL, LOOK_AND_FEEL_DEFAULT);
-//		dataMap.put(VERBOSE, Main.isVerbose());						// set by arguments, not saved
+		if (recentFilesStack.search(path) >= 0) {
+			recentFilesStack.remove(path);
+		}
+		recentFilesStack.add(path);
 	}
 
 	/**
@@ -79,6 +83,18 @@ public class Data implements Keys {
 		jsonVersion.put(VERSION_MINOR, Version.getMinor());
 		jsonVersion.put(VERSION_RELEASE, Version.getRelease());
 		jsonObj.put(VERSION, jsonVersion);
+	}
+
+	/**
+	 * Creates the default data for this application.
+	 */
+	protected void createAppDefaults() {
+		
+		dataMap.put(VERSION_MAJOR, Version.getMajor());
+		dataMap.put(VERSION_MINOR, Version.getMinor());
+		dataMap.put(VERSION_RELEASE, Version.getRelease());
+		dataMap.put(LOOK_AND_FEEL, LOOK_AND_FEEL_DEFAULT);
+//		dataMap.put(VERBOSE, Main.isVerbose());				// set by arguments, not saved
 	}
 
 	/**
@@ -165,6 +181,13 @@ public class Data implements Keys {
 			// SYSTEM
 			JSONObject jsonSys = jsonObjApp.getJSONObject(SYSTEM);
 //			dataMap.put(VERBOSE, jsonSys.get(VERBOSE));			// set by arguments, not saved
+			// recent files
+			if (jsonSys.has(Keys.RECENT_FILES)) {
+				JSONArray jsonFiles = jsonSys.getJSONArray(Keys.RECENT_FILES);
+				for (int i = jsonFiles.length() - 1; i >= 0; i--) {
+					recentFilesStack.push(jsonFiles.getString(i));
+				}
+			}
 		} catch (JSONException e) {
 			String message = "JSON parser: error reading file '" + Main.APP_DATA_FILE_NAME 
 					+ "', malformed JSON file? Using defaults.\n" + e.getMessage();
@@ -237,6 +260,16 @@ public class Data implements Keys {
 		JSONObject jsonSys = new JSONObject();
 //		jsonSys.put(VERBOSE, Data.getBool(VERBOSE));				// set by arguments, not saved
 		jsonObjApp.put(SYSTEM, jsonSys);
+		// recent files
+		int count = recentFilesStack.size();
+		if (count > 0) {
+			JSONArray jsonFiles = new JSONArray();
+			count = count > 12 ? 12 : count;
+			for (int i = 0; i < count; i++) {
+				jsonFiles.put(recentFilesStack.pop());
+			}
+			jsonSys.put(Keys.RECENT_FILES, jsonFiles);
+		}
 		// write it out
 		writeToFile(Main.APP_DATA_FILE_NAME, jsonObjApp);
 	}
@@ -257,7 +290,7 @@ public class Data implements Keys {
 	 * 
 	 * @param simDataFileName		the name of the file
 	 */
-	private void writeSimulationData(String simDataFileName) {
+	public void writeSimulationData(String simDataFileName) {
 
 		JSONObject jsonObjSim = new JSONObject();
 		addVersionToJSONObject(jsonObjSim);

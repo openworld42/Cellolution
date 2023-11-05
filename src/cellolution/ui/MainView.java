@@ -34,18 +34,23 @@ public class MainView extends JFrame implements ActionListener {
 
 	// constants
 
-	public final static String EXIT = "Exit";
-	public final static String NEW_OCEAN = "NewOcean";
+	public final static String EXIT = 			"Exit";
+	public final static String NEW_OCEAN = 		"NewOcean";
 	public final static String NEW_OCEAN_SINGLE = "NewOceanSingleCreatures";
+	public final static String PAUSE_OR_RUN = 	"PauseOrRun";
+	public final static String PAUSE = 			"Pause Sim";
+	public final static String RUN = 			"Run Sim";
 
 	// members
 	private JPanel mainPanel;
 	private OceanPanel oceanPanel;
 	private OrganismPanel organismPanel;
 	private JToolBar toolBar;
+	private JButton pausedOrRunBtn;
 	private JToolBar statusBar;
 	private JLabel statusLbl;
 	private JButton exitBtn;
+	private boolean isPaused;
 
 	/**
 	 * Construct main view of an application.
@@ -93,6 +98,17 @@ public class MainView extends JFrame implements ActionListener {
 			Main.instance().newOcean(true);
 		} else if (actionCmd.equals(NEW_OCEAN_SINGLE)) {
 			Main.instance().newOcean(false);
+		} else if (actionCmd.equals(PAUSE_OR_RUN)) {
+			Main.getOcean();
+			if (isPaused) {
+				pausedOrRunBtn.setText(PAUSE);
+				isPaused = false;
+				Main.getOcean().setSwingWorkerPaused(false);
+			} else {
+				pausedOrRunBtn.setText(RUN);
+				isPaused = true;
+				Main.getOcean().setSwingWorkerPaused(true);
+			}
         } else {
             System.out.println("ActionListener: unknown component, it's me -> "
             		+ event.getSource().getClass().getSimpleName() 
@@ -208,13 +224,14 @@ public class MainView extends JFrame implements ActionListener {
 		JToolBar tb = new JToolBar();
 		tb.setFloatable(false);
 		
-		JButton btn = createToolBarButton("New Ocean",  null, KeyEvent.VK_N, "Dump the current ocean, start a new one", NEW_OCEAN);
+		JButton btn = createToolBarButton("New Ocean", null, KeyEvent.VK_N, 
+				"Dump the current ocean, start a new one", NEW_OCEAN);
 //		btn.setEnabled(false);
 		tb.add(btn);
 		tb.addSeparator();
-//		
-//		btn = createToolBarButton(XML_EXAMPLE,  null, KeyEvent.VK_X, "Runs the XML example, watch System.out", XML_EXAMPLE);
-//		tb.add(btn);
+		pausedOrRunBtn = createToolBarButton("Pause Sim",  null, KeyEvent.VK_P, 
+				"Pauses or Runs the simulation", PAUSE_OR_RUN);
+		tb.add(pausedOrRunBtn);
 		return tb;
 	}
 	

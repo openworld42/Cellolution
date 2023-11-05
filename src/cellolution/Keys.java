@@ -29,6 +29,7 @@ public interface Keys {
 	String VERSION_RELEASE = "Version.release";			// for both application and simulation
 	
 	String LOOK_AND_FEEL = 	"LookAndFeel"; 
+	String RECENT_FILES = 	"RecentFiles";
 	String SYSTEM = 		"System"; 
 	String UI = 			"UI"; 
 	String VERBOSE = 		"Verbose"; 

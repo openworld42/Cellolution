@@ -77,7 +77,9 @@ public class Ocean {
 	private OrganismMgr organismMgr;
 	private OrganismDisplayCtlr orgDisplayCtlr;
 	private SwingWorker<Object, Object> oceanSimSwingWorker;
-	private boolean stopSwingWorker;							// set on stopping SwingWoker
+	private boolean swingWorkerStop;							// set to stop SwingWoker finally
+	private boolean swingWorkerPause;							// set to pause SwingWoker, clear to continue
+	private boolean swingWorkerIsPaused;						// if true, the SwingWoker is paused (usually true after swingWorkerPause)
 
 	/**
 	 * Construct the ocean.
@@ -368,7 +370,8 @@ public class Ocean {
 	 */
 	private void start() {
 		
-		stopSwingWorker = false;
+		swingWorkerStop = false;
+		swingWorkerPause = false;
 		long lastTimeRepainted = System.currentTimeMillis();
 		long lastTimeOrgDisplayUpdated = lastTimeRepainted;
 		oceanPanel.repaint();
@@ -404,7 +407,12 @@ public class Ocean {
 				orgDisplayCtlr.displayAndRepaint();
 				lastTimeOrgDisplayUpdated = time;
 			}
-			if (stopSwingWorker) {
+			while (swingWorkerPause) {
+				swingWorkerIsPaused = true;
+				Util.sleep(50);
+			}
+			swingWorkerIsPaused = false;
+			if (swingWorkerStop) {
 				return;
 			}
 		}
@@ -440,7 +448,8 @@ public class Ocean {
 	 */
 	public void stopSwingWorker() {
 		
-		stopSwingWorker = true;
+		swingWorkerPause = false;					// in case we are paused
+		swingWorkerStop = true;
 		for (int i = 0; i < 5000; i++) {
 			if (oceanSimSwingWorker.isDone()) {
 				Util.verbose(Main.APP_NAME + " - simulation stopped, saving results ...");
@@ -449,6 +458,28 @@ public class Ocean {
 			Util.sleep(1);
 		}
 		throw new RuntimeException("Ocean: could not stop SwingWorker!");
+	}
+
+	/**
+	 * Sets or releases a pause the ocean simulation SwingWorker.
+	 * If set, this method will wait for the pause to happen.
+	 * 
+	 * @param swingWorkerPause		true if pausing should happen, false to finish pausing
+	 */
+	public void setSwingWorkerPaused(boolean swingWorkerPause) {
+		
+		this.swingWorkerPause = swingWorkerPause;
+		if (swingWorkerPause) {
+			// we wait for it to happen
+			for (int i = 0; i < 5000; i++) {
+				if (swingWorkerIsPaused) {
+					Util.verbose(Main.APP_NAME + " - simulation paused");
+					return;
+				}
+				Util.sleep(50);
+			}
+			throw new RuntimeException("Ocean: could not pause SwingWorker!");
+		}
 	}
 
 	/**

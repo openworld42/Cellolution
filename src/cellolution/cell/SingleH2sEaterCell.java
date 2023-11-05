@@ -31,6 +31,7 @@ import cellolution.*;
  */
 public class SingleH2sEaterCell extends AbstractCell implements StemCellCarrier {
 
+	public static final String CLASS_NAME = "SingleH2sEaterCell";
 	public static final Color RGB_BASE = new Color(255, 70, 20);
 	
 	// TODO  INITIAL_WEIGHT aufgrund von CaCO3 auflösen -> erzeugt weight Berechnung des Organismus
@@ -42,14 +43,15 @@ public class SingleH2sEaterCell extends AbstractCell implements StemCellCarrier 
 	/**
 	 * Construction, use create() to create this cell.
 	 * 
-	 * @param column
-	 * @param row
+	 * @param column		the column of this cell
+	 * @param row			the row of this cell
+	 * @param energy 		the energy of this cell
 	 * @param organism		the organism the cell belongs to
-	 * @param genome  
+	 * @param genome  		the genome of this cell
 	 */
-	private SingleH2sEaterCell(int column, int row, Organism organism, Genome genome) {
+	protected SingleH2sEaterCell(int column, int row, int energy, Organism organism, Genome genome) {
 		
-		super(column, row, RGB_BASE, organism);
+		super(column, row, energy, RGB_BASE, organism);
 		this.genome = genome;
 		// energy is set outside, the genome of this organism may change the following values
 		props[PROP_ENERGY_CONSUMTION] = 80;
@@ -71,8 +73,18 @@ public class SingleH2sEaterCell extends AbstractCell implements StemCellCarrier 
 	}
 	
 	/**
+	 * Fill in cell type specific JSON values of a former simulation.
+	 */
+	@Override
+	public void addFrom(JSONObject jsonCell) {
+		
+		// nothing to do here
+	}
+
+	/**
 	 * Change the color according to the cell's energy (more energy -> brighter yellow).
 	 */
+	@Override
 	public void adjustColorByEnergy() {
 		
 		int green = 70 + props[PROP_ENERGY] * 184 / 50000;
@@ -87,7 +99,7 @@ public class SingleH2sEaterCell extends AbstractCell implements StemCellCarrier 
 	 */
 	public AbstractCell cloneCell() {
 		
-		SingleH2sEaterCell cell = new SingleH2sEaterCell(0, 0, null, null);
+		SingleH2sEaterCell cell = new SingleH2sEaterCell(0, 0, 0, null, null);
 		cell.copyAttributes(this);
 		// copy all other attributes here
 		adjustColorByEnergy();
@@ -106,14 +118,10 @@ public class SingleH2sEaterCell extends AbstractCell implements StemCellCarrier 
 		
 		Ocean ocean = Main.getOcean();
 		OrganismMgr organismMgr = ocean.getOrganismMgr();
-		Organism organism = organismMgr.createOrganism(OrgState.ALIVE);
-		organism.setProperty(Organism.PROP_WEIGHT, INITIAL_WEIGHT);	
-		organism.setProperty(Organism.PROP_MOVEABLE, 1);	
+		Organism organism = new Organism(OrgState.ALIVE, INITIAL_WEIGHT, 1, organismMgr);
 		SimpleSingleCellGenome genome = new SimpleSingleCellGenome();
-		SingleH2sEaterCell cell = new SingleH2sEaterCell(column, row, organism, genome);
+		SingleH2sEaterCell cell = new SingleH2sEaterCell(column, row, energy, organism, genome);
 		genome.setStemCell(cell);
-		cell.getProperties()[AbstractCell.PROP_ENERGY] = energy;
-		cell.adjustColorByEnergy();
 		organism.add(cell);
 		organismMgr.addOrganism(organism);
 		return cell;

@@ -22,6 +22,8 @@ import java.awt.image.*;
 
 import javax.swing.*;
 
+import org.json.*;
+
 import cellolution.cell.*;
 import cellolution.ui.*;
 import cellolution.util.*;
@@ -69,10 +71,12 @@ public class Ocean {
 	private OceanBorders oceanBorders;
 	private Smokers smokers;
 	private SurfaceAlgaeProducer algaeProducer;
-	private Diffusion diffusion;
+	private Diffusion diffusion;	
+	private int organicMatterReservoir;							// the amount of organic matter in the ocean should stay constant
 	private OrganismMgr organismMgr;
 	private OrganismDisplayCtlr orgDisplayCtlr;
 	private SwingWorker<Object, Object> oceanSimSwingWorker;
+	private boolean stopSwingWorker;							// set on stopping SwingWoker
 
 	/**
 	 * Construct the ocean.
@@ -125,6 +129,16 @@ public class Ocean {
 				pixels[lastCol - col][row] = new Rock(col, row);
 			}
 		}
+		JSONObject jsonSimObj = Main.getData().getSimObject();
+		// the amount of organic matter in the ocean should stay constant, initialize the reservoir
+		if (jsonSimObj == null) {
+			// create as a new simulation
+			organicMatterReservoir = (cellColumns + cellRows * 2) * 50;
+		} else {
+			// create from an existing simulation (file)
+			JSONObject jsonOcean = jsonSimObj.getJSONObject(Keys.OCEAN);
+			organicMatterReservoir = jsonOcean.getInt(Keys.ORGANIC_MATTER_RESERVOIR);
+		}
 		sunshine = new Sunshine(this);
 		smokers = new Smokers(this, 3);	// has to be created before OceanBorders, due to changes of the borders
 		oceanBorders = new OceanBorders(this);	// this also creates rock pixels on the left side, the right side and the bottom
@@ -133,6 +147,16 @@ public class Ocean {
 		algaeProducer = new SurfaceAlgaeProducer(this);
 		orgDisplayCtlr = Main.getOrgDisplayCtlr();
 		initMatterValues();
+	}
+
+	/**
+	 * Adds (or subtracts) organic matter to the reservoir of the ocean.
+	 * 
+	 * @param amount		the amount of organic matter to add (or subtract, if negative)
+	 */
+	public void addToOrganicMatterReservoir(int amount) {
+		
+		organicMatterReservoir += amount;
 	}
 
 	/**
@@ -175,7 +199,15 @@ public class Ocean {
 			bottom = nextThickness(bottom, maxWidening, maxThickness, minThickness);
 		}
 	}
-	
+
+	/**
+	 * @return the organicMatterReservoir
+	 */
+	public int getOrganicMatterReservoir() {
+		
+		return organicMatterReservoir;
+	}
+
 	/**
 	 * @return the image
 	 */
@@ -322,8 +354,9 @@ public class Ocean {
 	/**
 	 * Start the simulation ON a SwingWorker thread.
 	 */
-	private void start() throws Exception {
+	private void start() {
 		
+		stopSwingWorker = false;
 		long lastTimeRepainted = System.currentTimeMillis();
 		long lastTimeOrgDisplayUpdated = lastTimeRepainted;
 		oceanPanel.repaint();
@@ -359,6 +392,9 @@ public class Ocean {
 				orgDisplayCtlr.displayAndRepaint();
 				lastTimeOrgDisplayUpdated = time;
 			}
+			if (stopSwingWorker) {
+				return;
+			}
 		}
 	}
 
@@ -392,6 +428,29 @@ public class Ocean {
 	 */
 	public void stopSwingWorker() {
 		
-		oceanSimSwingWorker.cancel(true);
+		stopSwingWorker = true;
+		for (int i = 0; i < 5000; i++) {
+			if (oceanSimSwingWorker.isDone()) {
+				Util.verbose(Main.APP_NAME + " - simulation stopped, saving results ...");
+				return;
+			}
+			Util.sleep(1);
+		}
+		throw new RuntimeException("Ocean: could not stop SwingWorker!");
+	}
+
+	/**
+	 * Creates a JSONObject from this object.
+	 * 
+	 * @return the JSONObject containing the data of this object
+	 */
+	public JSONObject toJSONObject() {
+		
+		JSONObject jsonOcean = new JSONObject();
+		jsonOcean.put(Keys.ORGANIC_MATTER_RESERVOIR, organicMatterReservoir);
+		jsonOcean.put(Keys.SMOKERS, smokers.toJSONArray());
+		JSONArray jsonOrganisms = organismMgr.toJSONArray();
+		jsonOcean.put(Keys.ORGANISMS, jsonOrganisms);
+		return jsonOcean;
 	}
 }

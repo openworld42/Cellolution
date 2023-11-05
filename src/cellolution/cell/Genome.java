@@ -65,6 +65,30 @@ public abstract class Genome {
 	protected abstract boolean completeOrganism();
 
 	/**
+	 * Creates a cell from a JSONObject representation.
+	 * 
+	 * @param jsonCell			the JSONObject
+	 * @param organism 			the organism the cell belongs to
+	 * @return the genome or null, if none
+	 */
+	public static Genome createFrom(JSONObject jsonGenome) {
+		
+		if (!jsonGenome.has(Keys.GENOME)) {
+			return null;
+		}
+		Genome genome = null;
+		String className = jsonGenome.getString(Keys.GENOME);
+		switch (className) {
+		case SimpleSingleCellGenome.CLASS_NAME: 
+			genome = new SimpleSingleCellGenome();
+			break;
+		default:
+			throw new IllegalArgumentException("Unexpected cell name: " + className);
+		}
+		return genome;
+	}
+
+	/**
 	 * Creates a new organism with the properties of this genome.
 	 * 
 	 * @param organismMgr 
@@ -74,10 +98,11 @@ public abstract class Genome {
 	 */
 	protected Organism createNewOrganism(OrganismMgr organismMgr, Organism oldOrganism, int newEnergy) {
 
-		Organism newOrganism = new Organism(OrgState.ALIVE, organismMgr);
+		Organism newOrganism = new Organism(OrgState.GROWING, 
+				oldOrganism.getProperty(Organism.PROP_WEIGHT), 
+				oldOrganism.getProperty(Organism.PROP_MOVEABLE),
+				organismMgr);
 		newOrganism.addEnergy(newEnergy);
-		newOrganism.setProperty(Organism.PROP_WEIGHT, oldOrganism.getProperty(Organism.PROP_WEIGHT));	
-		newOrganism.setProperty(Organism.PROP_MOVEABLE, 1);	
 		return newOrganism;
 	}
 
@@ -174,10 +199,8 @@ public abstract class Genome {
 	public JSONObject toJSONObject() {
 
 		JSONObject jsonGenome = new JSONObject();
-		
-		// TODO Genome 
-		jsonGenome.put("XY", "TODO");
-
+		jsonGenome.put(Keys.GENOME, this.getClass().getSimpleName());
+		jsonGenome.put("TODO", "TODO");
 		return jsonGenome;
 	}
 }

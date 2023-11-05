@@ -52,7 +52,7 @@ public class Organism {
 	private int props[] = new int[SIZE_OF_PROPS];		// the properties of the organism
 	
 	private OrgState state;
-	private OrgState lastState;							// the state before fi there was a state change
+	private OrgState lastState;							// the state before if there was a state change
 	private OrganismMgr organismMgr;
 	private ArrayList<AbstractCell> cells;
 	private ArrayList<AbstractCell> outerCells;			// the cells outside, with water contact
@@ -70,15 +70,40 @@ public class Organism {
 	/**
 	 * Create a new organism.
 	 * 
-	 * @param state
-	 * @param organismMgr
+	 * @param state					the state of the organism
+	 * @param initialWeight 		the initial weight  of the organism
+	 * @param moveable 				1 if the organism is movable, 0 otherwise
+	 * @param organismMgr			the manager of all organisms
 	 */
-	public Organism(OrgState state, OrganismMgr organismMgr) {
+	public Organism(OrgState state, int initialWeight, 
+			int moveable, OrganismMgr organismMgr) {
 
 		this.state = state;
 		this.organismMgr = organismMgr;
+		props[PROP_WEIGHT] = initialWeight;
+		props[PROP_MOVEABLE] = moveable;
 		cells = new ArrayList<>();
 		outerCells = new ArrayList<>();
+		number = organismMgr.getOrganismCount();		// the number of this organism, starting with one
+	}
+
+	/**
+	 * Create a new organism, if the organism has been existing already and is
+	 * restored (usually from a file).
+	 * 
+	 * @param state					the state of the organism
+	 * @param lastState				the last state of the organism
+	 * @param initialWeight 		the initial weight of the organism
+	 * @param decomposeCount 		the decomposeCount of the organism, if any
+	 * @param moveable 				1 if the organism is movable, 0 otherwise
+	 * @param organismMgr			the manager of all organisms
+	 */
+	public Organism(OrgState state, OrgState lastState, int initialWeight, 
+			int moveable, int decomposeCount, OrganismMgr organismMgr) {
+
+		this(state, initialWeight, moveable, organismMgr);
+		this.lastState = lastState;
+		this.decomposeCount = decomposeCount;
 		number = organismMgr.getOrganismCount();		// the number of this organism, starting with one
 	}
 	
@@ -86,7 +111,7 @@ public class Organism {
 	 * Adds a cell to this organism.
 	 * This is usally called during creation or replication.
 	 * 
-	 * @param cell
+	 * @param cell					the cell to add
 	 */
 	public void add(AbstractCell cell) {
 		
@@ -129,8 +154,8 @@ public class Organism {
 	/**
 	 * Adds a (possible negative) value to the property value.
 	 * 
-	 * @param propertyIndex
-	 * @param value
+	 * @param propertyIndex				the index of the property
+	 * @param value						the value of the property to add
 	 * @return the new value of this property
 	 */
 	public int addProperty(int propertyIndex, int value) {
@@ -161,7 +186,8 @@ public class Organism {
 			// display the position
 			displayPositionCount = DISPLAY_POSITION_COUNT_DEFAULT;
 		case ALIVE:
-			displayPositionCount = 0;	// not any longer marked, back to normality
+		case GROWING:
+			displayPositionCount = 0;	// not (any longer) marked, back to normality
 			break;				
 		case IN_REPLICATION:
 			// display the position, but nothing else to do
@@ -225,7 +251,7 @@ public class Organism {
 			for (AbstractCell cell : cells) {
 				organic += cell.getProperties()[AbstractCell.PROP_ORGANIC];
 			}
-			Main.getOcean().getOrganismMgr().addToOrganicMatterReservoir(organic);
+			Main.getOcean().addToOrganicMatterReservoir(organic);
 			// everything useful has been decomposed, the organism should vanish
 			organismMgr.remove(this);
 		}
@@ -314,7 +340,7 @@ public class Organism {
 	}
 
 	/**
-	 * @param propertyIndex
+	 * @param propertyIndex		the index of the property
 	 * @return the property
 	 */
 	public int getProperty(int propertyIndex) {
@@ -333,8 +359,8 @@ public class Organism {
 	/**
 	 * Test if the organism has a cell on the given column and row.
 	 * 
-	 * @param col
-	 * @param row
+	 * @param col				the column
+	 * @param row				the row
 	 * @return true if there is a cell on the given column and row, false otherwise
 	 */
 	public boolean hasCellOn(int col, int row) {
@@ -389,10 +415,10 @@ public class Organism {
 	/**
 	 * Returns true, if the organism is touched, false otherwise.
 	 * 
-	 * @param left
-	 * @param right
-	 * @param top
-	 * @param bottom
+	 * @param left				the left side column
+	 * @param right				the right side column
+	 * @param top				the top row
+	 * @param bottom			the bottom row
 	 * @return true, if the organism is touched, false otherwise
 	 */
 	public boolean isTouched(int left, int right, int top, int bottom) {
@@ -471,7 +497,7 @@ public class Organism {
 	/**
 	 * Paint this organism.
 	 * 
-	 * @param g2d
+	 * @param g2d			the Graphics2D object
 	 */
 	public void paint(Graphics2D g2d) {
 		
@@ -491,8 +517,23 @@ public class Organism {
 	}
 
 	/**
-	 * @param propertyIndex		
-	 * @param value
+	 * Revert a replication.
+	 * This happens usually for a parent cell with the state IN_REPLICATION when 
+	 * Cellolution is going to be finished, cause of the complicated state machine.
+	 * After the revert, the organism will replicate again on the next 
+	 * start of Cellolution - the child (OrgState.GROWING) is not serialized to 
+	 * JSON, therefore will vanish.
+	 */
+	public void revertReplication() {
+		
+		if (replication != null) {
+			replication.revert();
+		}
+	}
+
+	/**
+	 * @param propertyIndex		the index of the property	
+	 * @param value				the value of the property
 	 */
 	public void setProperty(int propertyIndex, int value) {
 		
@@ -500,7 +541,7 @@ public class Organism {
 	}
 
 	/**
-	 * @param state the state to set
+	 * @param state 		the state to set
 	 */
 	public void setState(OrgState state) {
 		
@@ -549,6 +590,8 @@ public class Organism {
 				break;						// do the usual computation
 			case IN_REPLICATION:
 				replication.nextStep(time);
+				return;
+			case GROWING:					// the replicated one, waiting for ALIVE
 				return;
 			case DEAD:
 			case DECOMPOSING:
@@ -623,10 +666,12 @@ public class Organism {
 	 */
 	public JSONObject toJSONObject() {
 		
+		// !!! Note: any change needs a review of OrganismMgr.addOrganismFrom(JSONObject)
 		JSONObject jsonOrg = new JSONObject();
 		jsonOrg.put(Keys.ORGANISM_STATE, state);
-		jsonOrg.put(Keys.LAST_STATE, state);
+		jsonOrg.put(Keys.LAST_STATE, lastState);			// may be null: if so, no JSON entry
 		jsonOrg.put(Keys.ENERGY, props[PROP_ENERGY]);
+		jsonOrg.put(Keys.WEIGHT, props[PROP_WEIGHT]);
 		jsonOrg.put(Keys.MOVEABLE, props[PROP_MOVEABLE]);
 		// ignore displayPositionCount
 		jsonOrg.put(Keys.DECOMPOSE_COUNT, decomposeCount);

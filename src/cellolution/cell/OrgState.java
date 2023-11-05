@@ -24,7 +24,8 @@ import java.util.EnumSet;
  */
 public enum OrgState {
 	
-    ALIVE(null),					// no color in gerneral
+    GROWING(null),					// the growing "child" during replication, no color in general
+    ALIVE(null),					// no color in general
     IN_REPLICATION(Color.GREEN),
     STARVING(Color.ORANGE),
     DYING(Color.LIGHT_GRAY),

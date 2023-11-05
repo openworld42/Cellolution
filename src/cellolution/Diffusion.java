@@ -185,8 +185,7 @@ public class Diffusion {
 			}
 		}
 		// if there is enough organic matter (in the reservoir), solute it from the walls and ground
-		organismMgr = ocean.getOrganismMgr();
-		soluteOrganicMatter = organismMgr.getOrganicMatterReservoir() > 5000 && step % 5 == 0;
+		soluteOrganicMatter = ocean.getOrganicMatterReservoir() > 5000 && step % 5 == 0;
 		// diffusion from right wall
 		border = oceanBorders.getRigthBorderCols();
 		for (int row = 0; row < border.length; row++) {
@@ -269,7 +268,7 @@ public class Diffusion {
 		if (soluteOrganicMatter) {
 			// dissolve some collected organic matter from decomposed organisms
 			waterPixel.increaseOrganicMatter();
-			organismMgr.addToOrganicMatterReservoir(-1);
+			ocean.addToOrganicMatterReservoir(-1);
 		}
 	}
 

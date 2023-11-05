@@ -238,13 +238,14 @@ public class Main {
 	 */
 	public void onExit() {
 
-		Util.verbose(APP_NAME + " - good bye!");
 		try {
+			ocean.stopSwingWorker();
 			data.writeOnExit();
 		} catch (IOException e) {
 			// no way out, just display the exception
 			e.printStackTrace();
 		}
+		Util.verbose(APP_NAME + " - good bye!");
 		System.exit(0);
 	}
 	

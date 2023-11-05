@@ -29,6 +29,7 @@ import cellolution.*;
  */
 public class SingleAlgaeCell extends AbstractCell implements StemCellCarrier {
 
+	public static final String CLASS_NAME = "SingleAlgaeCell";
 	public static final Color RGB_BASE = new Color(128, 218, 128);
 
 	public static final int INITIAL_WEIGHT = 10000;					// like water (=10000)
@@ -39,14 +40,15 @@ public class SingleAlgaeCell extends AbstractCell implements StemCellCarrier {
 	/**
 	 * Construction, use create() to create this cell.
 	 * 
-	 * @param column
-	 * @param row
+	 * @param column		the column of this cell
+	 * @param row			the row of this cell
+	 * @param energy 		the energy of this cell
 	 * @param organism		the organism the cell belongs to
-	 * @param genome  
+	 * @param genome  		the genome of this cell
 	 */
-	private SingleAlgaeCell(int column, int row, Organism organism, Genome genome) {
+	protected SingleAlgaeCell(int column, int row, int energy, Organism organism, Genome genome) {
 		
-		super(column, row, RGB_BASE, organism);
+		super(column, row, energy, RGB_BASE, organism);
 		this.genome = genome;
 		cellRows = Main.getCellRows();
 		// energy is set outside, the genome of this organism may change the following values
@@ -69,8 +71,18 @@ public class SingleAlgaeCell extends AbstractCell implements StemCellCarrier {
 	}
 	
 	/**
+	 * Fill in cell type specific JSON values of a former simulation.
+	 */
+	@Override
+	public void addFrom(JSONObject jsonCell) {
+		
+		// nothing to do here
+	}
+	
+	/**
 	 * Change the color according to the cell's energy (more energy -> brighter yellow).
 	 */
+	@Override
 	public void adjustColorByEnergy() {
 		
 		int red = 90 + props[PROP_ENERGY] * 50 / 50000;
@@ -87,7 +99,7 @@ public class SingleAlgaeCell extends AbstractCell implements StemCellCarrier {
 	 */
 	public AbstractCell cloneCell() {
 		
-		SingleAlgaeCell cell = new SingleAlgaeCell(0, 0, null, null);
+		SingleAlgaeCell cell = new SingleAlgaeCell(0, 0, 0, null, null);
 		cell.copyAttributes(this);
 		// copy all other attributes here
 		adjustColorByEnergy();
@@ -97,23 +109,19 @@ public class SingleAlgaeCell extends AbstractCell implements StemCellCarrier {
 	/**
 	 * Creates a this cell.
 	 * 
-	 * @param column
-	 * @param row
-	 * @param energy
+	 * @param column				the column of this cell
+	 * @param row					the row of this cell
+	 * @param energy				the energy of this cell
 	 * @return the created cell
 	 */
 	public static SingleAlgaeCell create(int column, int row, int energy) {
 		
 		Ocean ocean = Main.getOcean();
 		OrganismMgr organismMgr = ocean.getOrganismMgr();
-		Organism organism = organismMgr.createOrganism(OrgState.ALIVE);
-		organism.setProperty(Organism.PROP_WEIGHT, INITIAL_WEIGHT);	
-		organism.setProperty(Organism.PROP_MOVEABLE, 1);	
+		Organism organism = new Organism(OrgState.ALIVE, INITIAL_WEIGHT, 1, organismMgr);
 		SimpleSingleCellGenome genome = new SimpleSingleCellGenome();
-		SingleAlgaeCell cell = new SingleAlgaeCell(column, row, organism, genome);
+		SingleAlgaeCell cell = new SingleAlgaeCell(column, row, energy, organism, genome);
 		genome.setStemCell(cell);
-		cell.getProperties()[AbstractCell.PROP_ENERGY] = energy;
-		cell.adjustColorByEnergy();
 		organism.add(cell);
 		organismMgr.addOrganism(organism);
 		return cell;

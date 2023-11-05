@@ -70,17 +70,30 @@ public abstract class AbstractCell extends Pixel {
 	 * 
 	 * @param column		the column of the cell within the ocean
 	 * @param row			the row of the cell within the ocean
+	 * @param energy 		the energy of this cell
 	 * @param color			the color to display the cell
 	 * @param organism		the organism the cell belongs to
 	 */
-	protected AbstractCell(int column, int row, Color color, Organism organism) {
+	protected AbstractCell(int column, int row, int energy, Color color, Organism organism) {
 		
 		super(column, row);
 		this.color = color;
 		colorRGB = color.getRGB();
 		this.organism = organism;
+		props[PROP_ENERGY] = energy;
+		adjustColorByEnergy();								// superclass will do that
 		props[PROP_AGILITY] = AGILITY_FACTOR_ONE;			// usually modified through the genome/replication
 	}
+	
+	/**
+	 * Fill in cell type specific JSON values of a former simulation.
+	 */
+	public abstract void addFrom(JSONObject jsonCell);
+
+	/**
+	 * Change the color according to the cell's energy.
+	 */
+	public abstract void adjustColorByEnergy();
 
 	/**
 	 * Adsorb some substances of the underlying water pixel.
@@ -141,6 +154,62 @@ public abstract class AbstractCell extends Pixel {
 	}
 
 	/**
+	 * Creates a cell from a JSONObject representation.
+	 * 
+	 * @param jsonCell			the JSONObject
+	 * @param organism 			the organism the cell belongs to
+	 * @return the cell
+	 */
+	public static AbstractCell createFrom(JSONObject jsonCell, Organism organism) {
+		
+		Genome genome = null;
+		if (jsonCell.has(Keys.GENOME)) {
+			genome = Genome.createFrom(jsonCell.getJSONObject(Keys.GENOME));
+		}
+		String className = jsonCell.getString(Keys.CELL);
+		int col = jsonCell.getInt(Keys.COLUMN);
+		int row = jsonCell.getInt(Keys.ROW);
+		int energy = jsonCell.getInt(Keys.ENERGY); 
+		int colorRGB = JsonUtil.toColorRGBFrom(jsonCell);
+		// we can use java.lang.reflect here, but possibly we need to make individual decisions
+		AbstractCell cell = null;
+		switch (className) {
+		case SingleAlgaeCell.CLASS_NAME: 
+			cell = new SingleAlgaeCell(col, row, energy, organism, genome);
+			break;
+		case SingleH2sEaterCell.CLASS_NAME: 
+			cell = new SingleH2sEaterCell(col, row, energy, organism, genome);
+			break;
+		case StemCell.CLASS_NAME: 
+			cell = new StemCell(col, row, energy, organism, genome);
+			break;
+		default:
+			throw new IllegalArgumentException("Unexpected cell name: " + className);
+		}
+		cell.props[PROP_ENERGY_CONSUMTION] = jsonCell.getInt(Keys.ENERGY_CONSUMTION);
+		cell.props[PROP_SUN_BEAM_INCREMENT] = jsonCell.getInt(Keys.SUN_BEAM_INCREMENT);
+		cell.props[PROP_H2S_TO_ENERGY] = jsonCell.getInt(Keys.H2S_TO_ENERGY);
+		cell.props[PROP_WEIGHT] = jsonCell.getInt(Keys.WEIGHT);
+		cell.props[PROP_AGILITY] = jsonCell.getInt(Keys.AGILITY);
+		// substances
+		cell.props[PROP_CO2] = jsonCell.getInt(Keys.CO2);
+		cell.props[PROP_CO2_ADSORBTION_RATE] = jsonCell.getInt(Keys.CO2_ADSORBTION_RATE);
+		cell.props[PROP_CO2_ADSORB_ENERGY] = jsonCell.getInt(Keys.CO2_ADSORB_ENERGY);
+		cell.props[PROP_CaCO3] = jsonCell.getInt(Keys.CaCO3);
+		cell.props[PROP_CaCO3_ADSORBTION_RATE] = jsonCell.getInt(Keys.CaCO3_ADSORBTION_RATE);
+		cell.props[PROP_CaCO3_ADSORB_ENERGY] = jsonCell.getInt(Keys.CaCO3_ADSORB_ENERGY);
+		cell.props[PROP_H2S] = jsonCell.getInt(Keys.H2S);
+		cell.props[PROP_H2S_ADSORBTION_RATE] = jsonCell.getInt(Keys.H2S_ADSORBTION_RATE);
+		cell.props[PROP_H2S_ADSORB_ENERGY] = jsonCell.getInt(Keys.H2S_ADSORB_ENERGY);
+		cell.props[PROP_ORGANIC] = jsonCell.getInt(Keys.ORGANIC);
+		cell.props[PROP_ORGANIC_ADSORBTION_RATE] = jsonCell.getInt(Keys.ORGANIC_ADSORBTION_RATE);
+		cell.props[PROP_ORGANIC_ADSORB_ENERGY] = jsonCell.getInt(Keys.ORGANIC_ADSORB_ENERGY);
+		// cell type specific settings, if any
+		cell.addFrom(jsonCell);
+		return cell;
+	}
+
+	/**
 	 * Creates a key for this cell, using its coordinates.
 	 * 
 	 * @return the key
@@ -177,7 +246,7 @@ public abstract class AbstractCell extends Pixel {
 			props[PROP_H2S] = props[PROP_H2S] * 95 / 100;
 			int organic = props[PROP_ORGANIC];
 			props[PROP_ORGANIC] = props[PROP_ORGANIC] * 95 / 100;
-			ocean.getOrganismMgr().addToOrganicMatterReservoir(organic - props[PROP_ORGANIC]);
+			ocean.addToOrganicMatterReservoir(organic - props[PROP_ORGANIC]);
 			return;
 		}
 		Water water = (Water) p;
@@ -288,6 +357,11 @@ public abstract class AbstractCell extends Pixel {
 	}
 
 	/**
+	 * Sets the genome of the cell (usually of a single cell organism or a stem cell)
+	 */
+	public abstract void setGenome(Genome genome);
+
+	/**
 	 * Sets the organism of the cell (usually during the replication process).
 	 * 
 	 * @param organism		the organism to which the cell belongs
@@ -327,10 +401,10 @@ public abstract class AbstractCell extends Pixel {
 		jsonObject.put(Keys.CELL, this.getClass().getSimpleName());
 		JsonUtil.addColRowTo(jsonObject, column, row);
 		JsonUtil.addColorTo(jsonObject, colorRGB);
-		jsonObject.put(Keys.CELL, this.getClass().getSimpleName());
 		jsonObject.put(Keys.ENERGY, props[PROP_ENERGY]);
 		jsonObject.put(Keys.ENERGY_CONSUMTION, props[PROP_ENERGY_CONSUMTION]);
 		jsonObject.put(Keys.SUN_BEAM_INCREMENT, props[PROP_SUN_BEAM_INCREMENT]);
+		jsonObject.put(Keys.H2S_TO_ENERGY, props[PROP_H2S_TO_ENERGY]);
 		jsonObject.put(Keys.WEIGHT, props[PROP_WEIGHT]);
 		jsonObject.put(Keys.AGILITY, props[PROP_AGILITY]);
 		jsonObject.put(Keys.CO2, props[PROP_CO2]);

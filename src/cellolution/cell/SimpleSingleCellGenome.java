@@ -21,6 +21,8 @@ package cellolution.cell;
  * Single cell organisms have stem cell properties within the single cell by definition.
  */
 public class SimpleSingleCellGenome extends Genome {
+	
+	public static final String CLASS_NAME = "SimpleSingleCellGenome";
 
 	/**
 	 * Construction.
@@ -43,7 +45,7 @@ public class SimpleSingleCellGenome extends Genome {
 	/**
 	 * Creates a new organism with the properties of this genome.
 	 * 
-	 * @param organismMgr 
+	 * @param organismMgr 		the OrganismMgr
 	 * @param oldOrganism 		the old organism (=parent)
 	 * @param newEnergy			the energy of the new organism
 	 * @return the new organism

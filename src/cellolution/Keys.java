@@ -35,9 +35,6 @@ public interface Keys {
 	
 	// property and JSON keys for the simulation data (ocean, smokers, organisms, etc) - alphabetical ordering
 	
-
-
-	
 	String AGILITY = 		"Agility";
 	String CaCO3 = 					"CaCO3";
 	String CaCO3_ADSORBTION_RATE = 	"CaCO3AdsorbtionRate";
@@ -56,12 +53,14 @@ public interface Keys {
 	String H2S = 			"H2S";
 	String H2S_ADSORBTION_RATE = 	"H2SAdsorbtionRate";
 	String H2S_ADSORB_ENERGY = 		"H2SAdsorbEnergy";
+	String H2S_TO_ENERGY = 	"H2SToEnergy";
 	String LAST_STATE = 	"LastState";
 	String MOVEABLE = 		"Movable";
 	String OCEAN = 			"Ocean";
 	String ORGANIC = 		"Organic";
 	String ORGANIC_ADSORBTION_RATE = "OrganicAdsorbtionRate";
 	String ORGANIC_ADSORB_ENERGY = 	"OrganicAdsorbEnergy";
+	String ORGANIC_MATTER_RESERVOIR = 	"OrganicMatterReservoir";
 	String ORGANISMS = 		"Organisms";
 	String ORGANISM_STATE = "OrganismState";
 	String ROW = 			"Row";

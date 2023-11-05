@@ -51,7 +51,6 @@ public class Data implements Keys {
 		JSONObject.setOrdered(true);						// prefer ordered JSON objects and files
 		dataMap = new HashMap<>();
 		createAppDefaults();
-		createSimulationDefaults();
 	}
 
 	/**
@@ -64,21 +63,6 @@ public class Data implements Keys {
 		dataMap.put(VERSION_RELEASE, Version.getRelease());
 		dataMap.put(LOOK_AND_FEEL, LOOK_AND_FEEL_DEFAULT);
 //		dataMap.put(VERBOSE, Main.isVerbose());						// set by arguments, not saved
-	}
-
-	/**
-	 * Creates the default simulation data.
-	 */
-	protected void createSimulationDefaults() {
-		
-		// TODO implement  createDataDefaults() or delete it
-
-		
-//		dataMap.put(VERSION, dataMap);
-//		dataMap.put(VERSION_MAJOR, Version.getMajor());
-//		dataMap.put(VERSION_MINOR, Version.getMinor());
-//		dataMap.put(VERSION_RELEASE, Version.getRelease());
-//		dataMap.put(LOOK_AND_FEEL, "Nimbus");
 	}
 
 	/**
@@ -273,17 +257,9 @@ public class Data implements Keys {
 	 */
 	private void writeSimulationData(String simDataFileName) {
 
-		
-		
 		JSONObject jsonObjSim = new JSONObject();
 		addVersionToJSONObject(jsonObjSim);
-		// ocean
-		JSONObject jsonOcean = new JSONObject();
-		JSONArray jsonSmokers = Main.getOcean().getSmokers().toJSONArray();
-		jsonOcean.put(Keys.SMOKERS, jsonSmokers);
-		JSONArray jsonOrganisms = Main.getOcean().getOrganismMgr().toJSONArray();
-		jsonOcean.put(Keys.ORGANISMS, jsonOrganisms);
-		jsonObjSim.put(OCEAN, jsonOcean);
+		jsonObjSim.put(OCEAN, Main.getOcean().toJSONObject());
 		// write it out
 		writeToFile(simDataFileName, jsonObjSim);
 	}

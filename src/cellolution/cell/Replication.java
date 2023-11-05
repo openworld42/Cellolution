@@ -88,8 +88,6 @@ v	 * @param pixels
 		state = State.START;
 		int energy = organism.getEnergy();
 		newEnergy = energy / 2 + energy / 10;		// divided in 2 cells and some energy consumption for replication
-		organism.setProperty(Organism.PROP_ENERGY, newEnergy);
-		cells.forEach(cell -> cell.getProperties()[AbstractCell.PROP_ENERGY] = newEnergy);
 		// we need three cell lists: new and old cell list after replication, and the one showing replication
 		newCells = new ArrayList<>();
 		replicationCells = new ArrayList<>(cells);
@@ -149,12 +147,13 @@ v	 * @param pixels
 				}
 				oldStemCellColor = stemCell.getColor();
 				stemCell.setColorAndRGB(IN_REPLICATION_COLOR);
-				// find a direction where to replicate
+				// find a direction: where to replicate
 				neighborNr = FastRandom.nextIntStat(6) + 1;
 				// display a narrowing cell between the old and the new stem cell
 				Pixel narrowing = Mover.neighbor(stemCell, neighborNr, ocean.getPixels());	
-				narrowingCell = new StemCell(narrowing.getColumn(), narrowing.getRow(), organism, null);
-				narrowingCell.getProperties()[AbstractCell.PROP_ENERGY] = 4000;		// just to display some energy
+				int energy = 4000;		// just to display some energy
+				narrowingCell = new StemCell(narrowing.getColumn(), narrowing.getRow(), 
+						energy, organism, null);
 				cells.add(narrowingCell);			// not a real part of the organism, not using organism.add()
 				// presets
 				newGenome = genome.evolotionaryClone(organism);
@@ -198,9 +197,31 @@ v	 * @param pixels
 			stemCell.setColorAndRGB(oldStemCellColor);
 			organismMgr.getOrganismsToAdd().add(newOrganism);
 			organism.setState(OrgState.ALIVE);			// this also clears the replication in the organism
+			newOrganism.setState(OrgState.ALIVE);		
+			organism.setProperty(Organism.PROP_ENERGY, newEnergy);
+			cells.forEach(cell -> cell.getProperties()[AbstractCell.PROP_ENERGY] = newEnergy);
 			return;
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + state);
 		}
+	}
+
+	/**
+	 * Revert the replication.
+	 * This happens usually for a parent organism with the state IN_REPLICATION when 
+	 * Cellolution is going to be finished, cause of the complicated state machine.
+	 * After the revert, the organism will replicate again on the next 
+	 * start of Cellolution - the child (OrgState.GROWING) is not serialized to 
+	 * JSON, therefore will vanish.
+	 */
+	public void revert() {
+
+		if (oldStemCellColor != null) {
+			stemCell.setColorAndRGB(oldStemCellColor);
+		}
+		if (narrowingCell != null) {
+			cells.remove(narrowingCell)	;		// remove the bridge cell
+		}
+		organism.setState(OrgState.ALIVE);
 	}
 }

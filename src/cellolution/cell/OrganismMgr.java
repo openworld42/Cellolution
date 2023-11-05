@@ -31,8 +31,7 @@ public class OrganismMgr {
 	private Ocean ocean;
 	private int cellColumns;
 	private int cellRows;
-	private int organicMatterReservoir;							// the amount of organic matter in the ocean should stay constant
-	private ArrayList<Organism> organisms;
+	private java.util.List<Organism> organisms;
 	private ArrayList<Organism> organismsToRemove;
 	private ArrayList<Organism> organismsToAdd;
 	private long lastTimeMoved;
@@ -46,12 +45,54 @@ public class OrganismMgr {
 		this.ocean = ocean;
 		cellColumns = Main.getCellColumns();
 		cellRows = Main.getCellRows();
-		organisms = new ArrayList<>();
+		organisms = Collections.synchronizedList(new ArrayList<Organism>());
 		organismsToRemove = new ArrayList<>();
 		organismsToAdd = new ArrayList<>();
-		// the amount of organic matter in the ocean should stay constant, initialize the reservoir
-		organicMatterReservoir = (cellColumns + cellRows * 2) * 50;
 		lastTimeMoved = System.currentTimeMillis();
+		JSONObject jsonSimObj = Main.getData().getSimObject();
+		if (jsonSimObj != null) {
+			// create organisms from an existing simulation (file), instead of being empty
+			JSONObject jsonOcean = jsonSimObj.getJSONObject(Keys.OCEAN);
+			JSONArray jsonOrganisms = jsonOcean.getJSONArray(Keys.ORGANISMS);
+			for (int i = 0; i < jsonOrganisms.length(); i++) {
+				addOrganismFrom(jsonOrganisms.getJSONObject(i));
+			}
+		}
+	}
+
+	/**
+	 * Adds an organism from a JSON representation (e.g. from a previous simulation file).
+	 * 
+	 * @param jsonOrg		the JSON representation of the organism
+	 */
+	public void addOrganismFrom(JSONObject jsonOrg) {
+
+		String state = jsonOrg.getString(Keys.ORGANISM_STATE);
+		// LAST_STATE may be null for young, living organisms: if so, no JSON entry
+		OrgState lastState = null;
+		if (jsonOrg.has(Keys.LAST_STATE)) {
+			lastState =  OrgState.valueOf(jsonOrg.getString(Keys.LAST_STATE));
+		}
+		Organism organism = new Organism(OrgState.valueOf(state), 
+				lastState, 
+				jsonOrg.getInt(Keys.WEIGHT), 
+				jsonOrg.getInt(Keys.MOVEABLE), 
+				jsonOrg.getInt(Keys.DECOMPOSE_COUNT), this);
+		// cells
+		JSONArray jsonCells = jsonOrg.getJSONArray(Keys.CELLS);
+		for (int i = 0; i < jsonCells.length(); i++) {
+			AbstractCell cell = AbstractCell.createFrom(jsonCells.getJSONObject(i), organism);
+			organism.add(cell);
+		}
+		addOrganism(organism);
+
+			
+			// TODO Organism.toJSONObject() check issues below, any computations?:
+			// simply drop replication? -> set ALIVE
+			// compute PROP_WEIGHT
+			// check PROP_SPEED, PROP_DIRECTION
+			// compute organicAmount
+
 	}
 
 	/**
@@ -62,16 +103,6 @@ public class OrganismMgr {
 	public void addOrganism(Organism organism) {
 
 		organisms.add(organism);
-	}
-
-	/**
-	 * Adds (or subtracts) organic matter to the reservoir of the ocean.
-	 * 
-	 * @param amount
-	 */
-	public void addToOrganicMatterReservoir(int amount) {
-		
-		organicMatterReservoir += amount;
 	}
 
 	/**
@@ -112,25 +143,6 @@ public class OrganismMgr {
 			return;
 		}
 		Main.getOrgDisplayCtlr().follow(organism);
-	}
-
-	/**
-	 * Creates a new organism.
-	 * 
-	 * @param state
-	 * @return the created organism
-	 */
-	public Organism createOrganism(OrgState state) {
-		
-		return new Organism(state, this);
-	}
-
-	/**
-	 * @return the organicMatterReservoir
-	 */
-	public int getOrganicMatterReservoir() {
-		
-		return organicMatterReservoir;
 	}
 
 	/**
@@ -255,6 +267,16 @@ public class OrganismMgr {
 		
 		JSONArray jsonOrganisms = new JSONArray();
 		for (Organism org : organisms) {
+			switch (org.getState()) {
+			case GROWING: 
+				// too complicated due to Replication state machine, revert replication
+				// and don't serialize
+				continue;
+			case IN_REPLICATION: 
+				// too complicated due to Replication state machine, revert replication
+				org.revertReplication();
+				// intentionally falling through
+			}
 			jsonOrganisms.put(org.toJSONObject());
 		}
 		return jsonOrganisms;

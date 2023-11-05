@@ -26,7 +26,7 @@ public class Version {
 
 	public static final int MAJOR = 1;
 	public static final int MINOR = 1;
-	public static final int RELEASE = 0; 
+	public static final int RELEASE = 1; 
 
 	/**
 	 * No external construction.

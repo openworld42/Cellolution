@@ -56,7 +56,7 @@ public class OrganismPanel extends JPanel implements ActionListener {
 
 		this.organismDisplayCtlr = organismDisplayCtlr;
 		setLayout(new BorderLayout());
-		setPreferredSize(new Dimension(210, Main.getCellRows() * 2 - Gbc.getDefaultBorderInset()));
+		setPreferredSize(new Dimension(240, Main.getCellRows() * 2 - Gbc.getDefaultBorderInset()));
         orgDataPanel = new JPanel();
         JScrollPane scrollPane = new JScrollPane (orgDataPanel, 
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,

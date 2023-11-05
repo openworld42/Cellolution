@@ -39,6 +39,7 @@ public class MainView extends JFrame implements ActionListener {
 	public final static String EXIT = 			"Exit";
 	public final static String NEW_OCEAN = 		"NewOcean";
 	public final static String NEW_OCEAN_SINGLE = "NewOceanSingleCreatures";
+	public final static String OPEN_FILE = 		"OpenFile";
 	public final static String PAUSE_OR_RUN = 	"PauseOrRun";
 	public final static String PAUSE = 			"Pause Sim";
 	public final static String RECENT_FILE = 	"RecentFile.";
@@ -102,6 +103,14 @@ public class MainView extends JFrame implements ActionListener {
 			Main.instance().newOcean(true);
 		} else if (actionCmd.equals(NEW_OCEAN_SINGLE)) {
 			Main.instance().newOcean(false);
+		} else if (actionCmd.equals(OPEN_FILE)) {
+			FileChooserDlg dlg = new FileChooserDlg("Choose file", 
+					JFileChooser.FILES_ONLY, System.getProperty("user.dir"), null);
+			int retVal = dlg.showOpenDialog(this);
+			if (retVal == JFileChooser.APPROVE_OPTION) {
+				String path = dlg.getSelectedFile().toString();
+				SwingUtilities.invokeLater(() -> Main.instance().newOceanFromFile(path));
+			}
 		} else if (actionCmd.equals(PAUSE_OR_RUN)) {
 			Main.getOcean();
 			if (isPaused) {
@@ -186,6 +195,8 @@ public class MainView extends JFrame implements ActionListener {
 		JMenuItem menuItem = createMenuItem("New Ocean", true, NEW_OCEAN);
 		menu.add(menuItem);
 		menuItem = createMenuItem("New Ocean (single creatures)", true, NEW_OCEAN_SINGLE);
+		menu.add(menuItem);
+		menuItem = createMenuItem("Open File", true, OPEN_FILE);
 		menu.add(menuItem);
 		menuRecentFiles = new JMenu("Recent Files");
 		updateRecentFiles();

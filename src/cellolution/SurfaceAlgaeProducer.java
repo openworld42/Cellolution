@@ -52,10 +52,10 @@ public class SurfaceAlgaeProducer {
 	 */
 	private void dropAlgaeOrganism() {
 
-//		if (droppedAlgaeCount == 1) {
-//			// for testing only, comment out otherwise
-//			return;
-//		}
+		if (!ocean.hasManyOrganisms() && droppedAlgaeCount >= 1) {
+			// single cell organism mode, no creation
+			return;
+		}
 		int row = 1;
 		int col = 10 + FastRandom.nextIntStat(cellColumns - 20);
 		for (;;) {

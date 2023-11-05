@@ -36,6 +36,7 @@ public class MainView extends JFrame implements ActionListener {
 
 	public final static String EXIT = "Exit";
 	public final static String NEW_OCEAN = "NewOcean";
+	public final static String NEW_OCEAN_SINGLE = "NewOceanSingleCreatures";
 
 	// members
 	private JPanel mainPanel;
@@ -89,7 +90,9 @@ public class MainView extends JFrame implements ActionListener {
 		if (actionCmd.equals(EXIT)) {
             dispose();
 		} else if (actionCmd.equals(NEW_OCEAN)) {
-			Main.instance().newOcean();
+			Main.instance().newOcean(true);
+		} else if (actionCmd.equals(NEW_OCEAN_SINGLE)) {
+			Main.instance().newOcean(false);
         } else {
             System.out.println("ActionListener: unknown component, it's me -> "
             		+ event.getSource().getClass().getSimpleName() 
@@ -150,6 +153,8 @@ public class MainView extends JFrame implements ActionListener {
 		// menu "File"
 		JMenu menu = new JMenu("File");
 		JMenuItem menuItem = createMenuItem("New Ocean", true, NEW_OCEAN);
+		menu.add(menuItem);
+		menuItem = createMenuItem("New Ocean (single creatures)", true, NEW_OCEAN_SINGLE);
 		menu.add(menuItem);
 		menu.addSeparator();
 		menuItem = createMenuItem(EXIT, true, EXIT);

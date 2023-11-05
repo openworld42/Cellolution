@@ -17,7 +17,6 @@
 package cellolution;
 
 import java.awt.*;
-import java.awt.RenderingHints.*;
 import java.util.*;
 
 import org.json.*;
@@ -181,14 +180,12 @@ public class Smokers {
 	 */
 	private void emitH2sEater(int index) {
 
+		if (!ocean.hasManyOrganisms() && emittedH2sEaterCount >= 1) {
+			// single cell organism mode, no creation
+			return;
+		}
 		Rock smoker = smokers.get(index); 
 		int row = smoker.row - 3 - FastRandom.nextIntStat(20);
-		
-//		if (emittedH2sEaterCount == 1) {
-//			// for testing only, comment out otherwise
-//			return;
-//		}
-		
 		if (pixels[smoker.column][row] instanceof Water) {
 			// for testing under "real" life conditions
 			// H2S eaters have a lot of speed and energy when pushed out of a smoker

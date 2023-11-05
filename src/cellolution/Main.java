@@ -77,7 +77,7 @@ public class Main {
 			oceanImage = ImageIO.read(imageURL);
 		} catch (Exception e) { // intentionally falling through, no ocean image displayed
 		}
-		ocean = new Ocean(cellColumns, cellRows, oceanImage);
+		ocean = new Ocean(cellColumns, cellRows, oceanImage, true);
 		// start the GUI
 		System.setProperty("awt.useSystemAAFontSettings","on");					// render fonts in a better way
     	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); 	// in case LookAndFeel Nimbus is not found
@@ -208,8 +208,11 @@ public class Main {
 
 	/**
 	 * Stops the current ocean simulation and start a new one.
+	 * 
+	 * @param hasManyOrganisms 	if true, many organisms are created, on 
+	 * 							false create only one for each species 
 	 */
-	public void newOcean() {
+	public void newOcean(boolean hasManyOrganisms) {
 
 		int option = JOptionPane.showConfirmDialog(mainView, 
 				"This will destroy the current simulation and start a new ocean", "New Ocean", 
@@ -220,7 +223,7 @@ public class Main {
 		// start a new ocean
 		ocean.stopSwingWorker();						// stop the current simulation
 		data.removeSimulationData();
-		ocean = new Ocean(cellColumns, cellRows, oceanImage);
+		ocean = new Ocean(cellColumns, cellRows, oceanImage, hasManyOrganisms);
 		Util.verbose("Starting a new ocean ...");		// is displayed on System.out only if the verbose flag is on
 		orgDisplayCtlr = new OrganismDisplayCtlr(ocean);
 		mainView.dispose();

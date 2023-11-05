@@ -4,6 +4,16 @@
 # Changelog
 
 
+## v1.1.0
+
+### Fixes
+
+* None
+
+### Features/Enhancements
+
+* Menu item to start a new simulation with "single creatures" - only one kind of each different organisms is created
+
 
 ## v1.0.0 "Baffled Blobfish"
 

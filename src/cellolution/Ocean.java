@@ -65,6 +65,7 @@ public class Ocean {
 	private int statusLineChangeStopCounter;
 	private int cellColumns;
 	private int cellRows;
+	private boolean hasManyOrganisms;							// if false, only one of each kind of organism is created
 	private BufferedImage image;
 	private Pixel pixels[][];
 	private Sunshine sunshine;
@@ -84,8 +85,10 @@ public class Ocean {
 	 * @param cellRows 			number of rows for cells
 	 * @param cellColumns 		number of columns for cells
 	 * @param bufferedImage 	a buffered image of the ocean
+	 * @param hasManyOrganisms 	if true, many organisms are created, on 
+	 * 							false create only one for each species 
 	 */
-	public Ocean(int cellColumns, int cellRows, BufferedImage bufferedImage) {
+	public Ocean(int cellColumns, int cellRows, BufferedImage bufferedImage, boolean hasManyOrganisms) {
 
 		this.cellColumns = cellColumns;
 		this.cellRows = cellRows;
@@ -260,6 +263,16 @@ public class Ocean {
 	public Sunshine getSunshine() {
 		
 		return sunshine;
+	}
+	
+	/**
+	 * If false, only one of each kind of organism should be created.
+	 * 
+	 * @return the hasManyOrganisms flag
+	 */
+	public boolean hasManyOrganisms() {
+		
+		return hasManyOrganisms;
 	}
 
 	/**

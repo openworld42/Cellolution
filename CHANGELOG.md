@@ -4,7 +4,7 @@
 # Changelog
 
 
-## v1.1.5
+## v1.1.6
 
 ### Fixes
 
@@ -18,7 +18,7 @@
 
 * feature to store the the current simulation in a different file, manage a recent file list in the menu
 
-* added: open file, open recent file and run the simulation stored in the file
+* added: open file, save as, open recent file and run the simulation stored in the file
 
 * possibility to pause the simulation and run it again
 

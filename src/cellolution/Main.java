@@ -284,7 +284,7 @@ public class Main {
 			return;
 		}
 		data.addRecentFile(path);						// reorder recent files
-		Main.getMainView().updateRecentFiles();
+		mainView.updateRecentFiles();
 		ocean.stopSwingWorker();						// stop the current simulation
 		// start a new ocean, simulation has already been stopped
 		data.removeSimulationData();
@@ -317,7 +317,29 @@ public class Main {
 		Util.verbose(APP_NAME + " - good bye!");
 		System.exit(0);
 	}
-	
+
+	/**
+	 * Save the current simulation to a file.
+	 */
+	public void saveAs() {
+		
+		FileChooserDlg dlg = new FileChooserDlg("Choose file", 
+				JFileChooser.FILES_ONLY, System.getProperty("user.dir"), null);
+		int retVal = dlg.showSaveDialog(mainView);
+		if (retVal == JFileChooser.APPROVE_OPTION) {
+			String path = dlg.getSelectedFile().toString();
+			if (!path.toLowerCase().endsWith(".json")) {
+				path += ".json";
+			}
+			data.addRecentFile(path);
+			ocean.setSwingWorkerPaused(true);			// pause the current simulation
+			data.writeSimulationData(path);
+			data.addRecentFile(path);					// reorder recent files
+			mainView.updateRecentFiles();
+			ocean.setSwingWorkerPaused(false);
+		}
+	}
+
 	/**
 	 * Sets the JSON file name during parsing, or null after parsing
 	 * 

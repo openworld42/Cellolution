@@ -44,6 +44,7 @@ public class MainView extends JFrame implements ActionListener {
 	public final static String PAUSE = 			"Pause Sim";
 	public final static String RECENT_FILE = 	"RecentFile.";
 	public final static String RUN = 			"Run Sim";
+	public final static String SAVE_AS = 		"SaveAs";
 
 	// members
 	private JPanel mainPanel;
@@ -133,6 +134,8 @@ public class MainView extends JFrame implements ActionListener {
 					break;
 				}
 			}
+		} else if (actionCmd.equals(SAVE_AS)) {
+			Main.instance().saveAs();
         } else {
             System.out.println("ActionListener: unknown component, it's me -> "
             		+ event.getSource().getClass().getSimpleName() 
@@ -197,6 +200,8 @@ public class MainView extends JFrame implements ActionListener {
 		menuItem = createMenuItem("New Ocean (single creatures)", true, NEW_OCEAN_SINGLE);
 		menu.add(menuItem);
 		menuItem = createMenuItem("Open File", true, OPEN_FILE);
+		menu.add(menuItem);
+		menuItem = createMenuItem("Save As ...", true, SAVE_AS);
 		menu.add(menuItem);
 		menuRecentFiles = new JMenu("Recent Files");
 		updateRecentFiles();

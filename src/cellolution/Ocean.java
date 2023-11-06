@@ -94,6 +94,7 @@ public class Ocean {
 
 		this.cellColumns = cellColumns;
 		this.cellRows = cellRows;
+		this.hasManyOrganisms = hasManyOrganisms;
 		new FastRandom();									// needs initialization
 		pixels = new Pixel[cellColumns][cellRows];			// an ocean contains an array of pixels
 		// scale the image

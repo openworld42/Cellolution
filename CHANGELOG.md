@@ -12,6 +12,8 @@
 
 * remove non-existent sim files from recent list
 
+* missing this.hasManyOrganisms in Ocean for new simulation "single creatures"
+
 ### Features/Enhancements
 
 * menu item to start a new simulation with "single creatures" - only one kind of each different organisms is created

@@ -4,7 +4,7 @@
 # Changelog
 
 
-## v1.1.6
+## v1.2.0 "Crazy Cuttlefish"
 
 ### Fixes
 

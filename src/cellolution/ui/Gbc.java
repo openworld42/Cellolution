@@ -107,16 +107,20 @@ public class Gbc extends GridBagConstraints {
 	
     // constants
 
+	/** the token for top side placement */
     public static final char TOP = 't';
+	/** the token for left side placement */
     public static final char LEFT = 'l';
+	/** the token for bottom side placement */
     public static final char BOTTOM = 'b';
+	/** the token for right side placement */
     public static final char RIGHT = 'r';
     
+	/** the default insets, unless set to other values */
 	public static final Insets DEFAULT_INSETS = new Insets(4, 4, 4, 4);
-
-    // static variables
-
-    private static int defaultInset = 4;
+	/** the default insets value for a component, unless set to another value */
+	private static int defaultInset = 4;
+	/** the default insets value for the borders, unless set to another value */
     private static int defaultBorderInset = 8;
 
     /**

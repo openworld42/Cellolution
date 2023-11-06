@@ -24,19 +24,25 @@ import cellolution.*;
 import cellolution.util.*;
 
 /**
- * The genome of an organism: the definition how it works and what to do in a replication.
- * In cellolution, the genome is usually contained in one or more stem cells. Single cell
+ * The abstract genome of an organism: a basic definition how it works and what to do in a replication.
+ * In Cellolution, the genome is usually contained in one or more stem cells. Single cell
  * organisms have stem cell properties within the single cell by definition.
  */
 public abstract class Genome {
 	
+	/** the distribution default for genome variations */
 	public static final double NORMAL_DISTRIBUTION_DEFAULT = 1.5;
 	
+	/** adsorbing needs energy, the minimum: 5 => 1/5 (20%) */
 	public static final int MIN_ADSORB_ENERGY = 5;			// adsorbing needs energy: 5 => 1/5 (20%)
+	/** adsorbing needs energy, the maximum: 5 => 1/5 (20%) */
 	public static final int MAX_ADSORB_ENERGY = 10;		// adsorbing needs energy: 10 => 1/10 (10%)
 	
-	protected Organism oldOrganism;
+	/** the parent organism which is the source of replication */
+	protected Organism parentOrganism;
+	/** a list of cells of the parent organism as a copy */
 	protected ArrayList<AbstractCell> oldOrganismCellCopy;
+	/** the stem cell, containing a genome */
 	protected AbstractCell stemCell;
 
 	/**
@@ -52,7 +58,7 @@ public abstract class Genome {
 	 */
 	public void cleanup() {
 		
-		oldOrganism = null;
+		parentOrganism = null;
 		oldOrganismCellCopy = null;
 	}
 
@@ -91,7 +97,7 @@ public abstract class Genome {
 	 * Creates a new organism with the properties of this genome.
 	 * 
 	 * @param organismMgr 		the organismMgr
-	 * @param oldOrganism 		the old organism (=parent)
+	 * @param oldOrganism 		the old organism (= parent)
 	 * @param newEnergy			the energy of the new organism
 	 * @return the new organism
 	 */
@@ -150,7 +156,7 @@ public abstract class Genome {
 	 */
 	protected void evolotionaryClone(Genome newGenome, Organism oldOrganism) {
 		
-		newGenome.oldOrganism = oldOrganism;
+		newGenome.parentOrganism = oldOrganism;
 		ArrayList<AbstractCell> oldCells = oldOrganism.getCells();
 		newGenome.oldOrganismCellCopy = new ArrayList<AbstractCell>(oldCells.size());
 		oldCells.forEach(oldCell -> newGenome.oldOrganismCellCopy.add(evolotionaryClone(oldCell)));

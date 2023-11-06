@@ -28,21 +28,18 @@ import javax.swing.filechooser.*;
 @SuppressWarnings("serial")
 public class FileChooserDlg extends JFileChooser {
 
-	private File selFile;
-	
 	/**
 	 * Create the dialog and show it. If the path was set to null, cancel was clicked.
 	 * 
-	 * @param titel				dialog title
-	 * @param openBtnText
-	 * @param openBtnToolTip
-	 * @param selectionMode		one of JFileChooser.FILES_ONLY, .DIRECTORIES_ONLY, .FILES_AND_DIRECTORIES
-	 * @param filter			e.g. new FileNameExtensionFilter("JPG and GIF", "jpg", "gif") or null (if none)
+	 * @param titel				the dialog title
+	 * @param selectionMode		one of JFileChooser.FILES_ONLY, JFileChooser.DIRECTORIES_ONLY, 
+	 * 							JFileChooser.FILES_AND_DIRECTORIES
+	 * @param directoryToStart	the directory, where the dialog starts to display files
+	 * @param filter			e.g. new FileNameExtensionFilter("JPG and GIF", "jpg", "gif") or null if none
 	 */
 	public FileChooserDlg(String titel, int selectionMode, 
-			String directoyToStart, FileNameExtensionFilter filter) {
+			String directoryToStart, FileNameExtensionFilter filter) {
 
-		selFile = null;
 		initUI();
 		// set the text in JFileChooser
 //		UIManager.put("FileChooser.openButtonText", openBtnText);
@@ -53,13 +50,13 @@ public class FileChooserDlg extends JFileChooser {
 	    	setFileFilter(filter);
 		}
 	    setFileSelectionMode(selectionMode);
-	    if (directoyToStart != null) {
-	    	setCurrentDirectory(new File(directoyToStart));
+	    if (directoryToStart != null) {
+	    	setCurrentDirectory(new File(directoryToStart));
 		}
 	    setPreferredSize(new Dimension(600, 400));
 	}
 
-	private void initUI() {
+	protected void initUI() {
 		
 		UIManager.put("FileChooser.lookInLabelText", "Look in");
 //		UIManager.put("FileChooser.cancelButtonText", "Cancel");

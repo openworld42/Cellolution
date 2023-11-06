@@ -31,15 +31,18 @@ import org.json.*;
  * 
  * Note: Do not forget to handle additional data values if a new release is going to be rolled out.
  */
-@SuppressWarnings("serial")
 public class Data implements Keys {
 
 	private static final String LOOK_AND_FEEL_DEFAULT = "Nimbus";
 	
-	private final HashMap<String, Object> dataMap;			// a map containing applicatrion relevant data
-	private final Stack<String> recentFilesStack;			// a stack containing recent files used
-	private Writer writer;									// a writer during writing, null otherwise
-	private JSONObject jsonObjSim;							// a JSON representation of a simulation already stored in a file, if any
+	/** a map containing application relevant data as key/value pairs */
+	private final HashMap<String, Object> dataMap;
+	/** a stack containing recently used files */
+	private final Stack<String> recentFilesStack;
+	/** a writer during writing, null otherwise */
+	private Writer writer;
+	/** a JSON representation of a simulation already stored in a file, if any */
+	private JSONObject jsonObjSim;
 
 	/**
 	 * Construction with default values.
@@ -288,7 +291,7 @@ public class Data implements Keys {
 	/**
 	 * Saves application and simulation data on system exit.
 	 * 
-	 * @throws IOException
+	 * @throws IOException on an IO error
 	 */
 	public void writeOnExit() throws IOException {
 		

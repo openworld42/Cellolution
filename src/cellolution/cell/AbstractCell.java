@@ -17,7 +17,6 @@
 package cellolution.cell;
 
 import java.awt.*;
-import java.util.*;
 
 import org.json.*;
 
@@ -26,43 +25,69 @@ import cellolution.util.*;
 
 /**
  * Abstract class of all cells.
- * All cells belong to an organism and have a color (may change).
+ * All cells belong to an organism and have a color, which may change.
  */
 public abstract class AbstractCell extends Pixel {
 
+	/** an interpolation of saturation values */
 	public static final Interpolation SATURATION_100 = new Interpolation(new float[] {0, 0, 50, 40, 80, 60, 10000, 100});
+	/** an interpolation of diffusion values */
 	public static final Interpolation DIFFUSION_100 = new Interpolation(new float[] {0, 0, 50, 15, 80, 30, 1000, 50});
 	
-	public static final int AGILITY_FACTOR_ONE = 10000;			// an agility of "1" -> "standard"
+	/** the value for an agility of "1" -> as "standard" */
+	public static final int AGILITY_FACTOR_ONE = 10000;
 
+	/** index of props[]: the energy of the cell */
 	public static final int PROP_ENERGY 				= 0;
-	public static final int PROP_ENERGY_CONSUMTION		= 1;	// amount of energy consumed to live a period
-	public static final int PROP_SUN_BEAM_INCREMENT		= 2;	// amount of energy generated when hit by a sun beam
-	public static final int PROP_H2S_TO_ENERGY			= 3;	// amount of H2S to generate an energy amount: none, if zero
-	public static final int PROP_WEIGHT 				= 4;	// water: 10000
-	public static final int PROP_AGILITY 				= 5;	// "standard": 10000, usually modified through the genome/replication
+	/** index of props[]: the amount of energy consumed to live a period */
+	public static final int PROP_ENERGY_CONSUMTION		= 1;
+	/** index of props[]: the amount of energy generated when hit by a sun beam */
+	public static final int PROP_SUN_BEAM_INCREMENT		= 2;
+	/** index of props[]: the amount of H2S to generate an energy amount: none, if zero */
+	public static final int PROP_H2S_TO_ENERGY			= 3;
+	/** index of props[]: weight (water: 10000) */
+	public static final int PROP_WEIGHT 				= 4;
+	/** index of props[]: the agility of the cell, "standard" is 10000, usually modified through the genome/replication */
+	public static final int PROP_AGILITY 				= 5;
 	
-	public static final int PROP_CO2 					= 8;	// amount of within the cell
-	public static final int PROP_CO2_ADSORBTION_RATE	= 9;	// amount of adsorbtion
-	public static final int PROP_CO2_ADSORB_ENERGY		= 10;	// energy consumption when adsorbing, e.g. 5: => 1/5 = 20% (5..10 => 20%-10%)
+	/** index of props[]: the amount of it within the cell */
+	public static final int PROP_CO2 					= 8;
+	/** index of props[]: the rate of adsorption */
+	public static final int PROP_CO2_ADSORBTION_RATE	= 9;
+	/** index of props[]: energy consumption when adsorbing, e.g. 5: => 1/5 = 20% (5..10 => 20%-10%) */
+	public static final int PROP_CO2_ADSORB_ENERGY		= 10;
 	
-	public static final int PROP_CaCO3 					= 11;	// amount of within the cell
-	public static final int PROP_CaCO3_ADSORBTION_RATE	= 12;	// 
-	public static final int PROP_CaCO3_ADSORB_ENERGY	= 13;	// energy consumption when adsorbing, e.g. 5: => 1/5 = 20%
+	/** index of props[]: the amount of it within the cell */
+	public static final int PROP_CaCO3 					= 11;
+	/** index of props[]: the rate of adsorption */
+	public static final int PROP_CaCO3_ADSORBTION_RATE	= 12; 
+	/** index of props[]: energy consumption when adsorbing, e.g. 5: => 1/5 = 20% (5..10 => 20%-10%) */
+	public static final int PROP_CaCO3_ADSORB_ENERGY	= 13;
 	
-	public static final int PROP_H2S 					= 14;	// amount of within the cell
+	/** index of props[]: the amount of it within the cell */
+	public static final int PROP_H2S 					= 14;
+	/** index of props[]: the rate of adsorption */
 	public static final int PROP_H2S_ADSORBTION_RATE	= 15;	// 
-	public static final int PROP_H2S_ADSORB_ENERGY		= 16;	// energy consumption when adsorbing, e.g. 5: => 1/5 = 20%
+	/** index of props[]: energy consumption when adsorbing, e.g. 5: => 1/5 = 20% (5..10 => 20%-10%) */
+	public static final int PROP_H2S_ADSORB_ENERGY		= 16;
 
-	public static final int PROP_ORGANIC 				= 17;	// amount of within the cell
+	/** index of props[]: the amount of it within the cell */
+	public static final int PROP_ORGANIC 				= 17;
+	/** index of props[]: the rate of adsorption */
 	public static final int PROP_ORGANIC_ADSORBTION_RATE = 18;	//	
-	public static final int PROP_ORGANIC_ADSORB_ENERGY	= 19;	// energy consumption when adsorbing, e.g. 5: => 1/5 = 20%
+	/** index of props[]: energy consumption when adsorbing, e.g. 5: => 1/5 = 20% (5..10 => 20%-10%) */
+	public static final int PROP_ORGANIC_ADSORB_ENERGY	= 19;
 	
+	/** the size of the properties */
 	public static final int SIZE_OF_PROPS = PROP_ORGANIC_ADSORB_ENERGY + 1;
-	protected int props[] = new int[SIZE_OF_PROPS];		// the properties of the cell
+	/** the properties of the cell */
+	protected int props[] = new int[SIZE_OF_PROPS];
 	
-	protected Organism organism;			// reference to the organism this cell belongs to
+	/** a reference to the organism this cell belongs to */
+	protected Organism organism;
+	/** the current color of the cell */
 	protected Color color;
+	/** the current color of the cell, as RGB value */
 	private int colorRGB;
 	
 	/**
@@ -361,7 +386,7 @@ public abstract class AbstractCell extends Pixel {
 	/**
 	 * Sets the genome of the cell (usually of a single cell organism or a stem cell).
 	 * 
-	 * @param genome
+	 * @param genome		the genome of the cell
 	 */
 	public abstract void setGenome(Genome genome);
 

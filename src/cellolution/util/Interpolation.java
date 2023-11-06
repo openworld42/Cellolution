@@ -31,7 +31,9 @@ import java.util.*;
  */
 public class Interpolation {
 	
+	/** array of x values for the interpolation */
 	private float x[];
+	/** array of y values for the interpolation */
 	private float y[];
 	
 	/**
@@ -56,7 +58,7 @@ public class Interpolation {
 	/**
 	 * Returns the y value of a x value.
 	 * 
-	 * @param xValue
+	 * @param xValue	the value of x for the function
 	 * @return the y value of a x value
 	 */
 	public int intY(float xValue) {
@@ -70,7 +72,7 @@ public class Interpolation {
 		}
 		int lowerIndex = -index - 2;
 		int higherIndex = -index - 1;
-		float position = xValue / (x[higherIndex] - x[lowerIndex]);
+//		float position = xValue / (x[higherIndex] - x[lowerIndex]);
 		return (int) (y[lowerIndex] + (y[higherIndex] - y[lowerIndex]) * (xValue - x[lowerIndex]) / (x[higherIndex] - x[lowerIndex]));
 	}
 }

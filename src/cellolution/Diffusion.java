@@ -24,21 +24,34 @@ import cellolution.util.*;
  */
 public class Diffusion {
 
+	/** the number of neighbors of a pixel, using hexagons */
 	public static final int NEIGHBOR_COUNT = 6;
-	public static final int DIFFUSION_DIVIDER = (NEIGHBOR_COUNT +  1) * 2;	// half of the neighbor count plus the current cell
+	/** half of the neighbor count plus the current cell */
+	public static final int DIFFUSION_DIVIDER = (NEIGHBOR_COUNT +  1) * 2;
 
+	/** the ocean */
 	private Ocean ocean;
+	/** the number of columns of the ocean */
 	private int cellColumns;
+	/** the number of rows of the ocean */
 	private int cellRows;
-	private int step;						// the current ocean/diffusion step number
-	private int rounding[];					// rounding probability if there are remainders of the diffusion division 
+	/** the current ocean/diffusion simulation step number */
+	private int step;
+	/** rounding probability if there are remainders of the diffusion division */
+	private int rounding[];	
+	/** the borders of the ocean: water <-> rock */
 	private OceanBorders oceanBorders;
+	/** all pixels of the ocean */
 	private Pixel pixels[][];
-	private Water diffCompPixels[][];		// an array of water pixels used as temporary storage during diffusion computation
+	/** an array of water pixels used as temporary storage during diffusion computation */
+	private Water diffCompPixels[][];
+	/** the manager for all organisms */
 	private OrganismMgr organismMgr;
-	private boolean soluteOrganicMatter;	// true if there is diffusion of organic matter, false else 
+	/** true if there is diffusion of organic matter, false else */
+	private boolean soluteOrganicMatter;
 	
-	private boolean testFlag;				// set to true and uncomment test() for testing the diffusion 
+	/** set to true and uncomment test() for testing the diffusion */
+	private boolean testFlag;
 
 	/**
 	 * @param ocean		the ocean

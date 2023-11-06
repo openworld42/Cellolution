@@ -31,12 +31,18 @@ public class AppProperties extends Properties {
 
 	// property keys
 	
+	/** version property key */
 	public static final String VERSION = "Version";
+	/** version property key */
 	public static final String VERSION_MAJOR = "Version.major";
+	/** version property key */
 	public static final String VERSION_MINOR = "Version.minor";
+	/** version property key */
 	public static final String VERSION_RELEASE = "Version.release";
 	
+	/** the look-and-feel property key */
 	public static final String LOOK_AND_FEEL = "LookAndFeel"; 
+	/** the verbose property key */
 	public static final String VERBOSE = "Verbose"; 
 	
 	/**

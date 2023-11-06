@@ -23,10 +23,15 @@ import cellolution.*;
  */
 public class CommandLineArgs {
 
+	/** flag if all of the command line arguments are valid */
 	private boolean isValid;
+	/** the current index of the command line argument */
 	private int cliIndex;
+	/** flag if there will be verbose messages */
 	private boolean isVerbose = true;
+	/** example for an option T */
 	private boolean hasTOption;
+	/** an URL */
 	private String url;
 
 	/**
@@ -50,7 +55,7 @@ public class CommandLineArgs {
             	Version.print();
             	System.exit(0);
             } else if (args[cliIndex].equals("-q")) {
-            	// qiet option
+            	// quiet option
             	isVerbose = false;
             } else if (args[cliIndex].equals("-t")) {
             	// simple option

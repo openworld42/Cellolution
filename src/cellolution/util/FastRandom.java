@@ -19,26 +19,36 @@ package cellolution.util;
 import java.util.*;
 
 /**
- * A very fast integer random generator with the drawback of some reused values - not important within this application.
- * It is based on java.utils SplittableRandom.
+ * A very fast integer random generator with the drawback of reused values - not important within this application.
+ * It is based on java.utils.SplittableRandom.
  * Instances of FastRandom are not thread-safe, the static methods are never thread-safe.
  * Due to the implementation, this should be one of the fastest pseudo random generators ever.
  * The average cost is the method call with a return of buffer[i++] ^ changingValue. 
  * The buffer is repeated with another changingValue until it is filled again.
  * 
+ * @see java.base/java.util.SplittableRandom
  */
 public class FastRandom {
 
-	private static int RANDOM_BUFFER_SIZE = 1000;
+	/** the size of each of the two used buffers, therefore memory usage twice the buffer size  */
+	private static int RANDOM_BUFFER_SIZE = 10000;
 
+	/** singleton instance */
 	private static FastRandom instance;
 	
+	/** a buffer containing random values */
 	private int buffer[] = new int[RANDOM_BUFFER_SIZE];
+	/** a buffer containing random values for the XOR operation */
 	private int bufferXor[]= new int[RANDOM_BUFFER_SIZE];
+	/** a SplittableRandom used to create */
 	private SplittableRandom random;
+	/** the current index of the random value buffer */
 	private int bufferIndex;
+	/** the current index of the random XOR value buffer */
 	private int bufferXorIndex;
+	/** the current XOR operation value */
 	private int valueXor;
+	/** a temporary variable */
 	private int temp;
 	
 	/**
@@ -55,6 +65,7 @@ public class FastRandom {
 	 * Construction with a seed.
 	 * 
 	 * @param seed		the seed for this random generator
+	 * @see java.base/java.util.SplittableRandom
 	 */
 	public FastRandom(long seed) {
 

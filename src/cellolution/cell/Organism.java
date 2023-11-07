@@ -36,36 +36,58 @@ import cellolution.util.*;
  */
 public class Organism {
 	
-	public static final int DISPLAY_POSITION_COUNT_DEFAULT = 10; 		// times slowUpdate() intervalls
-	private static final int DECOMPOSE_COUNT_DEFAULT = 200;				// times slowUpdate() intervalls
+	/** a count down default of slowUpdate() intervals to display the position of an organism */
+	public static final int DISPLAY_POSITION_COUNT_DEFAULT = 10;
+	/** a count down default of slowUpdate() intervals for the decomposing of an organism */
+	private static final int DECOMPOSE_COUNT_DEFAULT = 200;
 	
-	// Organism properties, for performance reasons: an array with constants as indices
-	// (maybe we change this later to enums or a more dynamic approach)
-	// for performance reasons: a floating point value of 1.0 equates to an integer value of 10000 (unless otherwise specified)
+	/** Organism properties, for performance reasons: an array with constants as indices
+		(maybe we change this later to enums or a more dynamic approach).
+		for performance reasons: a floating point value of 1.0 equates to an integer value of 10000 (unless otherwise specified)
+		Here index of props[]: the energy of the organism */
 	public static final int PROP_ENERGY 		= 0;
-	public static final int PROP_SPEED 			= 1;	// speed of one means one pixel per time slice, but resistance is quadratic		
-	public static final int PROP_DIRECTION 		= 2;	// the direction of the speed, atlas-like, in degrees, 0 is north, clockwise
-	public static final int PROP_WEIGHT 		= 3;	// sum of the cell weights divided through the number of cells
-	public static final int PROP_MOVEABLE 		= 4;	// zero or one for false/true
+	/** index of props[]: the speed of the organism, a speed of one means one pixel per time slice, but resistance is quadratic */
+	public static final int PROP_SPEED 			= 1;
+	/** index of props[]: the direction of the speed, atlas-like, in degrees, 0 is north, clockwise */
+	public static final int PROP_DIRECTION 		= 2;
+	/** index of props[]: sum of the cell weights divided through the number of cells */
+	public static final int PROP_WEIGHT 		= 3;
+	/** index of props[]: one if the organism is moveable, zero if it sticked to a rock */
+	public static final int PROP_MOVEABLE 		= 4;
+	/** the size of the properties */
 	public static final int SIZE_OF_PROPS = PROP_MOVEABLE + 1;
 
+	/** the properties of the organism */
 	private int props[] = new int[SIZE_OF_PROPS];		// the properties of the organism
 	
+	/** the state of the organism */
 	private OrgState state;
-	private OrgState lastState;							// the state before if there was a state change
+	/** the state before if there was a state change */
+	private OrgState lastState;	
+	/** the manager for all organisms */
 	private OrganismMgr organismMgr;
+	/** the cells that belong to the organism */
 	private ArrayList<AbstractCell> cells;
-	private ArrayList<AbstractCell> outerCells;			// the cells outside, with water contact
-	private Replication replication;					// a replication instance, managing the replication process, if any
-	// outline: max/min of row and column of all cells of this organism
+	/** the cells outside, with water contact */
+	private ArrayList<AbstractCell> outerCells;
+	/** a replication instance, managing the replication process, if any */
+	private Replication replication;
+	/** outline: max/min of row and column of all cells of this organism */
 	private int minColumn = Integer.MAX_VALUE;
+	/** outline: max/min of row and column of all cells of this organism */
 	private int maxColumn = 0;
+	/** outline: max/min of row and column of all cells of this organism */
 	private int minRow = Integer.MAX_VALUE;
+	/** outline: max/min of row and column of all cells of this organism */
 	private int maxRow = 0;
-	private int number;									// the individual number of this organism, starting with one
-	private int displayPositionCount;					// if not zero, display the position of this organism
-	private int decomposeCount;							// if decomposing, the number of steps until the organism will vanish
-	private int organicAmount;							// the (average) amount of organic matter collected by this organism (needed for replication)
+	/**the individual number (id) of this organism, starting with one */
+	private int number;
+	/** if not zero, display the position of this organism */
+	private int displayPositionCount;
+	/** if decomposing, the number of steps until the organism will vanish */
+	private int decomposeCount;
+	/** the (average) amount of organic matter collected by this organism (needed for replication) */
+	private int organicAmount;
 
 	/**
 	 * Create a new organism.
@@ -541,6 +563,8 @@ public class Organism {
 	}
 
 	/**
+	 * Sets the state of the organism.
+	 * 
 	 * @param state 		the state to set
 	 */
 	public void setState(OrgState state) {
@@ -555,8 +579,8 @@ public class Organism {
 	/**
 	 * Sets the speed and the direction this organism moves.
 	 * 
-	 * @param speed
-	 * @param directionDegrees		
+	 * @param speed					the speed
+	 * @param directionDegrees		the direction
 	 */
 	public void setSpeedAndDirection(int speed, int directionDegrees) {
 		

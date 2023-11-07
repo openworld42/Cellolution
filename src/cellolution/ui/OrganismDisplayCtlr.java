@@ -27,16 +27,22 @@ import cellolution.cell.*;
  */
 public class OrganismDisplayCtlr {
 
+	/** the color of the display cross hairs circle */
 	private static final Color DISPLAY_CROSS_COLOR = new Color(200, 20, 20);	
+	/** the radius cross hairs circle */
 	public static final int DISPLAY_CROSS_RADIUS = 14;	
 	
+	/** the ocean */
 	private Ocean ocean;
+	/** the panel to display organisms */
 	private OrganismPanel organismPanel;
+	/** the organism to follow with the cross hairs circle */
 	private Organism orgToFollow;
+	/** if true, the organism is marked with a cross hairs circle */
 	private boolean displayMarker;
 
 	/**
-	 * @param ocean
+	 * @param ocean			the ocea
 	 */
 	public OrganismDisplayCtlr(Ocean ocean) {
 
@@ -87,7 +93,7 @@ public class OrganismDisplayCtlr {
 	/**
 	 * Increase or decrease the energy of the followed organism.
 	 * 
-	 * @param increase
+	 * @param increase			true to increase or false to decrease the energy of the followed organism
 	 */
 	public void energyIncrease(boolean increase) {
 
@@ -107,7 +113,7 @@ public class OrganismDisplayCtlr {
 	/**
 	 * Follow an organism, display its properties and mark it.
 	 * 
-	 * @param organism
+	 * @param organism		the organism
 	 */
 	public void follow(Organism organism) {
 		
@@ -129,7 +135,7 @@ public class OrganismDisplayCtlr {
 	/**
 	 * Display a circle around an organism to follow, if any.
 	 * 
-	 * @param g2d 
+	 * @param g2d 		the Graphics2D object
 	 */
 	public void paintDisplayOrgArc(Graphics2D g2d) {
 		

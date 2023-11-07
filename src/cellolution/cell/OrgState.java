@@ -24,20 +24,35 @@ import java.util.EnumSet;
  */
 public enum OrgState {
 	
-    GROWING(null),					// the growing "child" during replication, no color in general
-    ALIVE(null),					// no color in general
+	/** OrgState: growing "child" during replication, no color in general */
+    GROWING(null),
+	/** OrgState: alive, no color in general */
+    ALIVE(null),
+	/** OrgState: organism replicates itself, a "child" will be built  */
     IN_REPLICATION(Color.GREEN),
+	/** OrgState: the organism is starving */
     STARVING(Color.ORANGE),
+	/** OrgState: the organism is dying, caused by starving too long */
     DYING(Color.LIGHT_GRAY),
+	/** OrgState: the organism is dead */
     DEAD(Color.DARK_GRAY),
+	/** OrgState: the dead organism is decomposing, its matter is dissolved */
     DECOMPOSING(Color.BLACK),
     ;
 
+	/** an EnumSet of all states */
 	public static final EnumSet<OrgState> ALL = EnumSet.allOf(OrgState.class);
+	/** an array of all states */
 	public static final OrgState[] ARRAY = ALL.toArray(new OrgState[0]);
 
+	/** the color of the state, if any: sometimes it is computed */
 	private Color color;
 
+	/**
+	 * Construction of one of the states.
+	 * 
+	 * @param colorRGB		the color or null
+	 */
 	OrgState(Color colorRGB) {
 		
 		this.color = colorRGB;

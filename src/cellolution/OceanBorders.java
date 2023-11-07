@@ -23,16 +23,19 @@ import java.util.*;
  * The pixel coordinates is the first pixel that is Water.
  */
 public class OceanBorders {
-
+	/** the ocean */
 	private Ocean ocean;
+	/** the pixel columns at the left side of the ocean with rock as neighbor */
 	private int leftBorderCols[];
+	/** the pixel columns at the right side of the ocean with rock as neighbor */
 	private int rigthBorderCols[];
+	/** the pixel columns at the bottom side of the ocean with rock as neighbor */
 	private int bottomBorderRows[];
 
 	/**
 	 * Construct / compute the borders.
 	 * 
-	 * @param ocean 
+	 * @param ocean 		the ocean
 	 */
 	public OceanBorders(Ocean ocean) {
 		

@@ -29,9 +29,12 @@ import java.util.*;
  */
 public class Parser {
 
+	/** the name of the file to be parsed */
 	private String filename;
+	/** the BufferedReader for parsing */
 	private BufferedReader in;
-	private int lineNr;					// the line number of the parsed file, starting from one
+	/** the line number of the parsed file, starting from one */
+	private int lineNr;	
 
 	/**
 	 * Parser construction.
@@ -46,7 +49,7 @@ public class Parser {
 	/**
 	 * Parse the file.
 	 *
-	 * @throws Exception
+	 * @throws Exception on exceptions during parsing
 	 */
 	public void parseFile() throws Exception {
 
@@ -109,7 +112,7 @@ public class Parser {
 	 * Parses a line skipping white space.
 	 * Note: use parseLineToTokens(String line, char comment) to parse files that may contain comment.
 	 *
-	 * @param line
+	 * @param line			the line
 	 * @return an ArrayList of Strings containing the tokens in the line
 	 */
 	public static ArrayList<String> parseLineToTokens(String line) {
@@ -128,7 +131,7 @@ public class Parser {
 	 * line will be skipped.
 	 * Note: a line can start with a comment, resulting in an ArrayList with the size of zero.
 	 *
-	 * @param line
+	 * @param line			the line
 	 * @param comment		a comment character (e.g. shells use "#")
 	 * @return an ArrayList of Strings containing the tokens in the line
 	 */
@@ -149,9 +152,9 @@ public class Parser {
 	/**
 	 * Reads a line of a file, skipping comment lines and empty lines.
 	 *
-	 * @param in
-	 * @return
-	 * @throws IOException
+	 * @param in		the BufferedReader to read from
+	 * @return the line or null at the end
+	 * @throws IOException in case of exceptions
 	 */
 	public String readLineOfFile(BufferedReader in) throws IOException {
 

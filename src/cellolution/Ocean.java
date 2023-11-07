@@ -60,18 +60,6 @@ import cellolution.util.*;
  */
 public class Ocean {
 
-	/** XXX */
-	
-	/** the ocean */
-	/** the number of columns of the ocean */
-	/** the current ocean/diffusion simulation step number */
-	/** the borders of the ocean: water <-> rock */
-	/** all pixels of the ocean */
-	/** the manager for all organisms */
-
-	/** set to true if XXX */
-	/** true if XXX */
-
 	/** the ocean panel */
 	private OceanPanel oceanPanel;
 	/** the number of evolution steps */

@@ -37,7 +37,7 @@ public class Mover {
 	/**
 	 * Ensures a degree range from 0 to 359 degrees.
 	 * 
-	 * @param directionDegrees
+	 * @param directionDegrees		the degrees to adjust
 	 * @return the degrees of the direction
 	 */
 	public static int adjustDegrees(int directionDegrees) {

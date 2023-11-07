@@ -28,17 +28,25 @@ import cellolution.*;
  */
 public class OrganismMgr {
 
+	/** the ocean */
 	private Ocean ocean;
+	/** the number of columns of the ocean */
 	private int cellColumns;
+	/** the number of rows of the ocean */
 	private int cellRows;
+	/** the list of all organisms */
 	private java.util.List<Organism> organisms;
+	/** a list of the organisms to be removed after an update step */
 	private ArrayList<Organism> organismsToRemove;
+	/** a list of the organisms to be added after an update step */
 	private ArrayList<Organism> organismsToAdd;
+	/** the last time there was a moving for all organisms */
 	private long lastTimeMoved;
+	/** the last time there was an update for all organisms */
 	private long lastTimeSlowUpdate;
 
 	/**
-	 * @param ocean 
+	 * @param ocean 		the ocean
 	 */
 	public OrganismMgr(Ocean ocean) {
 		
@@ -98,7 +106,7 @@ public class OrganismMgr {
 	/**
 	 * Adds an organism to the ocean.
 	 * 
-	 * @param organism
+	 * @param organism		the organism to add
 	 */
 	public void addOrganism(Organism organism) {
 
@@ -108,7 +116,7 @@ public class OrganismMgr {
 	/**
 	 * Find the nearest organism and display its values/properties.
 	 * 
-	 * @param pixel
+	 * @param pixel			the pixel to find the nearest organism
 	 */
 	public void findAndDisplayNearestOrganism(Pixel pixel) {
 
@@ -164,8 +172,8 @@ public class OrganismMgr {
 	/**
 	 * Test if any organism has a cell on the given column and row.
 	 * 
-	 * @param col
-	 * @param row
+	 * @param col			the column
+	 * @param row			the row
 	 * @return true if there is a cell on the given column and row, false otherwise
 	 */
 	public boolean hasCellOn(int col, int row) {
@@ -210,7 +218,7 @@ public class OrganismMgr {
 	/**
 	 * Paint all organisms of the ocean.
 	 * 
-	 * @param g2d
+	 * @param g2d		the Graphics2D object
 	 */
 	public void paint(Graphics2D g2d) {
 		
@@ -223,7 +231,7 @@ public class OrganismMgr {
 	/**
 	 * Removes an organism from the ocean, usually it is completely decomposed.
 	 * 
-	 * @param organism
+	 * @param organism 		the organism to be removed
 	 */
 	public void remove(Organism organism) {
 

@@ -25,16 +25,24 @@ import cellolution.*;
 import cellolution.cell.*;
 
 /**
- * Drawing the ocean.
+ * Panel to draw the ocean.
  */
+@SuppressWarnings("serial")
 public class OceanPanel extends JPanel {
 
+	/** the ocean */
 	private Ocean ocean;
+	/** the number of columns of the ocean */
 	private int cellColumns;
+	/** the number of rows of the ocean */
 	private int cellRows;
+	/** all pixels of the ocean */
 	private Pixel pixels[][];
+	/** the manager of the black smokers */
 	private Smokers smokers;
+	/** the manager for all organisms */
 	private OrganismMgr organismMgr;
+	/** the controller to display organisms */
 	private OrganismDisplayCtlr orgDisplayCtlr;
 
 	/**
@@ -59,7 +67,9 @@ public class OceanPanel extends JPanel {
 	
     /**
      * Paint the component.
-     */
+     * 
+ 	 * @param g 		the Graphics object
+    */
     public void paintComponent(Graphics g) {
     	
     	super.paintComponent(g);
@@ -76,12 +86,12 @@ public class OceanPanel extends JPanel {
 		organismMgr.paint(g2d);
 		orgDisplayCtlr.paintDisplayOrgArc(g2d);
     }
-
+  
 	/**
-	 * @param ocean
-	 * @param smokers 
-	 * @param organismMgr 
-	 * @param orgDisplayCtlr 
+	 * @param ocean				the ocean
+	 * @param smokers 			the manager of the smokers
+	 * @param organismMgr 		the manager of the 			the manager of the smokers
+	 * @param orgDisplayCtlr 	the controller to display organisms
 	 */
 	public void set(Ocean ocean, Smokers smokers, OrganismMgr organismMgr, OrganismDisplayCtlr orgDisplayCtlr) {
 		

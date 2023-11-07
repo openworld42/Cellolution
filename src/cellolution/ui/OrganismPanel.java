@@ -27,30 +27,61 @@ import cellolution.*;
 /**
  * Panel to display the state and properties of an organism and its cells.
  */
+@SuppressWarnings("serial")
 public class OrganismPanel extends JPanel implements ActionListener {
 
+	/** the text for the the button to increase the energy of an organism */
 	private static final String BUTTON_INCREASE = "Inc";
+	/** the text for the the button to decrease the energy of an organism */
 	private static final String BUTTON_DECREASE = "Dec";
+	/** the text for the button to cancel following the organism */
 	private static final String BUTTON_CANCEL = "Cancel";
 
+	/** XXX */
+
+	/** the ocean */
+	/** the number of columns of the ocean */
+	/** the number of rows of the ocean */
+	/** the current ocean/diffusion simulation step number */
+	/** the borders of the ocean: water <-> rock */
+	/** all pixels of the ocean */
+	/** the manager for all organisms */
+
+	/** set to true if XXX */
+	/** true if XXX */
+
+
+	/** the controller of displaying organisms */
 	private OrganismDisplayCtlr organismDisplayCtlr;
+	/** an index of the row of labels */
 	private int labelRow;
+	/** the panel of organism data */
 	private JPanel orgDataPanel;
+	/** the panel of organism buttons */
 	private JPanel buttonPanel;
+	/** a label to display the organism */
 	private JLabel organismLbl;
+	/** a label to display the state of the organism */
 	private JLabel orgStateLbl;
+	/** a label to display the organic matter of the organism */
 	private JLabel organicLbl;
+	/** a label to display the number of cells of the organism */
 	private JLabel orgCellCountLbl;
+	/** a label to display the number of a cell of the organism */
 	private JLabel orgCellNumberLbl;
+	/** an array of labels to be displayed */
 	private ArrayList<JLabel> orgLabelList;
+	/** the button to increase the energy of an organism */
 	private JButton increaseBtn;
+	/** the button to decrease the energy of an organism */
 	private JButton decreaseBtn;
+	/** the button to cancel following the organism */
 	private JButton cancelBtn;
 
 	/**
 	 * Create the OrganismPanel.
 	 * 
-	 * @param organismDisplayCtlr
+	 * @param organismDisplayCtlr		the controller to display organisms
 	 */
 	public OrganismPanel(OrganismDisplayCtlr organismDisplayCtlr) {
 
@@ -86,6 +117,8 @@ public class OrganismPanel extends JPanel implements ActionListener {
 
 	/**
 	 * Action queue dispatcher.
+	 * 
+	 * @param event			the action event
 	 */
 	public void actionPerformed(ActionEvent event) {
 
@@ -106,17 +139,17 @@ public class OrganismPanel extends JPanel implements ActionListener {
 	/**
 	 * Adds a button with Gbc and specified insets.
 	 * 
-	 * @param name			the label of the button (and its action command)
-	 * @param col
-	 * @param row
-	 * @param control
+	 * @param text			the label of the button (and its action command)
+	 * @param col			the Gbc column
+	 * @param row			the Gbc row
+	 * @param control		the control string for Gbc placement
 	 * @return the created button
 	 * @see Gbc
 	 */
-	public JButton addButton(String name, int col, int row, String control) {
+	public JButton addButton(String text, int col, int row, String control) {
 
 		Gbc gbc = new Gbc(col, row, 1, 1, 0.0, 0.0, control);
-		JButton button = new JButton(name);
+		JButton button = new JButton(text);
 		button.addActionListener(this);
 		buttonPanel.add(button, gbc);
 		return(button);
@@ -126,9 +159,9 @@ public class OrganismPanel extends JPanel implements ActionListener {
 	 * Adds a label with Gbc and specified insets.
 	 * 
 	 * @param text			the text of the label
-	 * @param col
-	 * @param row
-	 * @param control
+	 * @param col			the Gbc column
+	 * @param row			the Gbc row
+	 * @param control		the control string for Gbc placement
 	 * @return the created button
 	 * @see Gbc
 	 */
@@ -157,7 +190,7 @@ public class OrganismPanel extends JPanel implements ActionListener {
 	/**
 	 * Clear the text for the labels starting with an index.
 	 * 
-	 * @param index
+	 * @param index		the index to start
 	 */
 	public void clearLabelTextsFrom(int index) {
 		
@@ -209,7 +242,7 @@ public class OrganismPanel extends JPanel implements ActionListener {
 	/**
 	 * Enables or disables the buttons if there is an organism to follow.
 	 *  
-	 * @param isEnabled
+	 * @param isEnabled			if true, the button will be enabled, disabled otherwise
 	 */
 	public void setEnableButtons(boolean isEnabled) {
 		

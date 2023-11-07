@@ -23,53 +23,98 @@ public interface Keys {
 	
 	// property and JSON keys for application (alphabetical ordering)
 	
-	String VERSION = 		"Version";					// for both application and simulation
-	String VERSION_MAJOR = 	"Version.major";			// for both application and simulation
-	String VERSION_MINOR = 	"Version.minor";			// for both application and simulation
-	String VERSION_RELEASE = "Version.release";			// for both application and simulation
+	/** key for version, for both application and simulation */
+	String VERSION = 		"Version";
+	/** key for version, for both application and simulation */
+	String VERSION_MAJOR = 	"Version.major";
+	/** key for version, for both application and simulation */
+	String VERSION_MINOR = 	"Version.minor";
+	/** key for version, for both application and simulation */
+	String VERSION_RELEASE = "Version.release";
 	
+	/** key for the application JSON file */
 	String LOOK_AND_FEEL = 	"LookAndFeel"; 
+	/** key for the application JSON file */
 	String RECENT_FILES = 	"RecentFiles";
+	/** key for the application JSON file */
 	String SYSTEM = 		"System"; 
+	/** key for the application JSON file */
 	String UI = 			"UI"; 
+	/** key for the application JSON file */
 	String VERBOSE = 		"Verbose"; 
 	
 	// property and JSON keys for the simulation data (ocean, smokers, organisms, etc) - alphabetical ordering
 	
+	/** key for the simulation JSON file */
 	String AGILITY = 		"Agility";
+	/** key for the simulation JSON file */
 	String CaCO3 = 					"CaCO3";
+	/** key for the simulation JSON file */
 	String CaCO3_ADSORBTION_RATE = 	"CaCO3AdsorbtionRate";
+	/** key for the simulation JSON file */
 	String CaCO3_ADSORB_ENERGY = 	"CaCO3AdsorbEnergy";
+	/** key for the simulation JSON file */
 	String CELL = 			"Cell";
+	/** key for the simulation JSON file */
 	String CELLS = 			"Cells";
+	/** key for the simulation JSON file */
 	String CO2 = 			"CO2";
+	/** key for the simulation JSON file */
 	String CO2_ADSORBTION_RATE = 	"CO2AdsorbtionRate";
+	/** key for the simulation JSON file */
 	String CO2_ADSORB_ENERGY = 		"CO2AdsorbEnergy";
+	/** key for the simulation JSON file */
 	String COLOR = 			"Color";
+	/** key for the simulation JSON file */
 	String COLUMN = 		"Column";
+	/** key for the simulation JSON file */
 	String ENERGY = 		"Energy";
+	/** key for the simulation JSON file */
 	String ENERGY_CONSUMTION = 	"EnergyConsumption";
+	/** key for the simulation JSON file */
 	String DECOMPOSE_COUNT = 	"DecomposeCount";
+	/** key for the simulation JSON file */
 	String GENOME = 		"Genome";
+	/** key for the simulation JSON file */
 	String H2S = 			"H2S";
+	/** key for the simulation JSON file */
 	String H2S_ADSORBTION_RATE = 	"H2SAdsorbtionRate";
+	/** key for the simulation JSON file */
 	String H2S_ADSORB_ENERGY = 		"H2SAdsorbEnergy";
+	/** key for the simulation JSON file */
 	String H2S_TO_ENERGY = 	"H2SToEnergy";
+	/** key for the simulation JSON file */
 	String LAST_STATE = 	"LastState";
+	/** key for the simulation JSON file */
 	String MOVEABLE = 		"Movable";
+	/** key for the simulation JSON file */
 	String OCEAN = 			"Ocean";
+	/** key for the simulation JSON file */
 	String ORGANIC = 		"Organic";
+	/** key for the simulation JSON file */
 	String ORGANIC_ADSORBTION_RATE = "OrganicAdsorbtionRate";
+	/** key for the simulation JSON file */
 	String ORGANIC_ADSORB_ENERGY = 	"OrganicAdsorbEnergy";
+	/** key for the simulation JSON file */
 	String ORGANIC_MATTER_RESERVOIR = 	"OrganicMatterReservoir";
+	/** key for the simulation JSON file */
 	String ORGANISMS = 		"Organisms";
+	/** key for the simulation JSON file */
 	String ORGANISM_STATE = "OrganismState";
+	/** key for the simulation JSON file */
 	String ROW = 			"Row";
-	String SIM_VERSION_MAJOR = 		"Sim." + VERSION_MAJOR;		// property key only
-	String SIM_VERSION_MINOR = 		"Sim." + VERSION_MINOR;		// property key only
-	String SIM_VERSION_RELEASE = 	"Sim." + VERSION_RELEASE;	// property key only
+	/** key for the simulation, property key only */
+	String SIM_VERSION_MAJOR = 		"Sim." + VERSION_MAJOR;
+	/** key for the simulation, property key only */
+	String SIM_VERSION_MINOR = 		"Sim." + VERSION_MINOR;
+	/** key for the simulation, property key only */
+	String SIM_VERSION_RELEASE = 	"Sim." + VERSION_RELEASE;
+	/** key for the simulation JSON file */
 	String SMOKERS = 		"Smokers";
+	/** key for the simulation JSON file */
 	String SMOKER_COUNT = 	"SmokerCount";
+	/** key for the simulation JSON file */
 	String SUN_BEAM_INCREMENT = 	"SunbeamIncrement";
+	/** key for the simulation JSON file */
 	String WEIGHT = 		"Weight";
 }

@@ -24,6 +24,7 @@ import cellolution.util.*;
  */
 public class Mover {
 
+	/** the maximum brownian speed */
 	private static int BROWNIAN_SPEED_MAX = 5;
 
 	/**
@@ -37,7 +38,7 @@ public class Mover {
 	 * Ensures a degree range from 0 to 359 degrees.
 	 * 
 	 * @param directionDegrees
-	 * @return
+	 * @return the degrees of the direction
 	 */
 	public static int adjustDegrees(int directionDegrees) {
 		
@@ -48,11 +49,11 @@ public class Mover {
 	/**
 	 * Tests if the organism can move in the direction the organism points.
 	 * 
-	 * @param organism
-	 * @param minColumn
-	 * @param maxColumn
-	 * @param minRow
-	 * @param maxRow
+	 * @param organism		the organism
+	 * @param minColumn		the minimum column
+	 * @param maxColumn		the maximum column
+	 * @param minRow		the minimum row
+	 * @param maxRow		the maximum row
 	 * @return true if there is no rock in the direction, false otherwise
 	 */
 	public static boolean canMoveDueToRocks(Organism organism, int minColumn, int maxColumn, int minRow, int maxRow) {
@@ -109,7 +110,7 @@ public class Mover {
 	 * Some kind of Brownian movement and turning behavior is added.
 	 * The speed of an organism is reduced by its resistance (growing by the square of speed) within the water.
 	 * 
-	 * @param organism
+	 * @param organism			the organism to move
 	 * @return the number of steps to take (number of cells to move). The speed of the 
 	 * 		organism is already reduced and the direction adjusted
 	 */
@@ -171,8 +172,8 @@ public class Mover {
 	/**
 	 * Move the organism some steps in its direction.
 	 * 
-	 * @param organism
-	 * @param stepsToGo
+	 * @param organism			the organism to move
+	 * @param stepsToGo			the steps to go
 	 */
 	public static void move(Organism organism, int stepsToGo) {
 		
@@ -190,9 +191,9 @@ public class Mover {
 	/**
 	 * Find the neighbor pixel of a pixel by its number (see Pixel or Ocean comment, 1 is top right).
 	 * 
-	 * @param pixel
-	 * @param neighborNr
-	 * @param pixels
+	 * @param pixel				the pixel to find a neighbor
+	 * @param neighborNr		the number of the neighbor (hexagon definition)
+	 * @param pixels			the pixels of the ocean
 	 * @return the neighbor pixel defined by the neighbor number [1..6]
 	 */
 	public static Pixel neighbor(Pixel pixel, int neighborNr, Pixel[][] pixels) {

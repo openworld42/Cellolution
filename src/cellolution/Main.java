@@ -19,7 +19,6 @@ package cellolution;
 import java.awt.image.*;
 import java.io.*;
 import java.net.*;
-import java.nio.file.*;
 
 import javax.imageio.*;
 import javax.swing.*;
@@ -35,27 +34,49 @@ import cellolution.util.*;
  */
 public class Main {
 
+	/** the name of the application */
 	public static final String APP_NAME = "Cellolution";
+	/** the image of the "ground" */
 	public static final String GROUND_IMG = "/cellolution/images/OceanBedGreen.png";
+	/** the image of the application */
 	public static final String APP_ICON_IMG = "/cellolution/images/VelellaVellella128x128.png";
+	/** the file name of application data */
 	public static final String APP_DATA_FILE_NAME = "Cellolution.json";
+	/** the default file name of simulation data */
 	public static final String SIM_DATA_FILE_NAME = "CellolutionSim.json";
 	
-	private static Main instance;				// the one and only instance of this application
+	/** the one and only instance of this application */
+	private static Main instance;
 
+	/** the ocean */
 	private Ocean ocean;
+	/** the main view of the application */
 	private MainView mainView;
+	/** the organism display controller */
 	private OrganismDisplayCtlr orgDisplayCtlr;
+	/** the image of the ocean */
 	private BufferedImage oceanImage;
 
-	private CommandLineArgs args;				// command line arguments, if needed
-	private Data data; 							// application data (serialization)
-	private String currentJsonFile;				// the JSON file name during parsing, null otherwise
+	/** command line arguments, if needed */
+	private CommandLineArgs args;
+	/** application data (serialization) */
+	private Data data;
+	/** the JSON file name during parsing, null otherwise */
+	private String currentJsonFile;
 
-	private boolean isVerbose; 					// verbose messages to System.out
+	/** if true, display verbose messages on System.out */
+	private boolean isVerbose; 
+	/** the number of columns of the ocean */
 	private int cellColumns;
+	/** the number of rows of the ocean */
 	private int cellRows;
 
+	/**
+	 * Construct the application.
+	 * 
+	 * @param arguments		the arguments, if any
+	 * @throws Exception on uncatched exceptions
+	 */
 	public Main(String[] arguments) throws Exception {
 		
 		instance = this;
@@ -184,6 +205,11 @@ public class Main {
 		return instance.isVerbose;
 	}
 
+	/**
+	 * The application entry.
+	 * 
+	 * @param arguments			the arguments, if any
+	 */
 	public static void main(String[] arguments) {
 		
 		System.out.println("\n" + APP_NAME + " - simulated evolution of artificial cells in a water world.\n");

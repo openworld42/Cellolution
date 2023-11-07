@@ -32,37 +32,57 @@ import cellolution.util.*;
 /**
  * The main view of this application.
  */
+@SuppressWarnings("serial")
 public class MainView extends JFrame implements ActionListener {
 
 	// constants
 
+	/** action command key */
 	public final static String EXIT = 			"Exit";
+	/** action command key */
 	public final static String NEW_OCEAN = 		"NewOcean";
+	/** action command key */
 	public final static String NEW_OCEAN_SINGLE = "NewOceanSingleCreatures";
+	/** action command key */
 	public final static String OPEN_FILE = 		"OpenFile";
+	/** action command key */
 	public final static String PAUSE_OR_RUN = 	"PauseOrRun";
+	/** action command key */
 	public final static String PAUSE = 			"Pause Sim";
+	/** action command key */
 	public final static String RECENT_FILE = 	"RecentFile.";
+	/** action command key */
 	public final static String RUN = 			"Run Sim";
+	/** action command key */
 	public final static String SAVE_AS = 		"SaveAs";
 
 	// members
+	/** the main panel */
 	private JPanel mainPanel;
+	/** the ocean panel */
 	private OceanPanel oceanPanel;
+	/** the organism panel */
 	private OrganismPanel organismPanel;
+	/** the tool bar */
 	private JToolBar toolBar;
+	/** the paused-or-run buttomn */
 	private JButton pausedOrRunBtn;
+	/** the status bar */
 	private JToolBar statusBar;
+	/** the label to display the status within the status bar */
 	private JLabel statusLbl;
+	/** the exit button */
 	private JButton exitBtn;
+	/** the menu containing the recently opened files */
 	private JMenu menuRecentFiles;
+	/** if true, the application is paused */
 	private boolean isPaused;
 
 	/**
 	 * Construct main view of an application.
 	 * 
-	 * @param organismPanel 
-	 * @throws Exception 
+	 * @param organismPanel 		the organism panel
+	 * @throws Exception in case of an unexpected exception
 	 */
 	public MainView(OrganismPanel organismPanel) throws Exception {
 
@@ -94,6 +114,8 @@ public class MainView extends JFrame implements ActionListener {
 
 	/**
 	 * Action queue dispatcher.
+	 * 
+	 * @param event 		the actrion event
 	 */
 	public void actionPerformed(ActionEvent event) {
 
@@ -146,14 +168,14 @@ public class MainView extends JFrame implements ActionListener {
 	/**
 	 * Adds a button with Gbc and specified insets.
 	 * 
-	 * @param name			the label of the button (and its action command)
-	 * @param col
-	 * @param row
-	 * @param control
-	 * @param insetTop
-	 * @param insetLeft
-	 * @param insetBottom
-	 * @param insetRight
+	 * @param name					the label of the button (and its action command)
+	 * @param col					the column (Gbc) for the component
+	 * @param row					the row (Gbc) for the component
+	 * @param control				a string to control the placement
+	 * @param insetTop				an inset
+	 * @param insetLeft				an inset
+	 * @param insetBottom			an inset
+	 * @param insetRight			an inset
 	 * @return the created button
 	 * @see Gbc
 	 */
@@ -170,10 +192,10 @@ public class MainView extends JFrame implements ActionListener {
 	/**
 	 * Adds a button with Gbc and specified insets.
 	 * 
-	 * @param name			the label of the button (and its action command)
-	 * @param col
-	 * @param row
-	 * @param control
+	 * @param name					the label of the button (and its action command)
+	 * @param col					the column (Gbc) for the component
+	 * @param row					the row (Gbc) for the component
+	 * @param control				a string to control the placement
 	 * @return the created button
 	 * @see Gbc
 	 */
@@ -218,14 +240,14 @@ public class MainView extends JFrame implements ActionListener {
 	/**
 	 * Create a menu item.
 	 * 
-	 * @param name
-	 * @param enabled
-	 * @param actionCmd
+	 * @param text					the text of the menu item
+	 * @param enabled				true if the item is enabled, false otherwise
+	 * @param actionCmd				the action command for the event, if clicked
 	 * @return the menu item
 	 */
-	private JMenuItem createMenuItem(String name, boolean enabled, String actionCmd) {
+	private JMenuItem createMenuItem(String text, boolean enabled, String actionCmd) {
 		
-		JMenuItem menuItem = new JMenuItem(name);
+		JMenuItem menuItem = new JMenuItem(text);
 		menuItem.setEnabled(enabled);
 		menuItem.addActionListener(this);
 		menuItem.setActionCommand(actionCmd);
@@ -277,7 +299,7 @@ public class MainView extends JFrame implements ActionListener {
 	 * @param mnemonic				the mnemonic of the button
 	 * @param toolTip				the toolTip of the button
 	 * @param actionCommand			the action command of the button
-	 * @return
+	 * @return the tool bar button
 	 */
 	protected JButton createToolBarButton(String label, ImageIcon icon, int mnemonic,
 		String toolTip, String actionCommand) {
@@ -298,7 +320,7 @@ public class MainView extends JFrame implements ActionListener {
 	/**
 	 * GUI init.
 	 * 
-	 * @throws Exception 
+	 * @throws Exception on unexpected exceptions
 	 */
 	private void initFrame() throws Exception {
 		
@@ -340,7 +362,7 @@ public class MainView extends JFrame implements ActionListener {
 	/**
 	 * Displays a text within the status bar.
 	 * 
-	 * @param text
+	 * @param text			the text for the displayed status
 	 */
 	public void setStatusText(String text) {
 		
@@ -350,10 +372,15 @@ public class MainView extends JFrame implements ActionListener {
     // ****************   inner classes   ************************
 
     /**
-     * Listener for CheckBox
+     * Listener for CheckBox.
      */
     class MyCheckBoxListener implements ItemListener {
 
+        /**
+         * A change of the component happened.
+         * 
+         * @param e			the event
+         */
         public void itemStateChanged(ItemEvent e) {
 
             if (e.getStateChange() == ItemEvent.SELECTED) {

@@ -56,6 +56,9 @@ public class FileChooserDlg extends JFileChooser {
 	    setPreferredSize(new Dimension(600, 400));
 	}
 
+	/**
+	 * Initialize the user interface.
+	 */
 	protected void initUI() {
 		
 		UIManager.put("FileChooser.lookInLabelText", "Look in");

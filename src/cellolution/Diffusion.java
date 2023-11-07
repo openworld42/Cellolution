@@ -39,7 +39,7 @@ public class Diffusion {
 	private int step;
 	/** rounding probability if there are remainders of the diffusion division */
 	private int rounding[];	
-	/** the borders of the ocean: water <-> rock */
+	/** the borders of the ocean: water pixel with a rock at one side*/
 	private OceanBorders oceanBorders;
 	/** all pixels of the ocean */
 	private Pixel pixels[][];

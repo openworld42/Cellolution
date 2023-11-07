@@ -33,6 +33,7 @@ import org.json.*;
  */
 public class Data implements Keys {
 
+	/** the defualt look-and-feel */
 	private static final String LOOK_AND_FEEL_DEFAULT = "Nimbus";
 	
 	/** a map containing application relevant data as key/value pairs */

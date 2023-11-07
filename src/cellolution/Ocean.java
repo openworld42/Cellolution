@@ -60,26 +60,58 @@ import cellolution.util.*;
  */
 public class Ocean {
 
+	/** XXX */
+	
+	/** the ocean */
+	/** the number of columns of the ocean */
+	/** the current ocean/diffusion simulation step number */
+	/** the borders of the ocean: water <-> rock */
+	/** all pixels of the ocean */
+	/** the manager for all organisms */
+
+	/** set to true if XXX */
+	/** true if XXX */
+
+	/** the ocean panel */
 	private OceanPanel oceanPanel;
-	private int step;											// # of evolution steps
+	/** the number of evolution steps */
+	private int step;
+	/** a counter to count down the steps until a status text will vanish */
 	private int statusLineChangeStopCounter;
+	/** the number of columns of the ocean */
 	private int cellColumns;
+	/** the number of rows of the ocean */
 	private int cellRows;
-	private boolean hasManyOrganisms;							// if false, only one of each kind of organism is created
+	/** if false, only one of each kind of organism is created */
+	private boolean hasManyOrganisms;
+	/** the image of the ocean where all the simulation is displayed */
 	private BufferedImage image;
+	/** all pixels of the ocean */
 	private Pixel pixels[][];
+	/** the sunshine manager */
 	private Sunshine sunshine;
+	/** the borders of the ocean: water close to rock */
 	private OceanBorders oceanBorders;
+	/** the black smoker manager */
 	private Smokers smokers;
+	/** the producer of algae cells dropping on the surface of the ocean */
 	private SurfaceAlgaeProducer algaeProducer;
+	/** the manager for all material diffusion processes */
 	private Diffusion diffusion;	
-	private int organicMatterReservoir;							// the amount of organic matter in the ocean should stay constant
+	/** the amount of organic matter in the ocean should stay constant, this is the reservoir */
+	private int organicMatterReservoir;
+	/** the manager for all organisms */
 	private OrganismMgr organismMgr;
+	/** the controller of displaying organisms */
 	private OrganismDisplayCtlr orgDisplayCtlr;
+	/** a SwingWorker performing all the simulation on another thred */
 	private SwingWorker<Object, Object> oceanSimSwingWorker;
-	private boolean swingWorkerStop;							// set to stop SwingWoker finally
-	private boolean swingWorkerPause;							// set to pause SwingWoker, clear to continue
-	private boolean swingWorkerIsPaused;						// if true, the SwingWoker is paused (usually true after swingWorkerPause)
+	/** set to true to stop SwingWoker forever */
+	private boolean swingWorkerStop;
+	/** set to true to pause SwingWoker, clear to continue */
+	private boolean swingWorkerPause;
+	/** if true, the SwingWoker is paused (usually true after some time after swingWorkerPause) */
+	private boolean swingWorkerIsPaused;
 
 	/**
 	 * Construct the ocean.
@@ -237,7 +269,7 @@ public class Ocean {
 	}
 
 	/**
-	 * @return the pixels
+	 * @return the pixels of the ocean
 	 */
 	public Pixel[][] getPixels() {
 		
@@ -253,7 +285,7 @@ public class Ocean {
 	}
 
 	/**
-	 * @return the step
+	 * @return the current simulation step
 	 */
 	public int getStep() {
 		
@@ -269,7 +301,7 @@ public class Ocean {
 	}
 	
 	/**
-	 * If false, only one of each kind of organism should be created.
+	 * If false, only one of each kind of organism will be created.
 	 * 
 	 * @return the hasManyOrganisms flag
 	 */
@@ -296,8 +328,8 @@ public class Ocean {
 	/**
 	 * Return true if the pixel is Water and not cell of an organism, false otherwise.
 	 * 
-	 * @param col
-	 * @param row
+	 * @param col		the column of the pixel
+	 * @param row		the row of the pixel
 	 * @return true if the pixel is Water and not cell of an organism, false otherwise
 	 */
 	public boolean isWater(int col, int row) {
@@ -332,13 +364,13 @@ public class Ocean {
 	}
 
 	/**
-	 * Create the next thickness of rock.
+	 * Create the next thickness of rock, using a random number.
 	 * 
-	 * @param value
-	 * @param maxWidening
-	 * @param maxThickness
-	 * @param minThickness
-	 * @return
+	 * @param value					the value as a base for thwe thickness
+	 * @param maxWidening			the maximum widening for the value
+	 * @param maxThickness			the maximum thickness for the value
+	 * @param minThickness			the minimum thickness for the value
+	 * @return the next thickness of rock
 	 */
 	private int nextThickness(int value, int maxWidening, int maxThickness, int minThickness) {
 		
@@ -352,8 +384,8 @@ public class Ocean {
 	/**
 	 * Sets the RGB value of the buffered image (only, this does not change the ocean's pixel array).
 	 * 
-	 * @param column
-	 * @param row
+	 * @param column		the column of the image pixel
+	 * @param row			the row of the image pixel
 	 * @param rgb			the RGB value of the image pixel
 	 */
     public void setPixelRGB(int column, int row, int rgb) {
@@ -420,9 +452,9 @@ public class Ocean {
 	}
 
 	/**
-	 * Start a SwingWorker to perform all ocean simulation steps.
+	 * Starts a SwingWorker to perform all ocean simulation steps.
 	 * 
-	 * @param oceanPanel
+	 * @param oceanPanel		the panel of the ocean
 	 */
 	@SuppressWarnings("unchecked")
 	public void startSwingWorker(OceanPanel oceanPanel) {

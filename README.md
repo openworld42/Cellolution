@@ -48,7 +48,8 @@ Download the newest Github release **cellolution_vxxx.jar** file into a new dire
 
 **java -jar cellolution_vxxx.jar**
 
-where **xxx** is the current version. You need a Java runtime/JDK installed (**Linux**: simply use your package manager, **Windows/macOS/others**: download and install JDK from [here](https://openjdk.java.net/)).<br/> 
+where **xxx** is the current version. You need a Java runtime/JDK installed (at least version 17 - check on command line using **java -version**).<br/>
+To get it: **Linux**: simply use your package manager, **Windows/macOS/others**: download and install JDK from [here](https://openjdk.java.net/).<br/> 
 
 
 You may also build it from scratch using **Ant** and the **build.xml** file.<br/>

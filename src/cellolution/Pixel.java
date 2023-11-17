@@ -46,7 +46,9 @@ package cellolution;
  */
 public abstract class Pixel {
 
+	/** the column of the pixel in the ocean */
 	protected short column;
+	/** the row of the pixel in the ocean */
 	protected short row;
 
 	/**

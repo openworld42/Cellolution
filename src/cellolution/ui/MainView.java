@@ -115,7 +115,7 @@ public class MainView extends JFrame implements ActionListener {
 	/**
 	 * Action queue dispatcher.
 	 * 
-	 * @param event 		the actrion event
+	 * @param event 		the action event
 	 */
 	public void actionPerformed(ActionEvent event) {
 

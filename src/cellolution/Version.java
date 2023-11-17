@@ -24,9 +24,12 @@ public class Version {
 
 	/** !!! TODO: CHANGE BEFORE A NEW RELEASE !!! */
 
+	/** the major version number */
 	public static final int MAJOR = 1;
+	/** the minor version number */
 	public static final int MINOR = 2;
-	public static final int RELEASE = 0; 
+	/** the release version number */
+	public static final int RELEASE = 0;
 
 	/**
 	 * No external construction.

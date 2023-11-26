@@ -55,7 +55,7 @@ To get it: **Linux**: simply use your package manager, **Windows/macOS/others**:
 You may also build it from scratch using **Ant** and the **build.xml** file.<br/>
 
 **Apache 2.0 licensed**. Each other license for built-in or integrated repos, projects, resources, icons, pictures, files etc. is found in 
-[LICENSE.integrated](https://github.com/openworld42/Cellolution/blob/main/LICENSE.integrated.md). <br/>
+[LICENSE.integrated](https://github.com/openworld42/Cellolution/blob/main/LICENSE.integrated). <br/>
 
 **Credits, Kudos and Attribution:** 
 Cellolution uses [JSON-java](https://github.com/stleary/JSON-java) with some modifications (no dependencies).

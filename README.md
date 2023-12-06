@@ -44,11 +44,11 @@ All simulation data are stored in JSON files, therefore several simulations can 
 Needless to say, there are more things to discover. And (about patience): you need to give Cellolution some time to let the organisms do their evolution.
 
 ### How to run it:
-Download the newest Github release **cellolution_vxxx.jar** file into a new directory (suggestion: "Cellolution"), cause it will save its state in JSON files and call it from the command line within this directory using
+Download the newest Github release **cellolution_vx.x.x.jar** file into a new directory (suggestion: "Cellolution"), cause it will save its state in JSON files. Call it from the command line within this directory or create a starter/menu item using
 
-**java -jar cellolution_vxxx.jar**
+**java -jar cellolution_vx.x.x.jar**
 
-where **xxx** is the current version. You need a Java runtime/JDK installed (at least version 17 - check on command line using **java -version**).<br/>
+where **x.x.x** is the current version. You need a Java runtime/JDK installed (at least version 17 - check on command line using **java -version**).<br/>
 To get it: **Linux**: simply use your package manager, **Windows/macOS/others**: download and install JDK from [here](https://openjdk.java.net/).<br/> 
 
 
@@ -61,6 +61,8 @@ You may also build it from scratch using **Ant** and the **build.xml** file.<br/
 Cellolution uses [JSON-java](https://github.com/stleary/JSON-java) with some modifications (no dependencies).
 
 **Author:** Heinz Silberbauer (You like it? Spend a Github Star to motivate me :whale:)
+
+Contributions (or a request :slightly_smiling_face:) from any interested party are welcome - please open an issue with a short description.
 
 
 

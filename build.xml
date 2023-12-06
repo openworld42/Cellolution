@@ -4,7 +4,7 @@
 	Ant build file for Cellolution
 	
 	To build: 
-		ant						in directory cellollution, where the file build.xml exists
+		ant						start in directory where the file build.xml is located
 		ant clean				cleanup the build fileset
 		
 	results are in the dist and build directories
@@ -36,7 +36,7 @@
 			appdesc: ${appdesc}
 			repo: ${repo}
 			mainclass: ${mainclass}
-			jarprefix: ${jarprefix} + "Vn.n.n.jar"
+			jarprefix: ${jarprefix} + "vn.n.n.jar"
 		</echo>
 		<input message="Please enter the version (as of Version.java, like v1.2.3): "
 			addproperty="version"/>

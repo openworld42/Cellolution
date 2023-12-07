@@ -5,6 +5,7 @@ alt="Cellolution" align="right" style="right:40px; top:18px; width:400px; border
 <br />
 <br />
 <br />
+<br />
 
 # Cellolution
 
@@ -38,7 +39,7 @@ The ocean has dissolved materials as well as energy (beams of sunlight, organic 
 <br/>If an organism has accumulated enough energy (and some substances), it may split up into two organisms - sometimes with an evolutionary transformation: 
 <p align="center">
   	<img src="https://github.com/openworld42/Cellolution/blob/main/readme.images/Screenshot_Split1.png?raw=true" title="Split 1">   
-  	or close to the surface	
+  	 &nbsp; &nbsp; &nbsp; or close to the surface &nbsp; &nbsp; &nbsp;	
   	<img src="https://github.com/openworld42/Cellolution/blob/main/readme.images/Screenshot_Split2.png?raw=true" title="Split 2">
 </p>
 

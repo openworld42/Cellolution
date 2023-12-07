@@ -1,6 +1,16 @@
+<img src="https://github.com/openworld42/Cellolution/blob/main/src/cellolution/images/LogoReadMe.png" 
+alt="JavaUtil" align="right" style="right:40px; top:18px; width:400px; border:none;" />
+
+<br />
+
 # Cellolution
 
-Watch a simulated evolution of cells and organisms in a GUI showing an artificial ocean.
+<h1>Watch a simulated evolution of cells and organisms in a GUI showing an artificial ocean.</h1>
+
+[![Maintenance Status](https://badgen.net/badge/maintenance/active/green)](https://github.com/openworld42/Cellolution#maintenance-status)
+![dependencies](https://img.shields.io/badge/dependencies-none-orange)
+[![License](https://badgen.net/badge/issue/active/blue)](https://github.com/openworld42/Cellolution/issues)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com) 
 
 **What is Cellolution? It's a mélange of a game, a simulation, a screensaver and an evolutionary process in its own small universe: the Ocean.**
 
